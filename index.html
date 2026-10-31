@@ -84,6 +84,7 @@
     </svg>
 </template>
 
+<div class="progress" aria-hidden="true"></div>
 <header class="nav">
     <div class="wrap">
         <a class="brand" href="#top" data-logo>Compos</a>
@@ -103,7 +104,6 @@
         <div class="wrap">
             <div class="copy">
                 <div>
-                    <span class="pill"><i data-lucide="map-pin"></i>Hecho en México para restaurantes y cafeterías</span>
                     <h1>Compos</h1>
                     <p class="motto">Semper listo</p>
                 </div>
@@ -348,6 +348,30 @@
       });
 
       drawT(); window.fitFrames();
+
+      var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var nav = document.querySelector('.nav'), tilt = document.querySelector('.hero .device'), hero = document.querySelector('.hero');
+      var onScroll = function () {
+        var y = window.scrollY;
+        nav.classList.toggle('scrolled', y > 8);
+        if (still) return;
+        var p = Math.min(y / (hero.offsetHeight * .6), 1);
+        tilt.style.transform = 'perspective(1600px) rotateX(' + (12 * (1 - p)) + 'deg) scale(' + (.94 + .06 * p) + ')';
+      };
+      addEventListener('scroll', function () { requestAnimationFrame(onScroll); }, { passive:true });
+      onScroll();
+
+      if (still || !('IntersectionObserver' in window)) return;
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { rootMargin:'0px 0px -8% 0px' });
+      ['.hero .copy > div', '.fact', '.sh > *', '.feat', '.delivery .row > *', '.platforms > *', '.checks li', '.phase', '.card', '.phone .row > *', '.list li', '.themes .row > *', '.tbtn', '.cta', 'footer .top > div'].forEach(function (sel) {
+        document.querySelectorAll(sel).forEach(function (el) {
+          var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+          el.style.setProperty('--d', Math.min(i, 6) * 80 + 'ms');
+          el.classList.add('rv'); io.observe(el);
+        });
+      });
     })();
 </script>
 </body>
