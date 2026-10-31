@@ -1,0 +1,388 @@
+<!--
+  ~ Compos — Point of Sale System
+  ~ File: index.html
+  ~ Module: Compos
+  ~
+  ~ Copyright (c) 2026 Isaac Serrano. All rights reserved.
+  ~
+  ~ This file is part of Compos and is proprietary and confidential.
+  ~ Unauthorized copying, modification, or distribution of this file,
+  ~ via any medium, is strictly prohibited.
+  ~
+  ~ Last modified: 2026-10-21
+  -->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Compos — Tablet</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../theme.js"></script>
+    <style>
+        html,body{margin:0;height:100%}body{background:var(--surface-canvas);font-family:var(--font-ui);color:var(--text-primary)}#root{height:100vh;min-height:834px}button{font-family:inherit}a{color:var(--text-link)}a:hover{color:var(--white)}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--surface-raised);border-radius:6px}
+    </style>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+            integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+            integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+            integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+            crossorigin="anonymous"></script>
+    <script src="../../_ds_bundle.js"></script>
+    <script src="../i18n.js"></script>
+    <script src="data.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-src="AuthScreen.jsx">
+    const { Avatar, PinDots, NumericKeypad } = window.ComposDesignSystem_9739cd;
+
+    function AuthScreen({ onAuthed }) {
+      const [who, setWho] = React.useState('Lena P.');
+      const [pin, setPin] = React.useState('');
+      const push = (k) => {
+        if (k === 'del') return setPin((p) => p.slice(0, -1));
+        if (k === '.') return;
+        const next = (pin + k).slice(0, 4);
+        setPin(next);
+        if (next.length === 4) setTimeout(() => onAuthed(who), 260);
+      };
+      return (
+        <div style={{ display:'flex', gap:24, padding:'8px 24px 24px 0', height:'100%' }}>
+          <div style={{ flex:1, display:'flex', flexDirection:'column', gap:12, paddingTop:56 }}>
+            {window.STAFF.map((s, i) => (
+              <button key={s} onClick={() => { setWho(s); setPin(''); }} style={{
+                display:'flex', alignItems:'center', gap:16, height:88, padding:'0 20px', cursor:'pointer',
+                borderRadius:'var(--radius-md)', textAlign:'left',
+                border: who === s ? '1.5px solid transparent' : '1.5px solid rgba(255,255,255,.34)',
+                background: who === s ? 'var(--periwinkle-200)' : 'transparent',
+                color: who === s ? 'var(--text-on-light)' : 'var(--text-primary)',
+                fontFamily:'var(--font-ui)', fontSize:'var(--text-h2)',
+                transition:'background var(--duration-base) var(--ease-standard)',
+              }}>
+                <Avatar name={s} tone={who === s ? 'var(--white)' : i} size={46} />{s}
+              </button>
+            ))}
+          </div>
+          <div style={{ flex:1, background:'var(--surface-panel)', borderRadius:'var(--radius-md)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:32 }}>
+            <span style={{ fontSize:'var(--text-h3)', color:'var(--text-secondary)' }}>Enter your PIN</span>
+            <PinDots filled={pin.length} length={4} style={{ gap:'var(--space-8)' }} />
+            <NumericKeypad decimal={false} keySize={84} onKey={push} style={{ width:340 }} />
+          </div>
+        </div>
+      );
+    }
+    Object.assign(window, { AuthScreen });
+
+</script>
+<script type="text/babel" data-src="MenuScreen.jsx">
+    const { CategoryTile, DishCard, TotalsPanel, PaymentMethodPicker, Button, Badge, IconButton } = window.ComposDesignSystem_9739cd;
+
+    function MenuScreen({ cart, setCart, onPlace }) {
+      const [cat, setCat] = React.useState('Platos fuertes');
+      const setQty = (name, price, v) => setCart((c) => {
+        const next = { ...c };
+        if (v <= 0) delete next[name]; else next[name] = { qty:v, price };
+        return next;
+      });
+      const lines = Object.entries(cart);
+      const subtotal = lines.reduce((s,[,v]) => s + v.qty * parseFloat(v.price.slice(1)), 0);
+      const tax = subtotal - subtotal / 1.16;
+      return (
+        <div style={{ display:'flex', gap:16, height:'100%', paddingRight:24 }}>
+          <div style={{ flex:1, display:'flex', flexDirection:'column', gap:12, overflow:'hidden' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12 }}>
+              {window.CATEGORIES.map((c) => (
+                <CategoryTile key={c.name} {...c} selected={c.name === cat} onClick={() => setCat(c.name)} style={{ minWidth:0, height:88 }} />
+              ))}
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, overflowY:'auto' }}>
+              {window.DISHES.map((d) => (
+                <DishCard key={d.name} {...d} qty={cart[d.name] ? cart[d.name].qty : 0}
+                  onQty={(v) => setQty(d.name, d.price, v)} style={{ minWidth:0 }} />
+              ))}
+            </div>
+          </div>
+          <aside style={{ width:264, flex:'0 0 auto', display:'flex', flexDirection:'column', gap:12 }}>
+            <div style={{ display:'flex', flexDirection:'column', gap:8, minHeight:120 }}>
+              {lines.length === 0 && <span style={{ fontSize:'var(--text-sm)', color:'var(--text-muted)' }}>Tap a dish to start the order.</span>}
+              {lines.map(([name, v]) => (
+                <div key={name} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-sm)', padding:'10px 12px', display:'flex', alignItems:'center', gap:10, fontSize:'var(--text-sm)' }}>
+                  <Badge tone="inverse">{v.qty}</Badge>
+                  <span style={{ flex:1 }}>{name}</span>
+                  <span style={{ color:'var(--text-secondary)' }}>{'$' + (v.qty * parseFloat(v.price.slice(1))).toFixed(2)}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop:'auto', display:'flex', flexDirection:'column', gap:16 }}>
+              <TotalsPanel lines={[{ label:'Subtotal', value:'$' + subtotal.toFixed(2) }, { label:'Tax 10%', value:'$' + tax.toFixed(2) }]} total={'$' + subtotal.toFixed(2)} />
+              <PaymentMethodPicker value="wallet" />
+              <Button block size="lg" onClick={onPlace} disabled={lines.length === 0}>Place Order</Button>
+            </div>
+          </aside>
+        </div>
+      );
+    }
+    Object.assign(window, { MenuScreen });
+
+</script>
+<script type="text/babel" data-src="OrdersScreen.jsx">
+    const { OrderTicket } = window.ComposDesignSystem_9739cd;
+
+    function OrdersScreen({ onPay }) {
+      return (
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, alignContent:'start',
+          overflowY:'auto', paddingRight:24, paddingBottom:24 }}>
+          {window.ORDERS.map((o) => <OrderTicket key={o.order} {...o} onPay={() => onPay(o)} />)}
+        </div>
+      );
+    }
+    Object.assign(window, { OrdersScreen });
+
+</script>
+<script type="text/babel" data-src="ReservationScreen.jsx">
+    const { SegmentedControl, Select, ReservationBlock } = window.ComposDesignSystem_9739cd;
+
+    const HOURS = [10,11,12,13,14,15,16,17,18,19,20];
+    const ROWS = ['Bar','A1','A2','B1','B2','B3'];
+
+    function ReservationScreen() {
+      const [floor, setFloor] = React.useState('1st floor');
+      return (
+        <div style={{ display:'flex', flexDirection:'column', gap:16, paddingRight:24, height:'100%' }}>
+          <div style={{ display:'flex', alignItems:'center' }}>
+            <SegmentedControl items={['1st floor','2nd floor','3rd floor']} value={floor} onChange={setFloor} />
+            <Select value="Today" style={{ marginLeft:'auto' }} />
+          </div>
+          <div style={{ flex:1, border:'1px solid var(--border-hairline)', borderRadius:'var(--radius-sm)', overflow:'hidden', display:'flex', flexDirection:'column' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'72px repeat(11,1fr)', borderBottom:'1px solid var(--border-hairline)' }}>
+              <span />
+              {HOURS.map((h) => (
+                <span key={h} style={{ fontSize:'var(--text-xs)', color:'var(--text-muted)', textAlign:'center', padding:'8px 0' }}>{h}:00</span>
+              ))}
+            </div>
+            {ROWS.map((r) => (
+              <div key={r} style={{ display:'grid', gridTemplateColumns:'72px repeat(11,1fr)', flex:1, borderBottom:'1px dotted var(--border-dashed)', position:'relative' }}>
+                <span style={{ fontSize:'var(--text-sm)', display:'flex', alignItems:'center', justifyContent:'center', borderRight:'1px solid var(--border-hairline)' }}>{r}</span>
+                {HOURS.map((h) => <span key={h} style={{ borderRight:'1px dotted var(--border-dashed)' }} />)}
+                {window.RESERVATIONS.filter((x) => x.table === r).map((x) => (
+                  <ReservationBlock key={x.name} name={x.name} guests={x.guests} tone={x.tone} style={{
+                    position:'absolute', top:6, bottom:6, minWidth:0,
+                    left: `calc(72px + (100% - 72px) * ${(x.start - 10) / 11})`,
+                    width: `calc((100% - 72px) * ${x.span / 11} - 6px)`,
+                  }} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    Object.assign(window, { ReservationScreen });
+
+</script>
+<script type="text/babel" data-src="TablesScreen.jsx">
+    const { SegmentedControl, Select, TableCard, StatusDot, ProgressMeter, Avatar, Button, Icon } = window.ComposDesignSystem_9739cd;
+
+    function TablesScreen({ onBack }) {
+      const [floor, setFloor] = React.useState('1st floor');
+      const [sel, setSel] = React.useState('B2');
+      return (
+        <div style={{ display:'flex', gap:16, height:'100%', paddingRight:24 }}>
+          <div style={{ flex:1, display:'flex', flexDirection:'column', gap:14 }}>
+            <button onClick={onBack} style={{ background:'none', border:'none', color:'var(--text-secondary)', display:'inline-flex', alignItems:'center', gap:6, cursor:'pointer', fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', alignSelf:'flex-start' }}>
+              <Icon name="chevron-left" size={16} />back to orders
+            </button>
+            <div style={{ display:'flex', alignItems:'center' }}>
+              <SegmentedControl items={['1st floor','2nd floor','3rd floor']} value={floor} onChange={setFloor} />
+              <Select value="Feb 4, 2023" style={{ marginLeft:'auto' }} />
+            </div>
+            <div style={{ flex:1, border:'1px solid var(--border-hairline)', borderRadius:'var(--radius-sm)', padding:20, display:'flex', flexWrap:'wrap', gap:14, alignContent:'flex-start' }}>
+              {window.TABLES.map((t) => (
+                <TableCard key={t.code} {...t} selected={sel === t.code} onClick={() => setSel(t.code)} />
+              ))}
+              <span style={{ alignSelf:'center', marginLeft:'auto', color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>Kitchen</span>
+            </div>
+            <div style={{ display:'flex', gap:32, alignItems:'center', border:'1px solid var(--border-hairline)', borderRadius:'var(--radius-sm)', padding:'12px 16px', fontSize:'var(--text-sm)' }}>
+              <span style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                <span style={{ color:'var(--text-secondary)' }}>Seats</span>
+                <span style={{ display:'flex', gap:16 }}>
+                  <span><StatusDot status="free" /> Free | 6</span>
+                  <span><StatusDot status="reserved" /> Reserved | 9</span>
+                  <span><StatusDot status="checked-in" /> Checked-in | 13</span>
+                </span>
+              </span>
+              <span style={{ display:'flex', flexDirection:'column', gap:8 }}>Tables: 12/18<ProgressMeter value={12} max={18} /></span>
+              <span style={{ display:'flex', flexDirection:'column', gap:8 }}>Seats: 33/48<ProgressMeter value={33} max={48} /></span>
+            </div>
+          </div>
+          <aside style={{ width:280, flex:'0 0 auto', background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:20, display:'flex', flexDirection:'column', gap:16 }}>
+            <div>
+              <div style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>Table management</div>
+              <div style={{ fontSize:'var(--text-sm)', color:'var(--text-muted)', marginTop:4 }}>4 Feb 2023 &nbsp;•&nbsp; 8:23 AM</div>
+            </div>
+            <div style={{ fontSize:'var(--text-body)' }}>Reservation</div>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              {[['C3','Eleanor Pena','x3','18:00'],['A1','Cody Fisher','x3','18:30'],['D1','Arlene McCoy','x1','18:30'],['B2','Devon Lane','x2','19:20']].map(([code,name,x,time]) => (
+                <div key={name} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 10px', borderRadius:'var(--radius-sm)', fontSize:'var(--text-sm)', background: sel === code ? 'var(--surface-raised)' : 'transparent' }}>
+                  <Avatar name={code} tone="var(--white)" size={28} />
+                  <span style={{ flex:1 }}>{name}</span>
+                  <span style={{ color:'var(--text-secondary)' }}>{x}</span>
+                  <span style={{ color:'var(--border-strong)' }}>|</span>
+                  <span>{time}</span>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop:'auto', display:'flex', gap:12 }}>
+              <Button variant="ghost" block>Cancel</Button>
+              <Button block>Check-in</Button>
+            </div>
+          </aside>
+        </div>
+      );
+    }
+    Object.assign(window, { TablesScreen });
+
+</script>
+<script type="text/babel" data-src="DashboardScreen.jsx">
+    const { StatCard, UpsaleRow, BarChart, Select, Button } = window.ComposDesignSystem_9739cd;
+
+    function DashboardScreen() {
+      return (
+        <div style={{ display:'flex', flexDirection:'column', gap:14, paddingRight:24, height:'100%' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12 }}>
+            <StatCard icon="banknote" label="Revenue" value="$16,807.84" highlight />
+            <StatCard icon="receipt-text" label="Paid orders" value="198" />
+            <StatCard icon="hand-coins" label="Tip amount" value="$2,614.08" />
+            <StatCard icon="soup" label="Dishes sold" value="227" />
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'300px 1fr', gap:12, flex:1 }}>
+            <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:20, display:'flex', flexDirection:'column', gap:16 }}>
+              <div style={{ display:'flex', alignItems:'center' }}>
+                <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>Today's upsale</span>
+                <Button variant="ghost" size="sm" style={{ marginLeft:'auto', textDecoration:'underline', padding:0 }}>See All</Button>
+              </div>
+              {window.UPSALE.map((u) => <UpsaleRow key={u.name} {...u} />)}
+            </div>
+            <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:20, display:'flex', flexDirection:'column', gap:16 }}>
+              <div style={{ display:'flex', alignItems:'center' }}>
+                <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>Accepted orders</span>
+                <Select value="Week" size="sm" tone="raised" style={{ marginLeft:'auto' }} />
+              </div>
+              <BarChart data={window.WEEK} height={210} />
+            </div>
+          </div>
+        </div>
+      );
+    }
+    Object.assign(window, { DashboardScreen });
+
+</script>
+<script type="text/babel" data-src="PaymentScreen.jsx">
+    const { TotalsPanel, PaymentMethodPicker, NumericKeypad, NfcPrompt, Button, IconButton } = window.ComposDesignSystem_9739cd;
+
+    function PaymentScreen({ order, onDone }) {
+      const [method, setMethod] = React.useState('cash');
+      const [amount, setAmount] = React.useState('150.00');
+      const push = (k) => setAmount((a) => k === 'del' ? a.slice(0, -1) : (a + k).slice(0, 8));
+      return (
+        <div style={{ display:'flex', gap:16, height:'100%', paddingRight:24 }}>
+          <div style={{ width:280, flex:'0 0 auto', display:'flex', flexDirection:'column', gap:16 }}>
+            <div style={{ display:'flex', alignItems:'flex-start' }}>
+              <span>
+                <span style={{ display:'block', fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>Table {order.table}</span>
+                <span style={{ display:'block', fontSize:'var(--text-sm)', color:'var(--text-muted)' }}>Lena P.</span>
+              </span>
+              <IconButton icon="pencil" variant="outline" label="Edit order" style={{ marginLeft:'auto', borderRadius:'var(--radius-pill)' }} />
+            </div>
+            <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:16, flex:1, display:'flex', flexDirection:'column' }}>
+              <span style={{ fontSize:'var(--text-h3)', marginBottom:12 }}>Order #{order.order}</span>
+              <TotalsPanel lines={[{ label:'Subtotal', value:'$1,629.31' },{ label:'Tax 10%', value:'$260.69' },{ label:'Tips', value:'$' + (parseFloat(amount) || 0).toFixed(2) }]} total="$2,040.00" />
+              <div style={{ marginTop:'auto', display:'flex', flexDirection:'column', gap:16 }}>
+                <TotalsPanel lines={[{ label:'Received', value:'$2,500.00' },{ label:'Change', value:'-$460.00' }]} total="" totalLabel="" style={{ borderTop:'1px dashed var(--border-dashed)', paddingTop:12 }} />
+                <PaymentMethodPicker value={method} onChange={setMethod} />
+              </div>
+            </div>
+          </div>
+          <div style={{ flex:1, background:'var(--surface-panel)', borderRadius:'var(--radius-md)', padding:24, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:24 }}>
+            {method === 'card' ? (
+              <>
+                <NfcPrompt />
+                <Button variant="outline" size="lg" style={{ width:280 }} onClick={onDone}>Cancel</Button>
+              </>
+            ) : (
+              <>
+                <span style={{ fontSize:'var(--text-body)', color:'var(--text-secondary)' }}>{method === 'cash' ? 'Tips amount' : 'Scan the QR code'}</span>
+                <span style={{ fontSize:44, fontWeight:'var(--weight-medium)' }}>{amount || '0'}</span>
+                <NumericKeypad onKey={push} keySize={62} style={{ width:300 }} />
+                <div style={{ display:'flex', alignItems:'center', gap:24 }}>
+                  <Button variant="ghost" size="lg">Print Receipt</Button>
+                  <Button size="lg" style={{ width:170 }} onClick={onDone}>Apply</Button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      );
+    }
+    Object.assign(window, { PaymentScreen });
+
+</script>
+<script type="text/babel" data-src="AppShell.jsx">
+    const { Sidebar, TopBar, Button, Select } = window.ComposDesignSystem_9739cd;
+
+    function App() {
+      const [authed, setAuthed] = React.useState(false);
+      const [screen, setScreen] = React.useState('Orders');
+      const [cart, setCart] = React.useState({});
+      const [payOrder, setPayOrder] = React.useState(null);
+
+      const titles = { Menu:'Menu', Orders:'Orders', Reservation:'Reservation', Dashboard:'Dashboard', Tables:'Tables', Chat:'Chat', Accounting:'Accounting', Settings:'Settings' };
+      const actions = {
+        Orders: <><Select value="Current" size="sm" /><Button size="sm" variant="outline" shape="rounded" onClick={() => setScreen('Tables')}>Layout of halls</Button></>,
+        Reservation: <Button size="sm">New reservation</Button>,
+        Dashboard: <Select value="Feb 4, 2023" />,
+      };
+
+      let body = null;
+      if (!authed) body = <window.AuthScreen onAuthed={() => { setAuthed(true); setScreen('Orders'); }} />;
+      else if (payOrder) body = <window.PaymentScreen order={payOrder} onDone={() => setPayOrder(null)} />;
+      else if (screen === 'Menu') body = <window.MenuScreen cart={cart} setCart={setCart} onPlace={() => { setCart({}); setScreen('Orders'); }} />;
+      else if (screen === 'Orders') body = <window.OrdersScreen onPay={setPayOrder} />;
+      else if (screen === 'Reservation') body = <window.ReservationScreen />;
+      else if (screen === 'Tables') body = <window.TablesScreen onBack={() => setScreen('Orders')} />;
+      else if (screen === 'Dashboard') body = <window.DashboardScreen />;
+      else body = <div style={{ color:'var(--text-muted)', fontSize:'var(--text-body)', paddingTop:40 }}>
+        {screen} is part of the product but was not shown in the source kit — intentionally left blank.
+      </div>;
+
+      const header = !authed
+        ? <div style={{ display:'flex', alignItems:'center', gap:28, color:'var(--text-primary)', fontFamily:'var(--font-ui)' }}>
+            <span style={{ fontSize:'var(--text-h3)' }}>Shift 2</span>
+            <span style={{ fontSize:'var(--text-sm)', color:'var(--text-muted)' }}>Monday, 6 Feb 2023 &nbsp;•&nbsp; 8:23 AM</span>
+          </div>
+        : payOrder ? null
+        : <TopBar title={titles[screen]} search={screen !== 'Dashboard' && screen !== 'Orders'} actions={actions[screen]} />;
+
+      return (
+        <div style={{ display:'flex', height:'100%', background:'var(--surface-canvas)' }}>
+          <Sidebar items={window.NAV} active={screen} onNavigate={(s) => { setPayOrder(null); setScreen(s); }}
+            staff={authed ? window.STAFF : []} />
+          <main style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:16, padding:'20px 0 20px 8px' }}>
+            {header}
+            <div style={{ flex:1, minHeight:0 }}>{body}</div>
+          </main>
+        </div>
+      );
+    }
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+
+</script>
+<script>
+    (function(){var n=decodeURIComponent(location.pathname.split('/').pop());try{parent!==window&&parent.postMessage({posScreen:n},'*')}catch(e){}window.addEventListener('message',function(e){if(e.data&&e.data.posTheme&&window.composSetTheme)window.composSetTheme(e.data.posTheme)});})();
+</script>
+</body>
+</html>

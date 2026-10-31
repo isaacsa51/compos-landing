@@ -1,0 +1,279 @@
+<!--
+  ~ Compos — Point of Sale System
+  ~ File: demo.html
+  ~ Module: Compos
+  ~
+  ~ Copyright (c) 2026 Isaac Serrano. All rights reserved.
+  ~
+  ~ This file is part of Compos and is proprietary and confidential.
+  ~ Unauthorized copying, modification, or distribution of this file,
+  ~ via any medium, is strictly prohibited.
+  ~
+  ~ Last modified: 2026-10-21
+  -->
+
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Compos — Demo guiada</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Fuente única del recorrido: cada pantalla, en el orden en que corre un servicio.
+        (function () {
+          var T = 'ui_kits/pos-tablet/';
+          window.POS_FLOW = [
+            { id:'signin', phase:'Abrir', title:'Entra con tu PIN', file:T+'index.html', sub:'Elige tu nombre y escribe 4 dígitos',
+              body:'Cada turno empieza en la tablet compartida. Eliges tu nombre y escribes tu PIN: sin contraseñas ni usuarios.',
+              tryIt:['Elige a alguien del equipo a la izquierda','Escribe 4 dígitos cualquiera para entrar','Usa el menú lateral para ir a Menú, Órdenes y Cobro'] },
+            { id:'shift', phase:'Abrir', title:'Abre el turno', file:T+'Shift Layout.html', sub:'Fondo, retiros, conteo y cierre',
+              body:'Declara el efectivo inicial, registra los retiros durante el servicio y cuenta la caja al cerrar. La diferencia se calcula mientras escribes.',
+              tryIt:['Captura el efectivo inicial','Registra un retiro de efectivo','Cuenta billetes y monedas y cierra el turno'] },
+            { id:'incoming', phase:'Tomar', title:'Acepta pedidos a domicilio', file:T+'Incoming Layout.html', sub:'Cola con cuenta regresiva',
+              body:'Los pedidos de Uber Eats, Rappi, DiDi Food y el sitio web llegan a una sola cola. Cada uno tiene una cuenta regresiva: acéptalo antes de que termine o recházalo con un motivo.',
+              tryIt:['Filtra por plataforma','Abre un pedido para ver productos y notas','Acepta uno y rechaza otro con un motivo'] },
+            { id:'menu', phase:'Tomar', title:'Arma una cuenta', file:T+'Menu Layout.html', sub:'Categorías, opciones y agotados',
+              body:'Toca una categoría y luego un platillo. Los bowls y ramen abren sus opciones por grupo; lo agotado se ve gris y no se puede agregar. La cuenta se arma a la derecha.',
+              tryIt:['Cambia entre Aquí, Pickup y Domicilio','Agrega un bowl con sus opciones','Toca Cobrar para ir al pago'] },
+            { id:'orders', phase:'Operar', title:'Maneja las cuentas abiertas', file:T+'Orders Layout.html', sub:'Cuentas por estado, tiempos y acciones',
+              body:'Todas las cuentas en un tablero, con el color de su estado. El tiempo se pone ámbar y luego rojo conforme la cuenta envejece.',
+              tryIt:['Filtra por estado','Abre una cuenta y edítala','Anula una cuenta: pide el PIN de gerente 1234'] },
+            { id:'kitchen', phase:'Operar', title:'Manda a cocina', file:T+'Kitchen Layout.html', sub:'Nueva → preparando → lista',
+              body:'Cocina ve comandas, no cuentas. Avanza la comanda cuando empieza y otra vez cuando está lista para entregar.',
+              tryIt:['Empieza una comanda nueva','Márcala como lista','Mira cómo cambia el color del tiempo'] },
+            { id:'split', phase:'Cobrar', title:'Divide la cuenta', file:T+'Split Layout.html', sub:'Mueve productos entre cuentas',
+              body:'Divide una cuenta por producto. Sin arrastrar: toca un producto y luego la cuenta a la que va. Las nuevas cuentas se numeran .1, .2, como en la app.',
+              tryIt:['Agrega una segunda cuenta','Mueve productos entre ellas','Confirma la división'] },
+            { id:'payment', phase:'Cobrar', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta y teclado',
+              body:'Elige el método, escribe el monto y el cambio se calcula solo. Los precios ya incluyen IVA 16%. Los pedidos prepagados de plataforma se cierran directo.',
+              tryIt:['Elige Efectivo y escribe un monto','Divide el pago entre dos métodos','Termina el cobro'] },
+            { id:'refund', phase:'Cobrar', title:'Reembolsa con autorización', file:T+'Refund Layout.html', sub:'Productos, motivo y método',
+              body:'Busca una cuenta pagada, elige los productos y el motivo. Un gerente aprueba con su PIN antes de que se mueva el dinero.',
+              tryIt:['Elige una cuenta pagada','Elige productos y un motivo','Aprueba con el PIN de gerente 1234'] },
+            { id:'search', phase:'Operar', title:'Encuentra lo que sea', file:T+'Search Layout.html', sub:'Menú, cuentas y clientes',
+              body:'Una sola búsqueda para platillos, cuentas abiertas y cerradas, y clientes. Cada resultado te lleva a la pantalla correcta.',
+              tryIt:['Busca un platillo o un nombre','Abre el resultado de una cuenta'] },
+            { id:'feedback', phase:'Operar', title:'Avisos y autorizaciones', file:T+'Feedback Layout.html', sub:'Avisos, confirmaciones y PIN de gerente',
+              body:'Los avisos informan lo que pasó. Los diálogos preguntan antes de algo que no se puede deshacer. El PIN de gerente protege reembolsos, descuentos y anulaciones.',
+              tryIt:['Muestra cada tipo de aviso','Abre un diálogo de confirmación','Pide una autorización: PIN 1234'] },
+            { id:'reports', phase:'Cerrar', title:'Cierra con reportes', file:T+'Reports Layout.html', sub:'Indicadores, canales y plataformas',
+              body:'Ventas por canal y por plataforma, lo más vendido y el volumen por hora: lo necesario para cerrar el día sin hoja de cálculo.',
+              tryIt:['Cambia el periodo','Compara las plataformas de domicilio'] },
+            { id:'settings', phase:'Cerrar', title:'Configura el negocio', file:T+'Settings Layout.html', sub:'IVA, plataformas, personal y tema',
+              body:'Datos del negocio, IVA, plataformas conectadas, dispositivos y quién puede actuar sin PIN de gerente.',
+              tryIt:['Cambia un permiso','Cambia el tema','Guarda: los cambios de permisos piden autorización'] }
+          ];
+          window.POS_PHASES = ['Abrir','Tomar','Operar','Cobrar','Cerrar'];
+          window.POS_PHONE = { file:'ui_kits/pos-mobile/index.html', w:960, h:1000 };
+          window.POS_THEMES = [
+            { id:'default', label:'Oscuro', sw:['#111315','#292C2D','#C9CAEF'] },
+            { id:'light', label:'Claro', sw:['#FAFAFA','#FFFFFF','#111315'] },
+            { id:'hc', label:'Alto contraste', sw:['#000000','#1E2021','#9CF2C6'] },
+            { id:'qsr', label:'Tu marca: rojo y amarillo', sw:['#17130F','#C8102E','#FFC72C'] },
+            { id:'blue', label:'Tu marca: azul', sw:['#E6ECF5','#FFFFFF','#1F5BD8'] }
+          ];
+          // Scale fixed-size app frames into whatever box they sit in.
+          window.fitFrames = function (root) {
+            (root || document).querySelectorAll('[data-fit]').forEach(function (box) {
+              if (box._fit) return; box._fit = true;
+              var f = box.querySelector('iframe'), wh = box.getAttribute('data-fit').split('x');
+              var w = +wh[0], h = +wh[1];
+              f.style.width = w + 'px'; f.style.height = h + 'px';
+              var go = function () {
+                var s = Math.min(box.clientWidth / w, (box.clientHeight || 1e9) / h);
+                f.style.transform = 'scale(' + s + ')';
+                f.style.left = ((box.clientWidth - w * s) / 2) + 'px';
+                f.style.top = box.hasAttribute('data-fit-top') ? '0px' : ((box.clientHeight - h * s) / 2) + 'px';
+              };
+              new ResizeObserver(go).observe(box); go();
+            });
+          };
+          window.posTheme = function () { try { return localStorage.getItem('compos-theme') || 'default'; } catch (e) { return 'default'; } };
+          window.posSetTheme = function (id) { try { localStorage.setItem('compos-theme', id); } catch (e) {} };
+        })();
+    </script>
+    <style>
+        *{box-sizing:border-box}html,body{margin:0;height:100%}
+        body{background:#111315;color:#fff;font-family:var(--font-ui);-webkit-font-smoothing:antialiased;display:grid;grid-template-rows:64px minmax(0,1fr);overflow:hidden}
+        a{color:var(--sky-200)}a:hover{color:#fff}
+        button{font-family:inherit}
+        .top{display:flex;align-items:center;gap:16px;padding:0 20px;border-bottom:1px solid rgba(255,255,255,.1);min-width:0}
+        .brand{display:flex;align-items:center;gap:10px;font-weight:600;font-size:17px;letter-spacing:-.02em;color:#fff;text-decoration:none;white-space:nowrap}
+        .mark{display:grid;gap:3px;width:18px}.mark i{display:block;height:3px;border-radius:2px;background:currentColor}.mark i:nth-child(2){width:70%}.mark i:nth-child(3){width:45%}
+        .pill{font-size:12px;font-weight:500;padding:4px 10px;border-radius:999px;background:#292C2D;color:#ABABAB;white-space:nowrap}
+        .seg{display:flex;gap:4px;padding:4px;border-radius:999px;background:#1D1F20;margin-left:auto}
+        .seg button{height:36px;padding:0 16px;border-radius:999px;border:0;background:transparent;color:#ABABAB;font-size:14px;font-weight:500;cursor:pointer}
+        .seg button[aria-pressed="true"]{background:#fff;color:#111315}
+        select{height:44px;padding:0 14px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:#111315;color:#fff;font:500 14px var(--font-ui)}
+        .lnk{display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font-size:14px;font-weight:500;white-space:nowrap}.lnk:hover{background:#292C2D;color:#fff}
+        .main{display:grid;grid-template-columns:268px minmax(0,1fr) 300px;min-height:0}
+        .steps{overflow:auto;padding:16px 12px 24px;border-right:1px solid rgba(255,255,255,.1);display:flex;flex-direction:column;gap:4px}
+        .ph{font-size:11px;letter-spacing:.04em;color:#969696;padding:16px 10px 6px}
+        .ph:first-child{padding-top:4px}
+        .st{display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 10px;border-radius:8px;border:0;background:transparent;color:#ABABAB;text-align:left;font-size:14px;font-weight:500;cursor:pointer;width:100%}
+        .st:hover{background:#1D1F20;color:#fff}
+        .st .n{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;background:#292C2D;color:#ABABAB}
+        .st.seen .n{background:#35393A;color:#fff}
+        .st[aria-current="step"]{background:#fff;color:#111315}.st[aria-current="step"] .n{background:#111315;color:#fff}
+        .stage{position:relative;min-width:0;min-height:0;padding:24px;display:flex}
+        .box{position:relative;flex:1;min-width:0;min-height:0}
+        .dev{position:absolute;background:#000;border-radius:24px;padding:12px;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+        .dev.phone{background:transparent;padding:0;box-shadow:none}
+        .dev .scr{position:relative;overflow:hidden;border-radius:14px;width:100%;height:100%}
+        .dev.phone .scr{border-radius:0}
+        .dev iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#111315}
+        .dev.phone iframe{background:transparent}
+        .info{border-left:1px solid rgba(255,255,255,.1);padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow:auto}
+        .info .k{font-size:12px;letter-spacing:.04em;color:#969696}
+        .info h1{font-family:var(--font-display);font-size:30px;line-height:1.1;letter-spacing:-.02em;font-weight:600;margin:0;text-wrap:balance}
+        .info p{margin:0;font-size:15px;line-height:1.55;color:#D0D0D0;text-wrap:pretty}
+        .try{background:#1D1F20;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+        .try ol{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;counter-reset:t}
+        .try li{display:flex;gap:10px;font-size:14px;line-height:1.45;counter-increment:t}
+        .try li:before{content:counter(t);flex:none;width:22px;height:22px;border-radius:50%;background:var(--periwinkle-200);color:#111315;display:grid;place-items:center;font-size:12px;font-weight:600}
+        .pins{font-size:13px;color:#ABABAB;line-height:1.5}
+        .pins b{color:#fff;font-weight:600}
+        .nav{margin-top:auto;display:flex;gap:8px}
+        .nav button{flex:1;height:52px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:transparent;color:#fff;font-size:15px;font-weight:500;cursor:pointer}
+        .nav button.go{background:#fff;color:#111315;border-color:#fff}
+        .nav button:hover{background:#292C2D}.nav button.go:hover{background:#E8E8E8}
+        .nav button:disabled{opacity:.4;cursor:default}
+        .bar{height:4px;border-radius:2px;background:#292C2D;overflow:hidden}.bar i{display:block;height:100%;background:var(--mint-200);transition:width .28s cubic-bezier(.2,.8,.2,1)}
+        @media (max-width:1180px){.main{grid-template-columns:220px minmax(0,1fr)}.info{display:none}.mobile-info{display:flex!important}}
+        @media (max-width:760px){.main{grid-template-columns:minmax(0,1fr)}.steps{display:none}.pill,.hide-s{display:none}}
+        .mobile-info{display:none;position:absolute;left:24px;right:24px;bottom:24px;gap:8px;align-items:center;background:#1D1F20;border-radius:999px;padding:6px 6px 6px 18px;font-size:14px}
+        .mobile-info span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+        .mobile-info button{height:44px;padding:0 18px;border-radius:999px;border:0;background:#fff;color:#111315;font-weight:500;cursor:pointer}
+    </style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html">
+    <svg class="cmk" width="24" height="24" viewBox="0 0 64 64" aria-hidden="true">
+        <g transform="scale(.125) translate(6 23)">
+            <g transform="rotate(12 380 210)">
+                <path fill="#FFB627"
+                      d="M310,96 l23.3,-20 l23.3,20 l23.3,-20 l23.3,20 l23.3,-20 l23.3,20 v234 a22,22 0 0,1 -22,22 h-96 a22,22 0 0,1 -22,-22 z"/>
+            </g>
+            <path fill="#3F7FF2"
+                  d="M204,172 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0 z M70,350 A160,160 0 0,1 390,350 Z M74,344 h312 a24,24 0 0,1 0,48 h-312 a24,24 0 0,1 0,-48 z"/>
+        </g>
+    </svg>
+    Compos</a><span class="pill">Demo guiada · datos de ejemplo</span>
+    <div class="seg" role="group" aria-label="Dispositivo">
+        <button data-dev="tablet">Tablet</button>
+        <button data-dev="phone">Teléfono</button>
+    </div>
+    <select id="theme" aria-label="Tema"></select><a class="lnk hide-s" id="full" target="_blank">Pantalla
+        completa</a><a class="lnk hide-s" href="index.html">Volver al sitio</a></header>
+<div class="main">
+    <nav class="steps" id="steps" aria-label="Pasos de la demo"></nav>
+    <div class="stage">
+        <div class="box" id="box">
+            <div class="dev" id="dev">
+                <div class="scr">
+                    <iframe id="app" title="App Compos"></iframe>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-info"><span id="mtitle"></span>
+            <button id="mprev">Atrás</button>
+            <button id="mnext">Siguiente</button>
+        </div>
+    </div>
+    <aside class="info">
+        <div class="bar"><i id="prog"></i></div>
+        <span class="k" id="kicker"></span>
+        <h1 id="title"></h1>
+        <p id="body"></p>
+        <div class="try"><span class="k">Prueba esto</span>
+            <ol id="try"></ol>
+        </div>
+        <p class="pins">Entrar: <b>4 dígitos cualquiera</b>. PIN de gerente: <b>1234</b>. Las
+            pantallas se enlazan entre sí: navega dentro de la app y esta guía te sigue.</p>
+        <div class="nav">
+            <button id="prev">Atrás</button>
+            <button class="go" id="next">Siguiente paso</button>
+        </div>
+    </aside>
+</div>
+<script>
+    (function () {
+      var F = window.POS_FLOW, P = window.POS_PHONE, $ = function (id) { return document.getElementById(id); };
+      var app = $('app'), dev = $('dev'), box = $('box'), seen = {}, cur = 0, device = 'tablet', W = 1194, H = 834;
+      var idx = function (id) { for (var i = 0; i < F.length; i++) if (F[i].id === id) return i; return -1; };
+      var base = function (p) { return decodeURIComponent(p.split('/').pop()); };
+      $('steps').innerHTML = window.POS_PHASES.map(function (ph) {
+        return '<div class="ph">' + ph + '</div>' + F.map(function (s, i) { return s.phase === ph ? '<button class="st" data-i="' + i + '"><span class="n">' + (i + 1) + '</span>' + s.title + '</button>' : ''; }).join('');
+      }).join('');
+      $('theme').innerHTML = window.POS_THEMES.map(function (t) { return '<option value="' + t.id + '">' + t.label + '</option>'; }).join('');
+      $('theme').value = window.posTheme();
+      var fit = function () {
+        var pad = device === 'phone' ? 0 : 24, bw = box.clientWidth, bh = box.clientHeight;
+        var s = Math.min((bw - pad) / W, (bh - pad) / H, device === 'phone' ? 1 : 1.2);
+        var dw = W * s + pad, dh = H * s + pad;
+        dev.style.width = dw + 'px'; dev.style.height = dh + 'px';
+        dev.style.left = (bw - dw) / 2 + 'px'; dev.style.top = (bh - dh) / 2 + 'px';
+        app.style.width = W + 'px'; app.style.height = H + 'px'; app.style.transform = 'scale(' + s + ')';
+      };
+      new ResizeObserver(fit).observe(box);
+      var paint = function () {
+        document.querySelectorAll('[data-dev]').forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute('data-dev') === device); });
+        dev.classList.toggle('phone', device === 'phone');
+        document.querySelectorAll('.st').forEach(function (b) {
+          var i = +b.getAttribute('data-i');
+          b.classList.toggle('seen', !!seen[i]);
+          if (device === 'tablet' && i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+        });
+        if (device === 'phone') {
+          $('kicker').textContent = 'App de teléfono'; $('title').textContent = 'El mismo flujo, con una mano';
+          $('body').textContent = 'La versión de teléfono cubre entrar, el menú y revisar la cuenta. Cada pantalla de tablet también tiene su versión de teléfono; las ves todas desde el sitio.';
+          $('try').innerHTML = '<li>Escribe 4 dígitos cualquiera para entrar</li><li>Agrega platillos desde la cuadrícula de dos columnas</li><li>Revisa la cuenta y envía la orden</li>';
+          $('prog').style.width = '100%'; $('mtitle').textContent = 'App de teléfono';
+          $('prev').disabled = $('mprev').disabled = true; $('next').textContent = 'Volver a tablet';
+          return;
+        }
+        var s = F[cur];
+        $('kicker').textContent = 'Paso ' + (cur + 1) + ' de ' + F.length + ' · ' + s.phase;
+        $('title').textContent = s.title; $('body').textContent = s.body;
+        $('try').innerHTML = s.tryIt.map(function (t) { return '<li>' + t + '</li>'; }).join('');
+        $('prog').style.width = ((cur + 1) / F.length * 100) + '%';
+        $('mtitle').textContent = (cur + 1) + '. ' + s.title;
+        $('prev').disabled = $('mprev').disabled = cur === 0;
+        $('next').textContent = cur === F.length - 1 ? 'Terminar' : 'Siguiente paso';
+      };
+      var load = function () {
+        var src = device === 'phone' ? P.file : F[cur].file;
+        W = device === 'phone' ? P.w : 1194; H = device === 'phone' ? P.h : 834;
+        $('full').href = src;
+        if (base(app.getAttribute('src') || '') !== base(src) || device === 'phone') app.setAttribute('src', src);
+        fit(); paint();
+        history.replaceState(null, '', '#' + (device === 'phone' ? 'phone' : F[cur].id));
+      };
+      var go = function (i) { cur = Math.max(0, Math.min(F.length - 1, i)); seen[cur] = true; device = 'tablet'; load(); };
+      window.addEventListener('message', function (e) {
+        if (device !== 'tablet' || !e.data || !e.data.posScreen) return;
+        {
+          var b = e.data.posScreen;
+          for (var i = 0; i < F.length; i++) if (base(F[i].file) === b && i !== cur) { cur = i; seen[i] = true; paint(); $('full').href = F[i].file; history.replaceState(null, '', '#' + F[i].id); break; }
+        }
+      });
+      $('steps').addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (b) go(+b.getAttribute('data-i')); });
+      $('prev').onclick = $('mprev').onclick = function () { go(cur - 1); };
+      $('next').onclick = $('mnext').onclick = function () {
+        if (device === 'phone') return go(cur);
+        if (cur === F.length - 1) location.href = 'index.html'; else go(cur + 1);
+      };
+      document.querySelectorAll('[data-dev]').forEach(function (b) { b.onclick = function () { device = b.getAttribute('data-dev'); load(); }; });
+      $('theme').onchange = function () { var t = this.value; window.posSetTheme(t); app.contentWindow.postMessage({ posTheme:t }, '*'); };
+      document.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'SELECT') return;
+        if (e.key === 'ArrowRight' && device === 'tablet') go(cur + 1);
+        if (e.key === 'ArrowLeft' && device === 'tablet') go(cur - 1);
+      });
+      var h = location.hash.slice(1);
+      if (h === 'phone') { device = 'phone'; load(); } else go(Math.max(0, idx(h)));
+    })();
+</script>
+</body>
+</html>

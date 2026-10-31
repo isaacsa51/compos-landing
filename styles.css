@@ -1,0 +1,212 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap");
+/* fonts */
+
+
+:root{
+  /* Inter is the kit's declared typeface (see guidelines/typography). Space Grotesk
+     is a FLAGGED SUBSTITUTE for the marketing display face used on the kit's
+     presentation boards — the original binary was not supplied. */
+  --font-ui:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  --font-display:"Space Grotesk","Inter",sans-serif;
+  --font-mono:ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+
+/* colors */
+:root,[data-theme]{
+  /* ---- Base neutrals (sampled from the kit's palette board) ---- */
+  --black-900:#111315;   /* app canvas */
+  --black-800:#1D1F20;   /* deep panel, sunken wells */
+  --black-700:#292C2D;   /* card / control surface */
+  --black-600:#35393A;   /* raised control, keypad key */
+  --gray-500:#676767;    /* secondary label */
+  --gray-400:#ABABAB;    /* tertiary label, placeholder */
+  --white:#FFFFFF;
+
+  /* ---- Pastel accent family (category + highlight fills) ---- */
+  --sage-200:#CFDDDB;
+  --lilac-200:#E4CDED;
+  --sky-200:#C2DBE9;
+  --rose-200:#F1C8D0;
+  --periwinkle-200:#C9CAEF;
+  --mint-200:#C8EBD9;    /* reservation blocks, chart bars */
+
+  /* ---- Status ---- */
+  --status-reserved:#4CB782;
+  --status-checkedin:#E0A83C;
+  --status-free:#676767;
+  --status-danger:#E5695F;
+
+  /* ---- Order lifecycle (one colour per state, used on cards, tabs, kitchen, timers) ---- */
+  --order-open:var(--sky-200);        /* taken, nothing sent yet */
+  --order-preparing:#E0A83C;          /* sent to kitchen / pending close */
+  --order-ready:var(--mint-200);      /* waiting for handoff */
+  --order-closed:#8A8F91;             /* paid & handed off */
+  --order-void:#E5695F;               /* voided / refunded */
+  --order-late:#E5695F;               /* timer past late threshold */
+  --order-warn:#E0A83C;               /* timer past warn threshold */
+
+  /* ---- Semantic aliases: surfaces ---- */
+  --surface-canvas:var(--black-900);
+  --surface-panel:var(--black-800);
+  --surface-card:var(--black-700);
+  --surface-raised:var(--black-600);
+  --surface-inverse:var(--white);
+  --surface-accent:var(--periwinkle-200);
+  --surface-positive:var(--mint-200);
+
+  /* ---- Semantic aliases: text ---- */
+  --text-primary:var(--white);
+  --text-secondary:var(--gray-400);
+  --text-muted:#969696;   /* ≥4.5:1 on panel & card (was gray-500, ~3:1) */
+  --text-on-light:var(--black-900);
+  --text-link:var(--sky-200);
+  --text-positive:var(--mint-200);
+
+  /* ---- Ink: a colour used as text/outline (vs. as a fill). Light themes darken inks via --ink-mix. ---- */
+  --ink-mix:100%;
+  --text-on-inverse:var(--text-on-light);
+  --danger-ink:var(--status-danger);
+  --accent-ink:var(--surface-accent);
+  --positive-ink:var(--mint-200);
+
+  /* ---- Semantic aliases: lines ---- */
+  --border-hairline:rgba(255,255,255,.14);
+  --border-strong:rgba(255,255,255,.32);
+  --border-dashed:rgba(255,255,255,.26);
+
+  /* ---- Light presentation surfaces (marketing boards) ---- */
+  --light-canvas:#FAFAFA;
+  --light-text:#111315;
+}
+
+/* themes */
+/* Theme overrides. Set on <html data-theme="…"> (or any wrapper). Default = Compos dark.
+   Every theme keeps the same contract: fills use --text-on-light, so fill colours stay light enough for dark text (≥ 4.5:1). */
+:root,[data-theme]{--brand-stripe:transparent;}
+
+/* Light — best for direct sunlight / glare. Pastels stay as fills (dark text on top);
+   anything using a colour as text or outline goes through --ink-mix (window.inkOf) or an *-ink token. */
+[data-theme="light"]{
+  --surface-canvas:#E8E6E2;--surface-panel:#FFFFFF;--surface-card:#F3F1ED;--surface-raised:#E4E0DA;
+  --surface-inverse:#111315;--text-on-inverse:#FFFFFF;
+  --text-primary:#111315;--text-secondary:#45484B;--text-muted:#5C6064;
+  --text-link:#1F5C8A;--text-positive:#1C7446;
+  --ink-mix:52%;--danger-ink:#B3261E;--accent-ink:#4447B0;--positive-ink:#1C7446;
+  --order-closed:#A3A7AA;
+  --border-hairline:rgba(17,19,21,.12);--border-strong:rgba(17,19,21,.32);--border-dashed:rgba(17,19,21,.28);
+}
+
+/* Client brand example — blue, light mode. Brand blue = selected/primary; light blue = accent fill. */
+[data-theme="blue"]{
+  --surface-canvas:#E6ECF5;--surface-panel:#FFFFFF;--surface-card:#F1F5FB;--surface-raised:#DFE7F2;
+  --surface-inverse:#1F5BD8;--text-on-inverse:#FFFFFF;
+  --periwinkle-200:#BCD3FF;--sky-200:#B9E2F7;--sage-200:#C7E3E0;
+  --text-primary:#0F1B2D;--text-secondary:#3E4B5E;--text-muted:#566377;
+  --text-link:#1A4FBF;--text-positive:#17744A;
+  --ink-mix:50%;--danger-ink:#B3261E;--accent-ink:#1A4FBF;--positive-ink:#17744A;
+  --order-closed:#A2ABB8;
+  --border-hairline:rgba(15,27,45,.12);--border-strong:rgba(15,27,45,.30);--border-dashed:rgba(15,27,45,.26);
+  --brand-stripe:#1F5BD8;
+}
+
+/* High contrast — for bright dining rooms, counters near windows, max-brightness tablets */
+[data-theme="hc"]{
+  --black-900:#000000;--black-800:#101112;--black-700:#1E2021;--black-600:#2F3234;
+  --gray-500:#A8A8A8;--gray-400:#DADADA;
+  --sage-200:#B2E3DC;--lilac-200:#E9B9FA;--sky-200:#9DD4F7;--rose-200:#FFB0BF;--periwinkle-200:#B4B7FF;--mint-200:#9CF2C6;
+  --status-reserved:#3DDC84;--status-checkedin:#FFB627;--status-free:#A8A8A8;--status-danger:#FF6E61;
+  --order-preparing:#FFB627;--order-closed:#B8B8B8;--order-void:#FF6E61;--order-late:#FF6E61;--order-warn:#FFB627;
+  --text-muted:#B4B4B4;
+  --border-hairline:rgba(255,255,255,.22);--border-strong:rgba(255,255,255,.55);--border-dashed:rgba(255,255,255,.45);
+}
+
+/* Client brand example — red, yellow, white, beige (quick-service restaurant).
+   Dark warm base; yellow = primary accent, beige = inverse/selected, red = brand stripe + danger. */
+[data-theme="qsr"]{
+  --black-900:#17130F;--black-800:#241E18;--black-700:#322A22;--black-600:#43392F;
+  --gray-500:#A69684;--gray-400:#DCCDBA;
+  --periwinkle-200:#FFC72C;   /* accent → brand yellow */
+  --sage-200:#F5EBDC;         /* beige */
+  --sky-200:#FFE08A;          /* light yellow */
+  --rose-200:#FFB4A8;         /* red tint */
+  --lilac-200:#FFD3A3;        /* orange tint */
+  --mint-200:#BFE5A6;         /* positive stays green — never brand red */
+  --surface-inverse:#F5EBDC;
+  --status-danger:#FF5A4E;--order-void:#FF5A4E;--order-late:#FF5A4E;
+  --text-muted:#AC9C8A;--text-link:#FFC72C;
+  --border-hairline:rgba(245,235,220,.14);--border-strong:rgba(245,235,220,.34);--border-dashed:rgba(245,235,220,.28);
+  --brand-stripe:#DA291C;
+}
+
+/* typography */
+:root{
+  --text-display-1:56px; --lh-display-1:1.05; /* @kind other */
+  --text-display-2:40px; --lh-display-2:1.1; /* @kind other */
+  --text-h1:28px;  --lh-h1:1.2; /* @kind other */
+  --text-h2:22px;  --lh-h2:1.25; /* @kind other */
+  --text-h3:18px;  --lh-h3:1.3; /* @kind other */
+  --text-metric:34px; --lh-metric:1.05; /* @kind other */   /* $1200.56, 198 */
+  --text-body:15px; --lh-body:1.45; /* @kind other */
+  --text-sm:13px;   --lh-sm:1.4; /* @kind other */
+  --text-xs:11px;   --lh-xs:1.35; /* @kind other */
+
+  --weight-regular:400; /* @kind font */
+  --weight-medium:500; /* @kind font */
+  --weight-semibold:600; /* @kind font */
+  --weight-bold:700; /* @kind font */
+
+  --tracking-tight:-0.02em; /* @kind other */
+  --tracking-normal:0; /* @kind other */
+  --tracking-wide:0.04em; /* @kind other */   /* micro labels: QT / Items / Price */
+}
+
+/* spacing */
+:root{
+  --space-1:4px;
+  --space-2:8px;
+  --space-3:12px;
+  --space-4:16px;
+  --space-5:20px;
+  --space-6:24px;
+  --space-8:32px;
+  --space-10:40px;
+  --space-12:48px;
+
+  --gutter-card:16px;      /* padding inside a card */
+  --gutter-screen:24px;    /* screen edge padding */
+  --grid-gap:12px;         /* gap between tiles/tickets */
+  --sidebar-width:172px;
+  --hit-min:44px;
+}
+
+/* radius */
+:root{
+  --radius-xs:6px;
+  --radius-sm:8px;    /* nav item, small control */
+  --radius-md:12px;   /* card, tile, ticket */
+  --radius-lg:16px;   /* panel */
+  --radius-xl:20px;   /* device / large panel */
+  --radius-pill:999px;
+  --border-width:1px;
+}
+
+/* elevation */
+:root{
+  /* The kit is flat: depth comes from surface value, not shadow.
+     Shadows appear only on floating/marketing artifacts. */
+  --shadow-none:none; /* @kind shadow */
+  --shadow-float:0 12px 32px rgba(0,0,0,.35);
+  --shadow-light-card:0 8px 24px rgba(17,19,21,.10);
+  --accent-bar-width:4px;  /* left status bar on table/dish cards */
+}
+
+/* motion */
+:root{
+  --ease-standard:cubic-bezier(.2,.8,.2,1); /* @kind other */
+  --duration-fast:120ms; /* @kind other */
+  --duration-base:180ms; /* @kind other */
+  --duration-slow:280ms; /* @kind other */
+  --press-scale:.98; /* @kind other */
+  --hover-lift:rgba(255,255,255,.06);
+}
+

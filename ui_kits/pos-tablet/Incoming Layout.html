@@ -1,0 +1,863 @@
+<!--
+  ~ Compos — Point of Sale System
+  ~ File: Incoming Layout.html
+  ~ Module: Compos
+  ~
+  ~ Copyright (c) 2026 Isaac Serrano. All rights reserved.
+  ~
+  ~ This file is part of Compos and is proprietary and confidential.
+  ~ Unauthorized copying, modification, or distribution of this file,
+  ~ via any medium, is strictly prohibited.
+  ~
+  ~ Last modified: 2026-10-21
+  -->
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Compos — Incoming</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <script src="../theme.js"></script>
+    <style>
+        html,body{margin:0;height:100%}body{background:var(--surface-canvas);font-family:var(--font-ui);color:var(--text-primary)}#root{height:100vh;min-height:700px}button{font-family:inherit}button:disabled{opacity:.45}a{color:var(--text-link)}a:hover{color:var(--white)}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--surface-raised);border-radius:6px}
+    </style>
+    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+            integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+            integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+            integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+            crossorigin="anonymous"></script>
+    <script src="../../_ds_bundle.js"></script>
+    <script src="../i18n.js"></script>
+    <script src="data.js"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" data-src="PosExtras.jsx">
+    const { Icon: PXIcon, Button: PXButton, IconButton: PXIconButton, Badge: PXBadge, QuantityStepper: PXStepper } = window.ComposDesignSystem_9739cd;
+
+    /* ---------- Modifiers ---------- */
+    const PX_SIZE = { id:'size', name:'Tamaño', min:1, max:1, options:[['Chico',0],['Mediano',20],['Grande',40]] };
+    const PX_TEMP = { id:'temp', name:'Base', min:1, max:1, options:[['Arroz',0],['Fideos',0]] };
+    const PX_ICE = { id:'ice', name:'Tipo de fideo', min:1, max:1, options:[['Udon',0],['Ramen',0],['Soba',0]] };
+    const PX_MILK = { id:'milk', name:'Proteína', min:1, max:1, options:[['Pollo',0],['Res',15],['Salmón',35],['Camarón',35],['Tofu',0]] };
+    const PX_EXTRAS = { id:'extras', name:'Extras', min:0, max:3, options:[['Extra proteína',45],['Sin cebollín',0],['Aguacate',25],['Huevo marinado',20],['Alga nori',15],['Ajonjolí',10]] };
+    const PX_SWEET = { id:'sweet', name:'Picante', min:0, max:1, options:[['Sin picante',0],['Suave',0],['Medio',0],['Muy picante',0]] };
+    const pxOptMilk = { ...PX_MILK, min:0, name:'Proteína extra' };
+    const PX_ICE_DEP = { ...PX_ICE, dependsOn:{ group:'temp', value:'Fideos' } };
+    const PX_MODS = {
+      'Bowl teriyaki': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS, PX_SWEET],
+      'Bowl spicy tuna': [PX_SIZE, PX_MILK, PX_EXTRAS, PX_SWEET],
+      'Bowl katsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
+      'Ramen miso': [PX_SIZE, PX_TEMP, PX_ICE_DEP, pxOptMilk, PX_EXTRAS, PX_SWEET],
+      'Ramen tonkotsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
+      'Yakisoba': [PX_SIZE, PX_ICE, pxOptMilk, PX_EXTRAS, PX_SWEET],
+    };
+    const pxMoney = (n) => '$' + n.toFixed(2);
+    const pxRule = (g) => g.min > 0 ? (g.max === 1 ? 'Required · Pick 1' : 'Required · ' + g.min + '–' + g.max) : (g.max === 1 ? 'Optional · Pick 1' : 'Optional · Up to ' + g.max);
+
+    function ModifierPanel({ item, basePrice, onCancel, onAdd, compact }) {
+      const all = PX_MODS[item] || [];
+      const [sel, setSel] = React.useState(() => ({ size:['Chico'] }));
+      const [qty, setQty] = React.useState(1);
+      const [note, setNote] = React.useState('');
+      const [noteOpen, setNoteOpen] = React.useState(false);
+      const groups = all.filter((g) => !g.dependsOn || (sel[g.dependsOn.group] || []).includes(g.dependsOn.value));
+      const toggle = (g, opt) => setSel((s) => {
+        const cur = s[g.id] || [];
+        let next;
+        if (cur.includes(opt)) next = g.min === 1 && g.max === 1 ? cur : cur.filter((x) => x !== opt);
+        else next = g.max === 1 ? [opt] : (cur.length >= g.max ? cur : [...cur, opt]);
+        return { ...s, [g.id]:next };
+      });
+      const missing = groups.filter((g) => (sel[g.id] || []).length < g.min);
+      const chosen = groups.flatMap((g) => (sel[g.id] || []).map((o) => [o, g.options.find((x) => x[0] === o)[1]]));
+      const unit = basePrice + chosen.reduce((s, [, d]) => s + d, 0);
+      const add = () => onAdd({ name:item, unit, qty, mods:chosen.map(([o]) => o), note:note.trim() });
+      const groupCard = (g) => {
+        const cur = sel[g.id] || [];
+        const ok = cur.length >= g.min;
+        return (
+          <section key={g.id} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding: compact ? 12 : 14, display:'flex', flexDirection:'column', gap:10, minWidth:0 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)' }}>{g.name}</span>
+              {g.dependsOn && <PXBadge tone="neutral">If {g.dependsOn.value}</PXBadge>}
+              <span style={{ marginLeft:'auto', fontSize:'var(--text-xs)', color: g.min > 0 && !ok ? 'var(--status-checkedin)' : 'var(--text-muted)', display:'flex', alignItems:'center', gap:4 }}>
+                {g.min > 0 && ok && <PXIcon name="check" size={12} />}{pxRule(g)}
+              </span>
+            </div>
+            <div style={{ display: compact ? 'flex' : 'grid', flexWrap:'wrap', gridTemplateColumns:'minmax(0,1fr)', gap:8 }}>
+              {g.options.map(([o, d]) => {
+                const on = cur.includes(o);
+                const full = !on && g.max > 1 && cur.length >= g.max;
+                return (
+                  <button key={o} onClick={() => toggle(g, o)} disabled={full} style={{ minHeight: compact ? 44 : 52, padding:'0 14px', borderRadius:'var(--radius-sm)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--mint-200)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', display:'flex', alignItems:'center', gap:10, fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor: full ? 'not-allowed' : 'pointer', textAlign:'left', flex: compact ? '0 0 auto' : undefined }}>
+                    {!compact && <span style={{ width:18, height:18, flex:'0 0 auto', borderRadius: g.max === 1 ? 9 : 5, border: on ? 'none' : '1.5px solid var(--border-strong)', background: on ? 'var(--black-900)' : 'transparent', color:'var(--mint-200)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{on && <PXIcon name="check" size={12} />}</span>}
+                    <span style={{ flex:1 }}>{o}</span>
+                    {d > 0 && <span style={{ fontSize:'var(--text-xs)', opacity:.75 }}>+{d.toFixed(2)}</span>}
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+        );
+      };
+      return (
+        <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:12, padding: compact ? '12px 12px 8px' : '16px 20px' }}>
+            <PXIconButton icon="arrow-left" label="Back to menu" variant="secondary" onClick={onCancel} />
+            <span style={{ display:'flex', flexDirection:'column', minWidth:0 }}>
+              <span style={{ fontSize: compact ? 'var(--text-h3)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>{item}</span>
+              <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>From {pxMoney(basePrice)} · {all.filter((g) => g.min > 0).length} required choices</span>
+            </span>
+            <button onClick={() => setNoteOpen((v) => !v)} style={{ marginLeft:'auto', height:40, padding:'0 14px', borderRadius:'var(--radius-pill)', border:'1px solid var(--border-strong)', background: noteOpen || note ? 'var(--surface-raised)' : 'transparent', color:'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', display:'flex', alignItems:'center', gap:6, cursor:'pointer' }}>
+              <PXIcon name="sticky-note" size={16} />{note ? 'Note added' : 'Note'}
+            </button>
+          </div>
+          {noteOpen && (
+            <div style={{ padding: compact ? '0 12px 8px' : '0 20px 12px' }}>
+              <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Instructions for the barista, e.g. extra hot, half foam" rows={2} style={{ width:'100%', boxSizing:'border-box', resize:'none', background:'var(--surface-card)', border:'1px solid var(--border-strong)', borderRadius:'var(--radius-sm)', color:'var(--text-primary)', fontFamily:'inherit', fontSize:'var(--text-sm)', padding:10, outline:'none' }}></textarea>
+            </div>
+          )}
+          <div style={{ flex:1, minHeight:0, overflowY:'auto', padding: compact ? '0 12px 12px' : '0 20px 20px', display: compact ? 'flex' : 'grid', flexDirection:'column', gridTemplateColumns:'repeat(auto-fill,minmax(190px,1fr))', gridAutoRows:'min-content', gap: compact ? 8 : 12 }}>
+            {groups.map(groupCard)}
+          </div>
+          <div style={{ flex:'0 0 auto', borderTop:'1px solid var(--border-hairline)', padding: compact ? 12 : '14px 20px', display:'flex', flexDirection: compact ? 'column' : 'row', alignItems: compact ? 'stretch' : 'center', gap:12 }}>
+            <div style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:2 }}>
+              <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{chosen.map(([o]) => o).join(' · ') || 'No modifiers yet'}</span>
+              <span style={{ fontSize:'var(--text-xs)', color: missing.length ? 'var(--status-checkedin)' : 'var(--text-positive)' }}>{missing.length ? 'Choose ' + missing.map((g) => g.name.toLowerCase()).join(', ') : 'Ready to add'}</span>
+            </div>
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <PXStepper value={qty} onChange={(q) => setQty(Math.max(1, q))} />
+              <PXButton variant="outline" size="lg" onClick={onCancel} style={{ flex:'0 0 auto', paddingLeft:18, paddingRight:18 }}>Cancel</PXButton>
+              <PXButton size="lg" disabled={missing.length > 0} onClick={add} style={{ flex: compact ? 1 : '0 0 auto', minWidth:0, paddingLeft:18, paddingRight:18 }}>Add {pxMoney(unit * qty)}</PXButton>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* ---------- Customer ---------- */
+    const PX_PLATFORMS = ['Own driver', 'Uber Eats', 'Rappi', 'DiDi Food'];
+    const pxField = { width:'100%', boxSizing:'border-box', height:44, background:'var(--surface-card)', border:'1px solid var(--border-strong)', borderRadius:'var(--radius-sm)', color:'var(--text-primary)', fontFamily:'inherit', fontSize:'var(--text-sm)', padding:'0 12px', outline:'none' };
+
+    function CustomerPanel({ mode, value, onSave, onClose }) {
+      const [c, setC] = React.useState(() => ({ name:'', phone:'', address:'', notes:'', platform:'Own driver', ...value }));
+      const set = (k) => (e) => setC((x) => ({ ...x, [k]:e.target.value }));
+      const del = mode === 'Delivery';
+      const ok = c.name.trim() && c.phone.trim() && (!del || c.address.trim());
+      const label = (t, req) => <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{t}{req && <span style={{ color:'var(--danger-ink)' }}> *</span>}</span>;
+      return (
+        <div style={{ position:'absolute', inset:0, zIndex:5, background:'var(--surface-panel)', display:'flex', flexDirection:'column' }}>
+          <div style={{ padding:'16px 16px 12px', display:'flex', alignItems:'center', gap:10, borderBottom:'1px solid var(--border-hairline)' }}>
+            <PXIcon name={del ? 'bike' : 'shopping-bag'} size={20} />
+            <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>{mode} customer</span>
+            <PXIconButton icon="x" size="sm" label="Close" variant="outline" onClick={onClose} style={{ marginLeft:'auto' }} />
+          </div>
+          <div style={{ flex:1, overflowY:'auto', padding:16, display:'flex', flexDirection:'column', gap:12 }}>
+            {del && (
+              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                {label('Platform')}
+                <div style={{ display:'grid', gridTemplateColumns:'repeat(2,minmax(0,1fr))', gap:6 }}>
+                  {PX_PLATFORMS.map((p) => (
+                    <button key={p} onClick={() => setC((x) => ({ ...x, platform:p }))} style={{ height:40, borderRadius:'var(--radius-sm)', border: c.platform === p ? 'none' : '1px solid var(--border-strong)', background: c.platform === p ? 'var(--surface-accent)' : 'transparent', color: c.platform === p ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer' }}>{p}</button>
+                  ))}
+                </div>
+              </div>
+            )}
+            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Name', true)}<input value={c.name} onChange={set('name')} placeholder="Customer name" style={pxField} /></label>
+            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Phone', true)}<input value={c.phone} onChange={set('phone')} placeholder="55 1234 5678" inputMode="tel" style={pxField} /></label>
+            {del && <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Address', true)}<input value={c.address} onChange={set('address')} placeholder="Street, number, apt" style={pxField} /></label>}
+            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label(del ? 'Delivery notes' : 'Notes')}<textarea value={c.notes} onChange={set('notes')} rows={2} placeholder={del ? 'Gate code, leave at door…' : 'Optional'} style={{ ...pxField, height:'auto', padding:10, resize:'none' }}></textarea></label>
+          </div>
+          <div style={{ padding:16, borderTop:'1px solid var(--border-hairline)' }}>
+            <PXButton block size="lg" disabled={!ok} onClick={() => onSave(c)}>Save customer</PXButton>
+          </div>
+        </div>
+      );
+    }
+
+    function CustomerRow({ mode, customer, onEdit }) {
+      if (mode === 'Dine here') return null;
+      const has = customer && customer.name;
+      return (
+        <button onClick={onEdit} style={{ margin:'0 16px', width:'calc(100% - 32px)', boxSizing:'border-box', padding:'10px 12px', borderRadius:'var(--radius-md)', border: has ? 'none' : '1.5px dashed var(--status-checkedin)', background: has ? 'var(--surface-card)' : 'transparent', color:'var(--text-primary)', display:'flex', alignItems:'center', gap:10, textAlign:'left', cursor:'pointer' }}>
+          <PXIcon name={has ? 'user-round' : 'user-round-plus'} size={18} />
+          <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:1 }}>
+            {has ? (
+              <React.Fragment>
+                <span style={{ fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)' }}>{customer.name} · {customer.phone}</span>
+                <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{mode === 'Delivery' ? customer.platform + ' · ' + customer.address : (customer.notes || 'Pickup at counter')}</span>
+              </React.Fragment>
+            ) : <span style={{ fontSize:'var(--text-sm)', color:'var(--status-checkedin)' }}>Add customer details · required</span>}
+          </span>
+          <PXIcon name="pencil" size={14} />
+        </button>
+      );
+    }
+
+    /* ---------- Check timers ---------- */
+    const PX_T0 = Date.now();
+    const PX_META = {
+      412:{ type:'Delivery', openedMin:23, customer:{ name:'Mia Torres', phone:'55 5555 0142', address:'Av. Álvaro Obregón 18, depto 3', platform:'Uber Eats', notes:'' }, prepaid:'Uber Eats' },
+      410:{ type:'Pickup', openedMin:4, customer:{ name:'Daniel Ruiz', phone:'55 5555 0177', notes:'' } },
+      407:{ type:'Delivery', openedMin:14, customer:{ name:'Grace Kim', phone:'55 5555 0108', address:'Calle Durango 402', platform:'Own driver', notes:'Tocar dos veces' } },
+      401:{ type:'Pickup', openedMin:52, closedAfter:18, customer:{ name:'Omar Haddad', phone:'55 5555 0190', notes:'' } },
+      400:{ type:'Pickup', openedMin:9, customer:{ name:'Lena Park', phone:'55 5555 0123', notes:'' } },
+      396:{ type:'Pickup', openedMin:31, customer:{ name:'Sam Ortiz', phone:'55 5555 0166', notes:'' } },
+      391:{ type:'Delivery', openedMin:75, closedAfter:12, customer:{ name:'Ivy Chen', phone:'55 5555 0111', address:'Calle Orizaba 9', platform:'Rappi', notes:'' }, prepaid:'Rappi' },
+      390:{ type:'Delivery', openedMin:2, customer:{ name:'Noah Brooks', phone:'55 5555 0155', address:'Av. Insurgentes 77', platform:'DiDi Food', notes:'' }, prepaid:'DiDi Food' },
+    };
+    const pxOpenedAt = (order) => PX_T0 - ((PX_META[order] || {}).openedMin || 0) * 60000;
+    function useNow(ms = 1000) {
+      const [now, setNow] = React.useState(Date.now());
+      React.useEffect(() => { const t = setInterval(() => setNow(Date.now()), ms); return () => clearInterval(t); }, [ms]);
+      return now;
+    }
+    const pxFmt = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; const p = (n) => String(n).padStart(2, '0'); return h ? h + ':' + p(m) + ':' + p(x) : p(m) + ':' + p(x); };
+    const PX_WARN_MIN = 10, PX_LATE_MIN = 20;
+
+    function ElapsedPill({ order, status, size = 'md' }) {
+      const now = useNow();
+      const meta = PX_META[order] || {};
+      if (status === 'closed') {
+        return <span style={{ display:'inline-flex', alignItems:'center', gap:4, fontSize:'var(--text-xs)', color:'var(--text-muted)' }}><PXIcon name="timer-off" size={12} />Closed in {meta.closedAfter || 0}m</span>;
+      }
+      const ms = now - pxOpenedAt(order);
+      const min = ms / 60000;
+      const tone = min >= PX_LATE_MIN ? 'late' : min >= PX_WARN_MIN ? 'warn' : 'ok';
+      const bg = { ok:'var(--surface-raised)', warn:'var(--order-warn)', late:'var(--order-late)' }[tone];
+      const fg = tone === 'ok' ? 'var(--text-primary)' : 'var(--text-on-light)';
+      return (
+        <span title={(status === 'pending' ? 'Pending close' : 'Open') + ' for ' + pxFmt(ms)} style={{ display:'inline-flex', alignItems:'center', gap:5, height: size === 'sm' ? 22 : 26, padding:'0 8px', borderRadius:'var(--radius-pill)', background:bg, color:fg, fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)', fontVariantNumeric:'tabular-nums', whiteSpace:'nowrap' }}>
+          <PXIcon name={tone === 'late' ? 'triangle-alert' : 'timer'} size={12} />{pxFmt(ms)}
+        </span>
+      );
+    }
+
+    const PX_TYPE_ICON = { 'Dine here':'utensils', Pickup:'shopping-bag', Delivery:'bike' };
+    function OrderTypeTag({ order }) {
+      const m = PX_META[order];
+      if (!m) return null;
+      return (
+        <span style={{ display:'flex', alignItems:'center', gap:6, fontSize:'var(--text-xs)', color:'var(--text-secondary)', minWidth:0 }}>
+          <PXIcon name={PX_TYPE_ICON[m.type]} size={14} />
+          <span style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{m.type === 'Delivery' ? m.customer.platform : m.type} · {m.customer.name}</span>
+          {m.prepaid && <PrepaidTag />}
+        </span>
+      );
+    }
+
+    function PrepaidTag({ via }) {
+      return <span style={{ flex:'0 0 auto', marginLeft:'auto', display:'inline-flex', alignItems:'center', gap:4, height:20, padding:'0 7px', borderRadius:'var(--radius-pill)', background:'var(--mint-200)', color:'var(--text-on-light)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)' }}><PXIcon name="badge-check" size={12} />{via ? 'Paid via ' + via : 'Prepaid'}</span>;
+    }
+
+    /* ---------- 86 / sold out ---------- */
+    const PX_86_KEY = 'compos-86';
+    function useSoldOut() {
+      const [list, setList] = React.useState(() => { try { return JSON.parse(localStorage.getItem(PX_86_KEY)) || ['Ramen tonkotsu', 'Salmón glaseado']; } catch (e) { return ['Ramen tonkotsu', 'Salmón glaseado']; } });
+      const toggle = (name) => setList((l) => { const n = l.includes(name) ? l.filter((x) => x !== name) : [...l, name]; try { localStorage.setItem(PX_86_KEY, JSON.stringify(n)); } catch (e) {} return n; });
+      return { list, isOut:(n) => list.includes(n), toggle };
+    }
+    function StockCard({ out, manage, onToggle, children }) {
+      return (
+        <div style={{ position:'relative', minWidth:0, display:'flex', flexDirection:'column' }}>
+          <div style={{ opacity: out ? .35 : 1, pointerEvents: out || manage ? 'none' : 'auto', display:'flex', flexDirection:'column', flex:1 }}>{children}</div>
+          {out && !manage && <span style={{ position:'absolute', top:8, right:8, display:'inline-flex', alignItems:'center', gap:4, height:22, padding:'0 8px', borderRadius:'var(--radius-pill)', background:'var(--status-danger)', color:'var(--text-on-light)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-bold)' }}><PXIcon name="ban" size={12} />86 · Sold out</span>}
+          {manage && (
+            <button onClick={onToggle} style={{ position:'absolute', inset:0, borderRadius:'var(--radius-md)', border: out ? '2px solid var(--status-danger)' : '2px dashed var(--border-strong)', background: out ? 'rgba(229,105,95,.12)' : 'rgba(17,19,21,.35)', color: out ? 'var(--danger-ink)' : 'var(--text-primary)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6, fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer' }}>
+              <PXIcon name={out ? 'rotate-ccw' : 'ban'} size={20} />{out ? 'Back in stock' : 'Mark sold out'}
+            </button>
+          )}
+        </div>
+      );
+    }
+    function StockToggle({ manage, count, onClick, compact }) {
+      return (
+        <button onClick={onClick} style={{ flex:'0 0 auto', height: compact ? 44 : 52, padding:'0 14px', borderRadius:'var(--radius-sm)', border: manage ? 'none' : '1.5px solid var(--status-danger)', background: manage ? 'var(--status-danger)' : 'transparent', color: manage ? 'var(--text-on-light)' : 'var(--danger-ink)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', display:'flex', alignItems:'center', gap:8, cursor:'pointer' }}>
+          <PXIcon name={manage ? 'check' : 'ban'} size={18} />{manage ? 'Done' : '86 · ' + count}
+        </button>
+      );
+    }
+
+    /* ---------- Void / refund reasons ---------- */
+    const PX_VOID_REASONS = ['Customer cancelled', 'Duplicate order', 'Entered by mistake', 'Item unavailable', 'Payment failed', 'Other'];
+    const PX_REFUND_REASONS = ['Wrong item', 'Quality issue', 'Late delivery', 'Missing item', 'Customer cancelled', 'Other'];
+    function ReasonChips({ reasons, value, onChange }) {
+      return (
+        <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+          {reasons.map((r) => {
+            const on = r === value;
+            return <button key={r} onClick={() => onChange(r)} style={{ height:40, padding:'0 14px', borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-inverse)' : 'transparent', color: on ? 'var(--text-on-inverse)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer' }}>{r}</button>;
+          })}
+        </div>
+      );
+    }
+    function VoidDialog({ order, onClose, onConfirm }) {
+      const [reason, setReason] = React.useState(null);
+      const [note, setNote] = React.useState('');
+      const ok = reason && (reason !== 'Other' || note.trim());
+      return (
+        <div style={{ position:'absolute', inset:0, zIndex:20, display:'flex', alignItems:'center', justifyContent:'center', padding:16 }}>
+          <div onClick={onClose} style={{ position:'absolute', inset:0, background:'rgba(0,0,0,.6)' }}></div>
+          <div style={{ position:'relative', width:'100%', maxWidth:440, background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', padding:20, display:'flex', flexDirection:'column', gap:16 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+              <span style={{ width:36, height:36, borderRadius:18, background:'rgba(229,105,95,.15)', color:'var(--danger-ink)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}><PXIcon name="ban" size={18} /></span>
+              <span style={{ display:'flex', flexDirection:'column' }}>
+                <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>Void order #{order}</span>
+                <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>Items not yet paid will be removed. A reason is required.</span>
+              </span>
+            </div>
+            <ReasonChips reasons={PX_VOID_REASONS} value={reason} onChange={setReason} />
+            <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder={reason === 'Other' ? 'Describe the reason (required)' : 'Add a note (optional)'} style={{ ...pxField, height:'auto', padding:10, resize:'none' }}></textarea>
+            <div style={{ display:'flex', gap:8 }}>
+              <PXButton variant="outline" size="lg" onClick={onClose} style={{ flex:1 }}>Keep order</PXButton>
+              <PXButton size="lg" disabled={!ok} onClick={() => onConfirm({ reason, note })} style={{ flex:1, background: ok ? 'var(--status-danger)' : undefined, color: ok ? 'var(--text-on-light)' : undefined }}>Void order</PXButton>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    const PX_STATUS = {
+      open:{ label:'Open', color:'var(--order-open)', icon:'circle-dot' },
+      pending:{ label:'Pending Close', color:'var(--order-preparing)', icon:'flame' },
+      preparing:{ label:'Preparing', color:'var(--order-preparing)', icon:'flame' },
+      ready:{ label:'Ready', color:'var(--order-ready)', icon:'package-check' },
+      closed:{ label:'Closed', color:'var(--order-closed)', icon:'circle-check' },
+      void:{ label:'Void', color:'var(--order-void)', icon:'ban' },
+    };
+    function StatusChip({ status, solid }) {
+      const s = PX_STATUS[status];
+      if (!s) return null;
+      return <span style={{ display:'inline-flex', alignItems:'center', gap:5, height:24, padding:'0 9px', borderRadius:'var(--radius-pill)', border: solid ? 'none' : '1.5px solid ' + window.inkOf(s.color), background: solid ? s.color : 'transparent', color: solid ? 'var(--text-on-light)' : window.inkOf(s.color), fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)', whiteSpace:'nowrap' }}><PXIcon name={s.icon} size={12} />{s.label}</span>;
+    }
+    function TypeIcon({ type, size = 32 }) {
+      return <span title={type} style={{ width:size, height:size, flex:'0 0 auto', borderRadius:'var(--radius-sm)', background:'var(--surface-raised)', color:'var(--text-primary)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}><PXIcon name={PX_TYPE_ICON[type] || 'receipt'} size={Math.round(size * .55)} /></span>;
+    }
+
+    Object.assign(window, { PX_STATUS, StatusChip, TypeIcon, PrepaidTag, useSoldOut, StockCard, StockToggle, PX_VOID_REASONS, PX_REFUND_REASONS, ReasonChips, VoidDialog, pxField, PX_MODS, ModifierPanel, CustomerPanel, CustomerRow, PX_META, ElapsedPill, OrderTypeTag, useNow, pxFmt, pxOpenedAt, PX_TYPE_ICON, PX_WARN_MIN, PX_LATE_MIN });
+
+</script>
+<script type="text/babel" data-src="Feedback.jsx">
+    const FBds = () => window.ComposDesignSystem_9739cd;
+    const FB_PIN = '1234';
+
+    /* ---------- Toasts ---------- */
+    let fbPush = null;
+    window.toast = (t) => { if (fbPush) fbPush(t); };
+    function ToastHost({ bottom = 20 }) {
+      const { Toast } = FBds();
+      const [list, setList] = React.useState([]);
+      React.useEffect(() => {
+        fbPush = (t) => {
+          const id = Date.now() + Math.random();
+          setList((l) => [{ id, ...t }, ...l].slice(0, 3));
+          if (t.tone !== 'danger') setTimeout(() => setList((l) => l.filter((x) => x.id !== id)), t.actionLabel ? 8000 : 4000);
+        };
+        return () => { fbPush = null; };
+      }, []);
+      const close = (id) => setList((l) => l.filter((x) => x.id !== id));
+      return (
+        <div style={{ position:'absolute', left:0, right:0, bottom, zIndex:60, display:'flex', flexDirection:'column', alignItems:'center', gap:8, pointerEvents:'none', padding:'0 12px' }}>
+          {list.map((t) => (
+            <div key={t.id} style={{ pointerEvents:'auto', width:'100%', maxWidth:440, display:'flex', justifyContent:'center' }}>
+              <Toast tone={t.tone} title={t.title} message={t.message} actionLabel={t.actionLabel} onAction={() => { t.onAction && t.onAction(); close(t.id); }} onClose={() => close(t.id)} style={{ width:'100%' }} />
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    /* ---------- Manager override ---------- */
+    function useOverride() {
+      const { ManagerOverride } = FBds();
+      const [req, setReq] = React.useState(null);
+      const [err, setErr] = React.useState('');
+      const request = (action, detail, onApprove) => { setErr(''); setReq({ action, detail, onApprove }); };
+      const el = req ? (
+        <ManagerOverride action={req.action} detail={req.detail} managers={['Lena P.', 'Sofía G.']} error={err}
+          onCancel={() => setReq(null)}
+          onSubmit={({ manager, pin }) => { if (pin === FB_PIN) { const r = req; setReq(null); r.onApprove(manager); } else setErr('Wrong PIN — try again'); }} />
+      ) : null;
+      return [el, request];
+    }
+
+    /* ---------- Discount ---------- */
+    const FB_DISC_REASONS = ['Loyal customer', 'Staff meal', 'Service recovery', 'Promotion', 'Other'];
+    function DiscountDialog({ subtotal, onClose, onApply }) {
+      const { ConfirmDialog, ReasonChips } = FBds();
+      const [kind, setKind] = React.useState('%');
+      const [val, setVal] = React.useState(10);
+      const [reason, setReason] = React.useState(null);
+      const amount = Math.min(subtotal, kind === '%' ? subtotal * val / 100 : val);
+      const chips = kind === '%' ? [5, 10, 15, 20, 50] : [20, 50, 100, 200, 500];
+      const chip = (on) => ({ height:44, minWidth:56, padding:'0 12px', borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-accent)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer' });
+      return (
+        <ConfirmDialog icon="badge-percent" title="Add discount" message={'Applies to the subtotal of ' + '$' + subtotal.toFixed(2) + '. Needs manager approval.'}
+          confirmLabel={'Apply −$' + amount.toFixed(2)} onCancel={onClose} onConfirm={() => reason && amount > 0 && onApply({ amount, reason, label: kind === '%' ? val + '%' : '$' + val })}>
+          <div style={{ display:'flex', gap:6 }}>
+            {['%', '$'].map((k) => <button key={k} onClick={() => { setKind(k); setVal(k === '%' ? 10 : 50); }} style={{ ...chip(k === kind), flex:1, borderRadius:'var(--radius-sm)', background: k === kind ? 'var(--surface-inverse)' : 'transparent', color: k === kind ? 'var(--text-on-inverse)' : 'var(--text-primary)' }}>{k === '%' ? 'Percent' : 'Amount'}</button>)}
+          </div>
+          <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
+            {chips.map((c) => <button key={c} onClick={() => setVal(c)} style={chip(c === val)}>{kind === '%' ? c + '%' : '$' + c}</button>)}
+          </div>
+          <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+            <span style={{ fontSize:'var(--text-xs)', color:'var(--text-muted)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase' }}>Reason · required</span>
+            <ReasonChips reasons={FB_DISC_REASONS} value={reason} onChange={setReason} />
+          </div>
+        </ConfirmDialog>
+      );
+    }
+
+    /* ---------- Showcase ---------- */
+    function FeedbackShowcase({ compact }) {
+      const { ConfirmDialog, Button } = FBds();
+      const [ov, request] = useOverride();
+      const [dlg, setDlg] = React.useState(null);
+      const label = { fontSize:'var(--text-xs)', color:'var(--text-muted)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase' };
+      const T = [
+        ['positive', 'Sent to kitchen', 'Order #412 · 3 items', 'Undo'],
+        ['incoming', 'New Uber Eats order', '#UE-2231 · $387.00', 'View'],
+        ['warning', 'Check #396 open 25 min', 'Pending close'],
+        ['danger', 'Payment declined', 'Card ending 4421', 'Retry'],
+        ['neutral', 'Printer reconnected', 'Kitchen printer'],
+      ];
+      const D = {
+        delete: { tone:'danger', title:'Delete check #412?', message:"3 items will be removed and the kitchen notified. This can't be undone.", confirmLabel:'Delete check', then:() => request('Delete check #412', '3 items · $934.00', () => window.toast({ tone:'danger', title:'Check #412 deleted', message:'Approved by manager' })) },
+        send: { tone:'neutral', icon:'chef-hat', title:'Send 3 items to kitchen?', message:'Order #412 moves to Pending Close. You can still add items.', confirmLabel:'Send to kitchen', then:() => window.toast({ tone:'positive', title:'Sent to kitchen', message:'Order #412 · 3 items', actionLabel:'Undo' }) },
+        close: { tone:'positive', title:'Close shift?', message:'Counted $6447.00 · variance +$10.00. An end-of-day report will print.', confirmLabel:'Close shift', then:() => window.toast({ tone:'positive', title:'Shift closed' }) },
+        leave: { tone:'neutral', icon:'log-out', title:'Leave with unsaved changes?', message:'Settings you changed on this page will be lost.', confirmLabel:'Discard changes', then:() => window.toast({ tone:'neutral', title:'Changes discarded' }) },
+      };
+      const strip = (o) => { if (!o) return o; const { then, ...rest } = o; return rest; };
+      const d = dlg && D[dlg];
+      return (
+        <div style={{ flex:1, minHeight:0, position:'relative', display:'flex', flexDirection:'column', overflow:'hidden' }}>
+          <div style={{ flex:1, overflowY:'auto', padding: compact ? 12 : 20, display:'flex', flexDirection:'column', gap:20 }}>
+            <span style={{ fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>Toasts & dialogs</span>
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              <span style={label}>Toasts · tap to trigger</span>
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                {T.map(([tone, title, message, actionLabel]) => <Button key={tone} variant="outline" size="sm" onClick={() => window.toast({ tone, title, message, actionLabel })}>{tone}</Button>)}
+              </div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              <span style={label}>Confirmation dialogs</span>
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                <Button variant="outline" size="sm" onClick={() => setDlg('send')}>Send to kitchen</Button>
+                <Button variant="outline" size="sm" onClick={() => setDlg('close')}>Close shift</Button>
+                <Button variant="outline" size="sm" onClick={() => setDlg('leave')}>Unsaved changes</Button>
+                <Button variant="outline" size="sm" onClick={() => setDlg('delete')} style={{ color:'var(--danger-ink)', borderColor:'var(--danger-ink)' }}>Delete check</Button>
+              </div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              <span style={label}>Manager override · demo PIN 1234</span>
+              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+                <Button variant="outline" size="sm" onClick={() => request('Refund $179.00', 'Order #401 · Wrong item', (m) => window.toast({ tone:'positive', title:'Refund approved', message:'by ' + m }))}>Refund</Button>
+                <Button variant="outline" size="sm" onClick={() => request('Discount 15%', 'Order #410 · Loyal customer', (m) => window.toast({ tone:'positive', title:'Discount applied', message:'by ' + m }))}>Discount</Button>
+                <Button variant="outline" size="sm" onClick={() => request('Open cash drawer', 'No sale', (m) => window.toast({ tone:'neutral', title:'Drawer opened', message:'by ' + m }))}>No-sale drawer</Button>
+              </div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns: compact ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))', gap:16, alignItems:'start' }}>
+              <ConfirmDialog inline {...strip(D.delete)} />
+              <ConfirmDialog inline {...strip(D.send)} />
+            </div>
+            <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)', textWrap:'pretty' }}>Rules: toasts report what happened (never ask); dialogs ask before anything that can't be undone silently; powerful actions — refund, discount, void/delete, no-sale drawer — always take a reason first, then a manager PIN.</span>
+          </div>
+          {d && <ConfirmDialog {...strip(d)} onCancel={() => setDlg(null)} onConfirm={() => { setDlg(null); d.then(); }} />}
+          {ov}
+          <ToastHost />
+        </div>
+      );
+    }
+
+    Object.assign(window, { ToastHost, useOverride, DiscountDialog, FeedbackShowcase, FB_PIN });
+
+</script>
+<script type="text/babel" data-src="MenuLayout.jsx">
+    const { DishCard, Button, IconButton, Icon, Badge, QuantityStepper, StatusDot } = window.ComposDesignSystem_9739cd;
+
+    const ML_CATS = [
+      { name:'Bowls y ramen', icon:'soup', color:'var(--periwinkle-200)', items:[['Bowl teriyaki', '$159'],['Bowl spicy tuna', '$179'],['Bowl katsu', '$169'],['Ramen miso', '$175'],['Ramen tonkotsu', '$189'],['Yakisoba', '$149']] },
+      { name:'Entradas', icon:'egg-fried', color:'var(--sage-200)', items:[['Gyozas (6)', '$95'],['Edamame', '$65'],['Rollitos primavera', '$85'],['Takoyaki', '$99'],['Ensalada wakame', '$79'],['Bao de cerdo', '$89'],['Bao de pollo', '$85'],['Onigiri', '$55']] },
+      { name:'Sopas', icon:'soup', color:'var(--lilac-200)', items:[['Udon de res', '$185'],['Sopa kimchi', '$129'],['Tom yum', '$149'],['Sopa miso', '$59'],['Sopa de calabaza', '$99'],['Caldo de pollo', '$89']] },
+      { name:'Arroces y fideos', icon:'wheat', color:'var(--sky-200)', items:[['Pad thai', '$169'],['Arroz frito', '$139'],['Fideos de arroz', '$145'],['Curry japonés', '$165'],['Yakimeshi', '$135'],['Chow mein', '$149'],['Udon de mariscos', '$215']] },
+      { name:'Platos fuertes', icon:'drumstick', color:'var(--rose-200)', items:window.DISHES.map((d) => [d.name, d.price]) },
+      { name:'Postres', icon:'cake', color:'var(--lilac-200)', items:[['Mochi de matcha', '$69'],['Cheesecake japonés', '$89'],['Dorayaki', '$59'],['Brownie de matcha', '$65'],['Helado de té verde', '$55'],['Flan de coco', '$65']] },
+      { name:'Bebidas', icon:'cup-soda', color:'var(--rose-200)', items:[['Limonada', '$45'],['Jugo de naranja', '$49'],['Té de jazmín', '$39'],['Té de frutos rojos', '$42'],['Jugo de manzana', '$45'],['Agua mineral', '$25']] },
+      { name:'Alcohol', icon:'martini', color:'var(--positive-ink)', items:[['Vino tinto', '$120'],['Vino blanco', '$120'],['Cerveza de barril', '$69'],['Gin tonic', '$145'],['Mojito', '$125'],['Sake', '$135']] },
+    ];
+    const mlPrice = (p) => parseFloat(p.slice(1));
+    const mlAddVariant = (setCart, v) => setCart((c) => {
+      const key = v.name + (v.mods.length ? ' · ' + v.mods.join(', ') : '') + (v.note ? ' · ' + v.note : '');
+      const prev = c[key];
+      return { ...c, [key]:{ name:v.name, mods:v.mods, note:v.note, price:'$' + v.unit.toFixed(2), qty:(prev ? prev.qty : 0) + v.qty } };
+    });
+    const mlCheckout = (order, cart) => { try { localStorage.setItem('compos-checkout', JSON.stringify({ order, cart })); } catch (e) {} location.href = 'Payment Layout.html'; };
+
+    const ML_NAV = [['Incoming','bell-ring'],['Orders','clipboard-list'],['Kitchen','chef-hat'],['Shift','clock'],['Reports','chart-column'],['Settings','settings']];
+    const ML_LINKS = { Incoming:'Incoming Layout.html', Orders:'Orders Layout.html', Kitchen:'Kitchen Layout.html', Shift:'Shift Layout.html', Reports:'Reports Layout.html', Settings:'Settings Layout.html' };
+    const ML_BADGE = { Incoming:4 };
+    function MLThemeButton({ open }) {
+      const [, force] = React.useReducer((x) => x + 1, 0);
+      React.useEffect(() => { window.addEventListener('compos-theme', force); return () => window.removeEventListener('compos-theme', force); }, []);
+      const L = window.COMPOS_THEMES || [];
+      if (!L.length) return null;
+      const cur = L.find((t) => t.id === window.composTheme()) || L[0];
+      const next = () => window.composSetTheme(L[(L.indexOf(cur) + 1) % L.length].id);
+      return (
+        <button onClick={next} title={'Theme: ' + cur.label} style={{ height:48, width:'100%', display:'flex', alignItems:'center', justifyContent: open ? 'flex-start' : 'center', gap:12, padding: open ? '0 14px' : 0, borderRadius:'var(--radius-sm)', border:'1px solid var(--border-strong)', background:'transparent', color:'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer', whiteSpace:'nowrap', overflow:'hidden' }}>
+          <Icon name="palette" size={20} />{open && cur.label}
+        </button>
+      );
+    }
+    function MLRail({ open, active, onNav }) {
+      const go = (label) => { if (onNav) onNav(label); else if (ML_LINKS[label]) location.href = ML_LINKS[label]; };
+      const item = ([label, ic], danger) => (
+        <button key={label} onClick={() => go(label)} title={open ? undefined : label} style={{ height:48, width:'100%', display:'flex', alignItems:'center', justifyContent: open ? 'flex-start' : 'center', gap:12, padding: open ? '0 14px' : 0, borderRadius:'var(--radius-sm)', border:'none', background: active === label ? 'var(--surface-inverse)' : 'transparent', color: active === label ? 'var(--text-on-inverse)' : danger ? 'var(--danger-ink)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer', whiteSpace:'nowrap', overflow:'hidden' }}
+          onMouseEnter={(e) => { if (active !== label) e.currentTarget.style.background = 'var(--surface-card)'; }} onMouseLeave={(e) => { if (active !== label) e.currentTarget.style.background = 'transparent'; }}>
+          <span style={{ position:'relative', display:'inline-flex' }}><Icon name={ic} size={20} />{ML_BADGE[label] && <span style={{ position:'absolute', top:-6, right:-8, minWidth:16, height:16, padding:'0 4px', boxSizing:'border-box', borderRadius:8, background:'var(--order-late)', color:'var(--text-on-light)', fontSize:10, fontWeight:700, display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{ML_BADGE[label]}</span>}</span>{open && label}
+        </button>
+      );
+      return (
+        <nav style={{ width: open ? 200 : 72, flex:'0 0 auto', display:'flex', flexDirection:'column', gap:4, padding:12, boxSizing:'border-box', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', transition:'width 200ms ease' }}>
+          {ML_NAV.map((n) => item(n))}
+          <div style={{ marginTop:'auto', display:'flex', flexDirection:'column', gap:4 }}><MLThemeButton open={open} />{item(['Exit','log-out'], true)}</div>
+        </nav>
+      );
+    }
+
+    const ML_TAB_LINKS = { CHECKS:'Orders Layout.html', MENU:'Menu Layout.html', REFUND:'Refund Layout.html' };
+    function MLTopBar({ onMenu, active = 'MENU', onTab }) {
+      const tab = (label, active, disabled) => (
+        <button disabled={disabled} onClick={() => { if (active) return; if (onTab) onTab(label); else location.href = ML_TAB_LINKS[label]; }} style={{ height:44, padding:'0 18px', borderRadius:'var(--radius-pill)', border: active ? 'none' : '1px solid var(--border-strong)', background: active ? 'var(--surface-inverse)' : 'transparent', color: active ? 'var(--text-on-inverse)' : disabled ? 'var(--text-muted)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', letterSpacing:'var(--tracking-wide)', cursor: disabled ? 'not-allowed' : 'pointer', display:'flex', alignItems:'center', gap:8 }}>
+          {label}{disabled && <Badge tone="neutral">Soon</Badge>}
+        </button>
+      );
+      return (
+        <header style={{ height:72, flex:'0 0 auto', display:'flex', alignItems:'center', gap:16, padding:'0 20px', boxShadow:'inset 0 4px 0 var(--brand-stripe)' }}>
+          <IconButton icon="menu" label="Toggle navigation" variant="secondary" onClick={onMenu} />
+          <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)', lineHeight:'var(--lh-h3)' }}>Lena P.</span>
+          <IconButton icon="search" label="Search" variant="outline" onClick={() => { location.href = 'Search Layout.html'; }} style={{ marginRight:'auto' }} />
+          <nav style={{ display:'flex', alignItems:'center', gap:8 }}>
+            {tab('CHECKS', active === 'CHECKS')}
+            {tab('MENU', active === 'MENU')}
+            {tab('REFUND', active === 'REFUND')}
+          </nav>
+        </header>
+      );
+    }
+
+    function MLCart({ cart, setQty, clear, title = 'New Check', meta, style, onCheckout, initialMode = 'Dine here', initialCustomer = null, prepaid: prepaidProp = null, onPrepaidClose }) {
+      const [mode, setMode] = React.useState(initialMode);
+      const [customer, setCustomer] = React.useState(initialCustomer);
+      const [editing, setEditing] = React.useState(false);
+      const prepaid = prepaidProp || (mode === 'Delivery' && customer && customer.platform && customer.platform !== 'Own driver' ? customer.platform : null);
+      const needsCustomer = mode !== 'Dine here' && !(customer && customer.name && (mode !== 'Delivery' || customer.address));
+      const lines = Object.entries(cart);
+      const total = lines.reduce((s, [, v]) => s + v.qty * mlPrice(v.price), 0);
+      const count = lines.reduce((s, [, v]) => s + v.qty, 0);
+      return (
+        <aside style={{ width:340, flex:'0 0 auto', display:'flex', flexDirection:'column', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden', position:'relative', ...style }}>
+          <div style={{ padding:'20px 20px 16px', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'1px solid var(--border-hairline)' }}>
+            <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>{title}</span>
+            {meta || (count > 0 && <Badge tone="accent">{count} items</Badge>)}
+          </div>
+          <div style={{ display:'flex', gap:8, padding:'12px 16px', borderBottom:'1px solid var(--border-hairline)' }}>
+            {[['Dine here','utensils'],['Pickup','shopping-bag'],['Delivery','bike']].map(([m, ic]) => {
+              const on = m === mode;
+              return (
+                <button key={m} onClick={() => setMode(m)} style={{ flex:1, height:40, borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-accent)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+                  <Icon name={ic} size={16} />{m}
+                </button>
+              );
+            })}
+          </div>
+          {mode !== 'Dine here' && <div style={{ paddingTop:12 }}><window.CustomerRow mode={mode} customer={customer} onEdit={() => setEditing(true)} /></div>}
+          <div style={{ flex:1, overflowY:'auto', padding:16, display:'flex', flexDirection:'column', gap:8 }}>
+            {lines.length === 0 && (
+              <div style={{ margin:'auto', display:'flex', flexDirection:'column', alignItems:'center', gap:10, color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>
+                <Icon name="shopping-cart" size={24} />Tap an item to add it to the check.
+              </div>
+            )}
+            {lines.map(([name, v]) => (
+              <div key={name} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:'10px 12px', display:'flex', alignItems:'center', gap:10 }}>
+                <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column' }}>
+                  <span style={{ fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)' }}>{v.name || name}</span>
+                  {v.mods && v.mods.length > 0 && <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{v.mods.join(' · ')}</span>}
+                  {v.note && <span style={{ fontSize:'var(--text-xs)', color:'var(--status-checkedin)' }}>“{v.note}”</span>}
+                  <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{'$' + (v.qty * mlPrice(v.price)).toFixed(2)}</span>
+                </span>
+                <QuantityStepper value={v.qty} onChange={(q) => setQty(name, v.price, q)} />
+              </div>
+            ))}
+          </div>
+          <div style={{ padding:20, borderTop:'1px solid var(--border-hairline)', display:'flex', flexDirection:'column', gap:16 }}>
+            <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between' }}>
+              <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>Total</span>
+              <span style={{ fontSize:'var(--text-metric)', fontWeight:'var(--weight-semibold)', letterSpacing:'var(--tracking-tight)' }}>{'$' + total.toFixed(2)}</span>
+            </div>
+            {prepaid && <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:'var(--text-sm)', color:'var(--text-positive)' }}><Icon name="badge-check" size={16} />Paid in advance via {prepaid} · no payment needed</div>}
+            <div style={{ display:'flex', gap:8 }}>
+              <Button variant="outline" size="lg" style={{ flex:1, minWidth:0, paddingLeft:12, paddingRight:12 }} disabled={!lines.length} onClick={clear}>New Check</Button>
+              <Button size="lg" style={{ flex:1, minWidth:0, paddingLeft:12, paddingRight:12 }} disabled={!lines.length || needsCustomer} onClick={prepaid ? (onPrepaidClose || clear) : onCheckout}>{prepaid ? 'Send & close' : 'Checkout'}</Button>
+              {!prepaid && <IconButton icon="credit-card" label="Card payment" size="lg" variant="secondary" disabled={!lines.length || needsCustomer} style={{ flex:'0 0 auto' }} />}
+            </div>
+          </div>
+          {editing && <window.CustomerPanel mode={mode} value={customer} onClose={() => setEditing(false)} onSave={(c) => { setCustomer(c); setEditing(false); }} />}
+        </aside>
+      );
+    }
+
+    function MenuLayout() {
+      const [cat, setCat] = React.useState(() => { const h = decodeURIComponent(location.hash.slice(1)); return ML_CATS.some((c) => c.name === h) ? h : ML_CATS[0].name; });
+      const [cart, setCart] = React.useState({});
+      const [railOpen, setRailOpen] = React.useState(false);
+      const [modItem, setModItem] = React.useState(null);
+      const [manage, setManage] = React.useState(false);
+      const stock = window.useSoldOut();
+      const active = ML_CATS.find((c) => c.name === cat);
+      const qtyOf = (name) => window.PX_MODS[name] ? Object.values(cart).filter((v) => v.name === name).reduce((s, v) => s + v.qty, 0) : (cart[name] ? cart[name].qty : 0);
+      const onDish = (name, price, q) => {
+        if (!window.PX_MODS[name]) return setQty(name, price, q);
+        if (q > qtyOf(name)) return setModItem({ name, price });
+        const k = Object.keys(cart).reverse().find((key) => cart[key].name === name);
+        if (k) setQty(k, cart[k].price, cart[k].qty - 1);
+      };
+      const setQty = (name, price, q) => setCart((c) => { const n = { ...c }; if (q <= 0) delete n[name]; else n[name] = { ...n[name], qty:q, price }; return n; });
+      return (
+        <div style={{ height:'100%', display:'flex', flexDirection:'column' }}>
+          <MLTopBar onMenu={() => setRailOpen((o) => !o)} />
+          <div style={{ flex:1, minHeight:0, display:'flex', gap:12, padding:'0 12px 12px' }}>
+            <MLRail open={railOpen} active="Menu" />
+            <main style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden' }}>
+              {modItem ? <window.ModifierPanel key={modItem.name} item={modItem.name} basePrice={mlPrice(modItem.price)} onCancel={() => setModItem(null)} onAdd={(v) => { mlAddVariant(setCart, v); setModItem(null); }} /> : <React.Fragment>
+              <div style={{ flex:1, overflowY:'auto', padding:20, display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gridAutoRows:'min-content', gap:12 }}>
+                {active.items.map(([name, price]) => (
+                  <window.StockCard key={name} out={stock.isOut(name)} manage={manage} onToggle={() => stock.toggle(name)}>
+                    <DishCard name={name} price={price} accent={active.color}
+                      qty={qtyOf(name)} onQty={(q) => onDish(name, price, q)} route={window.PX_MODS[name] ? 'Bar · has modifiers' : cat} style={{ minWidth:0, flex:1 }} />
+                  </window.StockCard>
+                ))}
+              </div>
+              <div style={{ flex:'0 0 auto', display:'flex', gap:8, overflowX:'auto', padding:'12px 20px 16px', borderTop:'1px solid var(--border-hairline)' }}>
+                <window.StockToggle manage={manage} count={stock.list.length} onClick={() => setManage((v) => !v)} />
+                {ML_CATS.map((c) => {
+                  const on = c.name === cat;
+                  return (
+                    <button key={c.name} onClick={() => setCat(c.name)} style={{ flex:'0 0 auto', height:52, padding:'0 18px', borderRadius:'var(--radius-sm)', border:`1.5px solid ${window.inkOf(c.color)}`, cursor:'pointer', display:'flex', alignItems:'center', gap:10, background: on ? c.color : 'transparent', color: on ? 'var(--text-on-light)' : window.inkOf(c.color), fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', transition:'background 150ms, color 150ms' }}>
+                      <Icon name={c.icon} size={20} />{c.name}
+                    </button>
+                  );
+                })}
+              </div>
+              </React.Fragment>}
+            </main>
+            <MLCart cart={cart} setQty={setQty} clear={() => setCart({})} onCheckout={() => mlCheckout('New', cart)} />
+          </div>
+        </div>
+      );
+    }
+    Object.assign(window, { mlAddVariant, mlCheckout, MLTopBar, MLRail, MLCart, mlPrice, MenuLayout, ML_CATS });
+
+</script>
+<script type="text/babel" data-src="IncomingLayout.jsx">
+    const INds = () => window.ComposDesignSystem_9739cd;
+    const IN_SOURCES = ['All', 'Uber Eats', 'Rappi', 'DiDi Food', 'Website', 'Walk-in'];
+    const IN_REJECT = ['Too busy', 'Item sold out', 'Closing soon', 'Outside delivery area', 'Suspected fraud', 'Other'];
+    const IN_PREP = [10, 15, 20, 30];
+    const IN_SEED = [
+      { order:'UE-2231', source:'Uber Eats', type:'Delivery', customer:'Mia T.', prepaid:'Uber Eats', left:95, address:'Av. Álvaro Obregón 18, depto 3', notes:'Sin popotes', items:[{ qty:2, name:'Bowl teriyaki', mods:['Mediano','Fideos','Salmón'], price:159 }, { qty:1, name:'Mochi de matcha', price:69 }] },
+      { order:'RP-0912', source:'Rappi', type:'Delivery', customer:'Carlos V.', prepaid:'Rappi', left:24, address:'Calle Durango 402', items:[{ qty:1, name:'Yakisoba', mods:['Grande','Udon'], price:149 }, { qty:2, name:'Bao de pollo', price:85 }, { qty:1, name:'Brownie de matcha', price:65 }, { qty:1, name:'Jugo de naranja', price:49 }] },
+      { order:'W-118', source:'Website', type:'Pickup', customer:'Carla N.', left:150, notes:'Recoge a las 12:40', items:[{ qty:1, name:'Bowl spicy tuna', mods:['Chico','Pollo'], price:179 }, { qty:1, name:'Ensalada wakame', price:79 }] },
+      { order:'DD-5530', source:'DiDi Food', type:'Delivery', customer:'Noah B.', prepaid:'DiDi Food', left:132, address:'Av. Insurgentes 77', items:[{ qty:3, name:'Bowl katsu', mods:['Mediano','Arroz','Pollo'], price:169 }] },
+    ];
+    const IN_ARRIVALS = [
+      { source:'Uber Eats', type:'Delivery', customer:'Ava R.', prepaid:'Uber Eats', address:'Calle Tonalá 5', items:[{ qty:1, name:'Ramen tonkotsu', mods:['Mediano','Arroz','Camarón'], price:189 }, { qty:1, name:'Cheesecake japonés', price:89 }] },
+      { source:'Walk-in', type:'Pickup', customer:'Mostrador', items:[{ qty:2, name:'Ramen miso', mods:['Chico','Arroz'], price:175 }] },
+      { source:'Rappi', type:'Delivery', customer:'Iris M.', prepaid:'Rappi', address:'Calle Colima 31', items:[{ qty:1, name:'Rollitos primavera', price:85 }, { qty:1, name:'Bowl teriyaki', mods:['Grande','Arroz','Res'], price:159 }] },
+    ];
+    const IN_PREFIX = { 'Uber Eats':'UE', Rappi:'RP', 'DiDi Food':'DD', Website:'W', 'Walk-in':'C' };
+    const inTotal = (o) => o.items.reduce((s, it) => s + it.qty * it.price, 0);
+    const inMoney = (n) => '$' + n.toFixed(2);
+
+    function useIncoming() {
+      const [orders, setOrders] = React.useState(IN_SEED);
+      const [sel, setSel] = React.useState(IN_SEED[0].order);
+      const [src, setSrc] = React.useState('All');
+      const [prep, setPrep] = React.useState({});
+      const [rejecting, setRejecting] = React.useState(null);
+      const [sound, setSound] = React.useState(true);
+      const [accepted, setAccepted] = React.useState(0);
+      const n = React.useRef(0);
+      React.useEffect(() => {
+        const t = setInterval(() => setOrders((os) => os.map((o) => ({ ...o, left: Math.max(0, o.left - 1) }))), 1000);
+        const a = setInterval(() => {
+          const base = IN_ARRIVALS[n.current % IN_ARRIVALS.length]; n.current += 1;
+          const o = { ...base, order: IN_PREFIX[base.source] + '-' + (3000 + Math.floor(Math.random() * 900)), left: 180 };
+          setOrders((os) => [...os, o]);
+          window.toast({ tone:'incoming', title:'New ' + o.source + ' order', message:'#' + o.order + ' · ' + inMoney(inTotal(o)), actionLabel:'View', onAction:() => setSel(o.order) });
+        }, 25000);
+        return () => { clearInterval(t); clearInterval(a); };
+      }, []);
+      const list = orders.filter((o) => src === 'All' || o.source === src).sort((a, b) => a.left - b.left);
+      const order = orders.find((o) => o.order === sel) || null;
+      const remove = (id) => { setOrders((os) => { const rest = os.filter((o) => o.order !== id); if (sel === id) setSel(rest[0] ? rest[0].order : null); return rest; }); };
+      const accept = (id) => { const o = orders.find((x) => x.order === id); remove(id); setAccepted((x) => x + 1); window.toast({ tone:'positive', title:'Accepted · sent to kitchen', message:'#' + id + ' · ready in ' + (prep[id] || 15) + ' min', actionLabel:'Undo', onAction:() => { setOrders((os) => [...os, o]); setSel(id); } }); };
+      const reject = (id, reason) => { remove(id); window.toast({ tone:'danger', title:'Order #' + id + ' rejected', message:reason + ' · customer notified' }); };
+      const counts = Object.fromEntries(IN_SOURCES.map((s) => [s, s === 'All' ? orders.length : orders.filter((o) => o.source === s).length]));
+      return { orders, list, sel, setSel, order, src, setSrc, counts, prep, setPrep, accept, reject, rejecting, setRejecting, sound, setSound, accepted };
+    }
+
+    function INFilters({ q, compact }) {
+      return (
+        <div style={{ display:'flex', gap:6, overflowX:'auto', padding: compact ? '0 12px 10px' : '0 20px 12px' }}>
+          {IN_SOURCES.map((s) => {
+            const on = s === q.src;
+            if (s !== 'All' && !q.counts[s] && !on) return null;
+            return <button key={s} onClick={() => q.setSrc(s)} style={{ flex:'0 0 auto', height:36, padding:'0 14px', borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-inverse)' : 'transparent', color: on ? 'var(--text-on-inverse)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer', display:'flex', alignItems:'center', gap:6, whiteSpace:'nowrap' }}>{s}<span style={{ opacity:.6 }}>{q.counts[s]}</span></button>;
+          })}
+        </div>
+      );
+    }
+
+    function INDetail({ q, o, compact, onBack }) {
+      const { OrderTypeIcon, PrepaidTag, Button, Icon, IconButton } = INds();
+      if (!o) return <span style={{ margin:'auto', color:'var(--text-muted)', fontSize:'var(--text-sm)', display:'flex', flexDirection:'column', alignItems:'center', gap:8 }}><Icon name="inbox" size={24} />No order selected</span>;
+      const p = q.prep[o.order] || 15;
+      const label = { fontSize:'var(--text-xs)', color:'var(--text-muted)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase' };
+      return (
+        <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
+          <div style={{ padding: compact ? 12 : 20, display:'flex', alignItems:'center', gap:10, borderBottom:'1px solid var(--border-hairline)' }}>
+            {onBack && <IconButton icon="arrow-left" label="Back" variant="secondary" onClick={onBack} />}
+            <OrderTypeIcon type={o.type} />
+            <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column' }}>
+              <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>#{o.order}</span>
+              <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{o.source} · {o.type}</span>
+            </span>
+            <span style={{ fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', color: o.left <= 30 ? 'var(--danger-ink)' : 'var(--text-secondary)', fontVariantNumeric:'tabular-nums', whiteSpace:'nowrap' }}>{o.left > 0 ? 'Auto-reject in ' + Math.floor(o.left / 60) + ':' + String(o.left % 60).padStart(2, '0') : 'Expired'}</span>
+          </div>
+          <div style={{ flex:1, minHeight:0, overflowY:'auto', padding: compact ? 12 : 20, display:'flex', flexDirection:'column', gap:16 }}>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              <span style={label}>Customer</span>
+              <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)' }}>{o.customer}</span>
+              {o.address && <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)', display:'flex', gap:6, alignItems:'center' }}><Icon name="map-pin" size={14} />{o.address}</span>}
+              {o.notes && <span style={{ fontSize:'var(--text-sm)', color:'var(--status-checkedin)', display:'flex', gap:6, alignItems:'center' }}><Icon name="sticky-note" size={14} />{o.notes}</span>}
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              <span style={label}>Items</span>
+              {o.items.map((it, i) => (
+                <div key={i} style={{ display:'flex', gap:10, padding:'8px 10px', borderRadius:'var(--radius-sm)', background:'var(--surface-card)', fontSize:'var(--text-sm)' }}>
+                  <span style={{ color:'var(--text-secondary)', width:22 }}>{it.qty}×</span>
+                  <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column' }}><span style={{ fontWeight:'var(--weight-semibold)' }}>{it.name}</span>{it.mods && <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{it.mods.join(' · ')}</span>}</span>
+                  <span>{inMoney(it.qty * it.price)}</span>
+                </div>
+              ))}
+              <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:6 }}>
+                <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)' }}>Total</span>
+                <span style={{ display:'flex', alignItems:'center', gap:8 }}>{o.prepaid && <PrepaidTag via={o.prepaid} />}<span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>{inMoney(inTotal(o))}</span></span>
+              </div>
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              <span style={label}>Ready in</span>
+              <div style={{ display:'flex', gap:6 }}>
+                {IN_PREP.map((m) => <button key={m} onClick={() => q.setPrep((x) => ({ ...x, [o.order]:m }))} style={{ flex:1, height:44, borderRadius:'var(--radius-pill)', border: m === p ? 'none' : '1px solid var(--border-strong)', background: m === p ? 'var(--surface-accent)' : 'transparent', color: m === p ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer' }}>{m} min</button>)}
+              </div>
+            </div>
+          </div>
+          <div style={{ padding: compact ? 12 : 20, borderTop:'1px solid var(--border-hairline)', display:'flex', gap:8 }}>
+            <Button variant="outline" size="lg" onClick={() => q.setRejecting(o.order)} style={{ flex:'0 0 auto', color:'var(--danger-ink)', borderColor:'var(--danger-ink)' }}>Reject</Button>
+            <Button size="lg" onClick={() => { q.accept(o.order); onBack && onBack(); }} style={{ flex:1, minWidth:0 }}>Accept · {p} min</Button>
+          </div>
+        </div>
+      );
+    }
+
+    function INReject({ q }) {
+      const { ConfirmDialog, ReasonChips } = INds();
+      const [reason, setReason] = React.useState(null);
+      if (!q.rejecting) return null;
+      return (
+        <ConfirmDialog tone="danger" title={'Reject order #' + q.rejecting + '?'} message="The customer and platform are notified. Pick a reason." confirmLabel="Reject order"
+          onCancel={() => q.setRejecting(null)} onConfirm={() => { if (!reason) return; q.reject(q.rejecting, reason); q.setRejecting(null); }}>
+          <ReasonChips reasons={IN_REJECT} value={reason} onChange={setReason} />
+        </ConfirmDialog>
+      );
+    }
+
+    function INHeader({ q, compact }) {
+      const { Switch, Icon } = INds();
+      return (
+        <div style={{ display:'flex', alignItems:'center', gap:12, padding: compact ? '12px 12px 8px' : '20px 20px 12px', flexWrap:'wrap' }}>
+          <span style={{ fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>Incoming</span>
+          <span style={{ display:'inline-flex', alignItems:'center', justifyContent:'center', minWidth:26, height:26, padding:'0 8px', boxSizing:'border-box', borderRadius:'var(--radius-pill)', background:'var(--order-late)', color:'var(--text-on-light)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-bold)' }}>{q.orders.length}</span>
+          {!compact && <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)' }}>{q.accepted} accepted this session · most urgent first</span>}
+          <span style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:4, fontSize:'var(--text-sm)', color:'var(--text-secondary)' }}><Icon name={q.sound ? 'volume-2' : 'volume-x'} size={16} />{!compact && 'Alert sound'}<window.ComposDesignSystem_9739cd.Switch checked={q.sound} onChange={q.setSound} label="Alert sound" /></span>
+        </div>
+      );
+    }
+
+    function IncomingBoard({ compact }) {
+      const { IncomingOrderCard } = INds();
+      const q = useIncoming();
+      const [detail, setDetail] = React.useState(false);
+      const grid = (
+        <div style={{ flex:1, minHeight:0, overflowY:'auto', padding: compact ? '0 12px 12px' : '0 20px 20px', display:'grid', gridTemplateColumns: compact ? 'minmax(0,1fr)' : 'repeat(auto-fill,minmax(240px,1fr))', gridAutoRows:'min-content', gap:12 }}>
+          {q.list.map((o) => <IncomingOrderCard key={o.order} order={o.order} source={o.source} type={o.type} customer={o.customer} items={o.items} total={inMoney(inTotal(o))} prepaid={o.prepaid} secondsLeft={o.left} selected={!compact && o.order === q.sel}
+            onClick={() => { q.setSel(o.order); if (compact) setDetail(true); }} onAccept={() => q.accept(o.order)} onReject={() => q.setRejecting(o.order)} />)}
+          {q.list.length === 0 && <span style={{ color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>No incoming orders. New ones appear here with a sound.</span>}
+        </div>
+      );
+      if (compact) {
+        return (
+          <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column', position:'relative' }}>
+            {detail && q.order ? <INDetail q={q} o={q.order} compact onBack={() => setDetail(false)} /> : <React.Fragment><INHeader q={q} compact /><INFilters q={q} compact />{grid}</React.Fragment>}
+            <INReject q={q} />
+            <window.ToastHost bottom={12} />
+          </div>
+        );
+      }
+      return null;
+    }
+
+    function IncomingLayout() {
+      const q = useIncoming();
+      const { IncomingOrderCard } = INds();
+      const [railOpen, setRailOpen] = React.useState(false);
+      const panel = { background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden', display:'flex', flexDirection:'column' };
+      return (
+        <div style={{ height:'100%', display:'flex', flexDirection:'column', position:'relative' }}>
+          <window.MLTopBar active="" onMenu={() => setRailOpen((o) => !o)} />
+          <div style={{ flex:1, minHeight:0, display:'flex', gap:12, padding:'0 12px 12px' }}>
+            <window.MLRail open={railOpen} active="Incoming" />
+            <main style={{ ...panel, flex:1, minWidth:0 }}>
+              <INHeader q={q} />
+              <INFilters q={q} />
+              <div style={{ flex:1, minHeight:0, overflowY:'auto', padding:'0 20px 20px', display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(230px,1fr))', gridAutoRows:'min-content', gap:12 }}>
+                {q.list.map((o) => <IncomingOrderCard key={o.order} order={o.order} source={o.source} type={o.type} customer={o.customer} items={o.items} total={inMoney(inTotal(o))} prepaid={o.prepaid} secondsLeft={o.left} selected={o.order === q.sel}
+                  onClick={() => q.setSel(o.order)} onAccept={() => q.accept(o.order)} onReject={() => q.setRejecting(o.order)} />)}
+                {q.list.length === 0 && <span style={{ color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>No incoming orders. New ones appear here with a sound.</span>}
+              </div>
+            </main>
+            <aside style={{ ...panel, width:360, flex:'0 0 auto' }}><INDetail q={q} o={q.order} /></aside>
+          </div>
+          <INReject q={q} />
+          <window.ToastHost />
+        </div>
+      );
+    }
+    Object.assign(window, { IncomingLayout, IncomingBoard });
+
+</script>
+<script type="text/babel">
+    ReactDOM.createRoot(document.getElementById('root')).render(<IncomingLayout />);
+</script>
+<script>
+    (function(){var n=decodeURIComponent(location.pathname.split('/').pop());try{parent!==window&&parent.postMessage({posScreen:n},'*')}catch(e){}window.addEventListener('message',function(e){if(e.data&&e.data.posTheme&&window.composSetTheme)window.composSetTheme(e.data.posTheme)});})();
+</script>
+</body>
+</html>
