@@ -17,7 +17,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Compos — Punto de venta para restaurantes y cafeterías</title>
+    <title>Compos, punto de venta para restaurantes y cafeterías</title>
     <meta name="description" content="Compos es un punto de venta hecho en México para restaurantes y cafeterías: pedidos, cocina, cobro y corte de caja, aunque se caiga el internet.">
     <meta name="theme-color" content="#7472F6">
     <link rel="icon" href="/favicon.ico" sizes="any">
@@ -31,14 +31,14 @@
     <meta property="og:site_name" content="Compos">
     <meta property="og:locale" content="es_MX">
     <meta property="og:url" content="https://puntocompos.com/">
-    <meta property="og:title" content="Compos — Punto de venta «Semper listo»">
+    <meta property="og:title" content="Compos, punto de venta «Semper listo»">
     <meta property="og:description" content="Punto de venta hecho en México para restaurantes y cafeterías: pedidos de mostrador y delivery, cocina, cobro y corte de caja, aunque se caiga el internet.">
     <meta property="og:image" content="https://puntocompos.com/brand/og-image.png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:image:alt" content="Compos, punto de venta: la pantalla de nueva orden en una tablet">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Compos — Punto de venta «Semper listo»">
+    <meta name="twitter:title" content="Compos, punto de venta «Semper listo»">
     <meta name="twitter:description" content="Punto de venta hecho en México para restaurantes y cafeterías que sigue vendiendo aunque se caiga el internet.">
     <meta name="twitter:image" content="https://puntocompos.com/brand/og-image.png">
     <script type="application/ld+json">
@@ -82,7 +82,7 @@
     }
     </script>
     <link rel="preload" as="image" href="brand/screens/menu.webp" fetchpriority="high">
-    <script>document.documentElement.classList.add('loading');</script>
+    <script>document.documentElement.classList.add('js', 'loading');</script>
     <link rel="stylesheet" href="site.css">
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script>
@@ -95,7 +95,7 @@
             { id:'incoming', phase:'Tomar', icon:'bike', title:'Acepta pedidos a domicilio', file:T+'Incoming Layout.html', sub:'Cola con cuenta regresiva' },
             { id:'menu', phase:'Tomar', icon:'utensils', title:'Arma una orden', file:T+'Menu Layout.html', sub:'Categorías y opciones del producto' },
             { id:'orders', phase:'Operar', icon:'layout-grid', title:'Maneja los checks', file:T+'Orders Layout.html', sub:'Abiertas, por cerrar y cerradas' },
-            { id:'kitchen', phase:'Operar', icon:'chef-hat', title:'Manda a cocina', file:T+'Kitchen Layout.html', sub:'Nueva → preparando → lista' },
+            { id:'kitchen', phase:'Operar', icon:'chef-hat', title:'Manda a cocina', file:T+'Kitchen Layout.html', sub:'Nueva, preparando y lista' },
             { id:'split', phase:'Cobrar', icon:'split', title:'Divide la cuenta', file:T+'Split Layout.html', sub:'Mueve productos entre cuentas' },
             { id:'payment', phase:'Cobrar', icon:'credit-card', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta, transferencia y vale' },
             { id:'refund', phase:'Cobrar', icon:'undo-2', title:'Reembolsa con autorización', file:T+'Refund Layout.html', sub:'Productos, motivo y método' },
@@ -140,19 +140,20 @@
     </script>
 </head>
 <body>
+<a class="skip" href="#top">Saltar al contenido</a>
 <div class="loader" id="loader" role="status" aria-live="polite">
     <img class="lmark" src="brand/compos-symbol.svg" alt="" width="72" height="72">
     <span class="lbar" aria-hidden="true"><i id="lbar"></i></span>
-    <span class="lsr">Cargando Compos…</span>
+    <span class="visually-hidden">Cargando Compos…</span>
 </div>
 <header class="nav">
-    <div class="wrap">
+    <div class="nav-pill">
         <a class="brand" href="#top" aria-label="Compos, inicio"><img class="lk-light" src="brand/compos-lockup.svg" alt="Compos" width="112" height="30"><img class="lk-dark" src="brand/compos-lockup-on-dark.svg" alt="" width="112" height="30"></a>
         <nav class="links" aria-label="Secciones">
             <a href="#funciones">Funciones</a>
             <a href="#delivery">Delivery</a>
             <a href="#flujo">Flujo</a>
-            <a href="#pantallas">Pantallas</a>
+            <a href="#planes">Planes</a>
             <a href="#contacto">Contacto</a>
         </nav>
         <a class="btn primary sm" href="demo.html"><i data-lucide="play"></i>Abrir demo</a>
@@ -161,7 +162,7 @@
 
 <main id="top">
     <section class="hero" aria-labelledby="hero-h">
-        <div class="hero-copy wrap">
+        <div class="hero-copy container">
             <h1 id="hero-h">
                 <span class="l1">Un punto de venta</span>
                 <button class="motto" type="button" aria-label="Semper listo, cambiar a español">
@@ -171,11 +172,10 @@
                     </span><span class="q" aria-hidden="true">”</span>
                 </button>
             </h1>
-            <p class="sub">Toma los pedidos del mostrador, el teléfono y las apps de delivery, mándalos a cocina,
-                cobra y cuadra la caja al cerrar. Todo desde una tablet, y <b>sigue vendiendo aunque se caiga el internet.</b></p>
+            <p class="sub">Pedidos, cocina, cobro y caja en una tablet, aun sin internet.</p>
             <div class="ctas">
                 <a class="btn primary" href="demo.html"><i data-lucide="play"></i>Empezar la demo guiada</a>
-                <a class="btn ghost inv" href="#contacto"><i data-lucide="mail"></i>Hablar con nosotros</a>
+                <a class="btn quiet on-night" href="#contacto"><i data-lucide="mail"></i>Hablar con nosotros</a>
             </div>
         </div>
 
@@ -206,159 +206,216 @@
         <div class="hero-tear" aria-hidden="true"></div>
     </section>
 
-    <div class="factbar"><div class="wrap facts" id="facts"><div class="fact rv" style="--d: 0ms;"><span class="ic"><i data-lucide="wifi-off"></i></span><span><b>Sin internet</b>Sigue tomando y cobrando</span></div><div class="fact rv" style="--d: 80ms;"><span class="ic"><i data-lucide="shield-check"></i></span><span><b>PIN de gerente</b>Reembolsos y descuentos controlados</span></div><div class="fact rv" style="--d: 160ms;"><span class="ic"><i data-lucide="printer"></i></span><span><b>Impresoras</b>Red, Bluetooth y USB</span></div><div class="fact rv" style="--d: 240ms;"><span class="ic"><i data-lucide="receipt-text"></i></span><span><b>IVA 16%</b>Precios en MXN, impuesto incluido</span></div></div></div>
+    <div class="factbar">
+        <dl class="container facts" id="facts">
+            <div class="fact"><dt>Sin internet</dt><dd>Sigue tomando y cobrando</dd></div>
+            <div class="fact"><dt>PIN de gerente</dt><dd>Reembolsos y descuentos controlados</dd></div>
+            <div class="fact"><dt>Impresoras</dt><dd>Red, Bluetooth y USB</dd></div>
+            <div class="fact"><dt>IVA 16%</dt><dd>Precios en MXN, impuesto incluido</dd></div>
+        </dl>
+    </div>
 
-    <section class="offline" id="sin-internet" aria-labelledby="offline-h">
-        <div class="wrap">
-            <div class="sh">
-                <div><span class="eyebrow"><i data-lucide="wifi-off"></i>Semper listo</span>
-                    <h2 id="offline-h">Sin internet, sin pausa</h2></div>
-                <p>Se cae la red y la caja ni se entera. Compos guarda cada venta en tus propios dispositivos y
-                    los mantiene en sintonía dentro de tu local.</p>
+    <section class="map" id="sin-internet" aria-labelledby="offline-h">
+        <div class="container">
+            <div class="head split-head">
+                <h2 id="offline-h">Sin internet, sin pausa</h2>
+                <p class="lead">Compos vive en tus equipos desde el primer día. Para abrir y vender no necesitas conectarte a nada.</p>
             </div>
-            <div class="trio">
-                <div class="tcard"><span class="ic"><i data-lucide="house"></i></span><h3>Todo vive en tu local</h3>
-                    <p>Ventas, menú e inventario desde el primer día, guardados en tus equipos. Tu información es tuya.</p></div>
-                <div class="tcard"><span class="ic"><i data-lucide="network"></i></span><h3>Caja, cocina y teléfonos en sintonía</h3>
-                    <p>La red de tu local conecta todo: una orden tomada en el teléfono llega a cocina al instante.</p></div>
-                <div class="tcard"><span class="ic"><i data-lucide="refresh-cw"></i></span><h3>Se pone al día solo</h3>
-                    <p>Cuando vuelve el internet, Compos sincroniza lo pendiente sin pedirle nada al cajero.</p></div>
+            <table class="versus">
+                <caption class="visually-hidden">Compos frente a un punto de venta en la nube</caption>
+                <colgroup><col class="c-label"><col class="c-them"><col class="c-us"></colgroup>
+                <thead>
+                    <tr><td></td><th scope="col">Un punto de venta en la nube</th><th scope="col" class="us"><img src="brand/compos-symbol.svg" alt="" width="28" height="28">Compos</th></tr>
+                </thead>
+                <tbody>
+                    <tr><th scope="row">Dónde viven tus ventas</th><td data-label="En la nube">En los servidores del proveedor</td><td class="us" data-label="Compos"><i data-lucide="check"></i>En tus equipos, dentro de tu local</td></tr>
+                    <tr><th scope="row">Para abrir el turno</th><td data-label="En la nube">Necesitas conexión</td><td class="us" data-label="Compos"><i data-lucide="check"></i>Enciendes la tablet y vendes</td></tr>
+                    <tr><th scope="row">Si se cae el internet</th><td data-label="En la nube">La caja se detiene</td><td class="us" data-label="Compos"><i data-lucide="check"></i>Sigues tomando y cobrando</td></tr>
+                    <tr><th scope="row">Caja, cocina y teléfonos</th><td data-label="En la nube">Se hablan a través de internet</td><td class="us" data-label="Compos"><i data-lucide="check"></i>Se conectan por la red de tu local</td></tr>
+                    <tr><th scope="row">Cuando vuelve la conexión</th><td data-label="En la nube">Revisas qué se perdió</td><td class="us" data-label="Compos"><i data-lucide="check"></i>Se pone al día solo, sin pedirle nada al cajero</td></tr>
+                </tbody>
+            </table>
+            <div class="versus-foot">
+                <p>Tu información es tuya: no depende de la cuenta ni del servidor de nadie.</p>
+                <a class="btn quiet" href="demo.html#menu"><i data-lucide="play"></i>Pruébalo en la demo</a>
             </div>
         </div>
     </section>
 
-    <section id="funciones">
-        <div class="wrap">
-            <div class="sh">
-                <div><span class="eyebrow"><i data-lucide="sparkles"></i>Funciones</span>
-                    <h2>Lo que resuelve en cada turno</h2></div>
-                <p>Compos está pensado para el ritmo real de una cocina: muchas manos, poco tiempo y cero
-                    margen para errores en la caja. Cada tarjeta abre la pantalla en la demo.</p>
+    <section class="feats-sec" id="funciones" aria-labelledby="feat-h">
+        <div class="container">
+            <div class="head">
+                <h2 id="feat-h">Lo que resuelve en cada turno</h2>
+                <p class="lead">Pensado para el ritmo real de una cocina: muchas manos, poco tiempo y cero margen para errores en la caja.</p>
             </div>
-            <div class="bento" id="bento"><a class="feat c1 rv" href="demo.html#incoming" style="--d: 0ms;"><span class="ic"><i data-lucide="inbox"></i></span><h3>Todas las apps en una sola cola</h3><ul><li><i data-lucide="check"></i><span>Uber Eats, DiDi Food y Rappi en un mismo lugar</span></li><li><i data-lucide="check"></i><span>Cuenta regresiva por pedido</span></li><li><i data-lucide="check"></i><span>Una tablet en lugar de cuatro</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c2 rv" href="demo.html#menu" style="--d: 80ms;"><span class="ic"><i data-lucide="wifi-off"></i></span><h3>Sigue vendiendo sin internet</h3><ul><li><i data-lucide="check"></i><span>Mostrador y teléfono siguen tomando y cobrando</span></li><li><i data-lucide="check"></i><span>Las cuentas se sincronizan al volver la conexión</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c3 rv" href="demo.html#kitchen" style="--d: 160ms;"><span class="ic"><i data-lucide="chef-hat"></i></span><h3>Cocina sin papel</h3><ul><li><i data-lucide="check"></i><span>Comandas, no cuentas: cocina ve solo lo que prepara</span></li><li><i data-lucide="check"></i><span>El tiempo cambia de color conforme envejece</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c4 rv" href="demo.html#shift" style="--d: 240ms;"><span class="ic"><i data-lucide="wallet"></i></span><h3>La caja cuadra al cerrar</h3><ul><li><i data-lucide="check"></i><span>Fondo, retiros y conteo en el mismo turno</span></li><li><i data-lucide="check"></i><span>La diferencia se calcula mientras cuentas</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c5 rv" href="demo.html#refund" style="--d: 320ms;"><span class="ic"><i data-lucide="shield-check"></i></span><h3>Control con PIN de gerente</h3><ul><li><i data-lucide="check"></i><span>Reembolsos, descuentos y anulaciones con autorización</span></li><li><i data-lucide="check"></i><span>Tú decides quién actúa sin PIN</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c6 rv" href="demo.html#reports" style="--d: 400ms;"><span class="ic"><i data-lucide="chart-column"></i></span><h3>Cierra el día sin hoja de cálculo</h3><ul><li><i data-lucide="check"></i><span>Ventas por canal y por plataforma</span></li><li><i data-lucide="check"></i><span>Lo más vendido y el volumen por hora</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a></div>
+            <div class="feats-track">
+            <div class="feats" id="bento">
+                <div class="feat-tabs" role="tablist" aria-label="Funciones" hidden></div>
+                <article class="feat" id="feat-incoming" data-tab="Delivery">
+                    <figure class="shot"><img src="brand/screens/incoming.webp" alt="Cola de pedidos a domicilio con cuenta regresiva" width="960" height="670" loading="lazy" decoding="async"></figure>
+                    <div class="feat-copy"><h3>Todas las apps en una sola cola</h3><ul><li>Uber Eats, DiDi Food y Rappi en un mismo lugar</li><li>Cuenta regresiva por pedido</li><li>Una tablet en lugar de cuatro</li></ul><a class="btn quiet" href="demo.html#incoming"><i data-lucide="play"></i>Probar esta pantalla</a></div>
+                </article>
+                <article class="feat" id="feat-kitchen" data-tab="Cocina">
+                    <figure class="shot"><img src="brand/screens/kitchen.webp" alt="Pantalla de cocina con comandas por estado" width="960" height="670" loading="lazy" decoding="async"></figure>
+                    <div class="feat-copy"><h3>Cocina sin papel</h3><ul><li>Comandas, no cuentas: cocina ve solo lo que prepara</li><li>El tiempo cambia de color conforme envejece</li></ul><a class="btn quiet" href="demo.html#kitchen"><i data-lucide="play"></i>Probar esta pantalla</a></div>
+                </article>
+                <article class="feat" id="feat-shift" data-tab="Caja">
+                    <figure class="shot"><img src="brand/screens/shift.webp" alt="Turno de caja con fondo, retiros y conteo" width="960" height="670" loading="lazy" decoding="async"></figure>
+                    <div class="feat-copy"><h3>La caja cuadra al cerrar</h3><ul><li>Fondo, retiros y conteo en el mismo turno</li><li>La diferencia se calcula mientras cuentas</li></ul><a class="btn quiet" href="demo.html#shift"><i data-lucide="play"></i>Probar esta pantalla</a></div>
+                </article>
+                <article class="feat" id="feat-reports" data-tab="Reportes">
+                    <figure class="shot"><img src="brand/screens/reports-claro.webp" alt="Reportes de ventas por canal y por plataforma" width="960" height="670" loading="lazy" decoding="async"></figure>
+                    <div class="feat-copy"><h3>Cierra el día sin hoja de cálculo</h3><ul><li>Ventas por canal y por plataforma</li><li>Lo más vendido y el volumen por hora</li></ul><a class="btn quiet" href="demo.html#reports"><i data-lucide="play"></i>Probar esta pantalla</a></div>
+                </article>
+            </div>
+            </div>
         </div>
     </section>
 
-    <section class="delivery" id="delivery">
-        <div class="wrap">
-            <div class="row">
-                <div>
-                    <span class="eyebrow"><i data-lucide="bike"></i>Delivery</span>
-                    <h2 class="h2">Todas las apps en una sola cola</h2>
-                    <p class="lead">Deja de saltar entre tablets. Los pedidos de las plataformas llegan a la misma
-                        pantalla que el mostrador, con su cuenta regresiva, y pasan directo a cocina al aceptarlos.</p>
-                    <div class="platforms">
-                        <span><i></i>Uber Eats</span>
-                        <span><i></i>DiDi Food</span>
-                        <span><i></i>Rappi</span>
-                        <span class="soon"><i data-lucide="clock"></i>Integración próximamente</span>
-                    </div>
-                    <ul class="checks">
-                        <li><i data-lucide="circle-check"></i>Acepta o rechaza con motivo antes de que termine el tiempo</li>
-                        <li><i data-lucide="circle-check"></i>Repartidor, dirección y notas en la misma tarjeta</li>
-                        <li><i data-lucide="circle-check"></i>Pedidos prepagados que no descuadran tu caja</li>
-                        <li><i data-lucide="circle-check"></i>Ventas y comisiones por plataforma en tus reportes</li>
+    <section class="delivery" id="delivery" aria-labelledby="deliv-h">
+        <div class="container split">
+            <div class="split-text">
+                <h2 id="deliv-h">Todas las apps en una sola cola</h2>
+                <p class="lead">Deja de saltar entre tablets. Los pedidos de las plataformas llegan a la misma
+                    pantalla que el mostrador, con su cuenta regresiva, y pasan directo a cocina al aceptarlos.</p>
+                <p class="platforms">Uber Eats, DiDi Food y Rappi <span class="soon">Integración próximamente</span></p>
+                <ul class="checks">
+                    <li>Acepta o rechaza con motivo antes de que termine el tiempo</li>
+                    <li>Repartidor, dirección y notas en la misma tarjeta</li>
+                    <li>Pedidos prepagados que no descuadran tu caja</li>
+                    <li>Ventas y comisiones por plataforma en tus reportes</li>
+                </ul>
+                <a class="btn quiet on-night" href="demo.html#incoming"><i data-lucide="inbox"></i>Ver la cola de pedidos</a>
+            </div>
+            <div class="screen" data-fit="1194x834">
+                <iframe title="Cola de pedidos a domicilio, en vivo" tabindex="-1" data-src="ui_kits/pos-tablet/Incoming Layout.html"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section class="flow" id="flujo" aria-labelledby="flow-h">
+        <div class="container">
+            <div class="head split-head">
+                <h2 id="flow-h">Un servicio, de principio a fin</h2>
+                <p class="lead">Doce pantallas en los cinco momentos de un turno. Cada enlace abre la demo en ese paso, y puedes seguir tocando.</p>
+            </div>
+            <ol class="phases" id="phases">
+                <li class="phase"><h3>Abrir</h3><ul><li><a href="demo.html#signin">Entra con tu PIN</a></li><li><a href="demo.html#shift">Abre el turno</a></li></ul></li>
+                <li class="phase"><h3>Tomar</h3><ul><li><a href="demo.html#incoming">Acepta pedidos a domicilio</a></li><li><a href="demo.html#menu">Arma una orden</a></li></ul></li>
+                <li class="phase"><h3>Operar</h3><ul><li><a href="demo.html#orders">Maneja los checks</a></li><li><a href="demo.html#kitchen">Manda a cocina</a></li><li><a href="demo.html#search">Encuentra lo que sea</a></li></ul></li>
+                <li class="phase"><h3>Cobrar</h3><ul><li><a href="demo.html#split">Divide la cuenta</a></li><li><a href="demo.html#payment">Cobra</a></li><li><a href="demo.html#refund">Reembolsa con autorización</a></li></ul></li>
+                <li class="phase"><h3>Cerrar</h3><ul><li><a href="demo.html#reports">Cierra con reportes</a></li><li><a href="demo.html#settings">Configura el negocio</a></li></ul></li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="plans" id="planes" aria-labelledby="plans-h">
+        <div class="container">
+            <div class="head split-head">
+                <h2 id="plans-h">Un plan para cada cocina</h2>
+                <p class="lead">Empieza con lo esencial, crece a todo el sistema, o pide uno hecho a tu medida.</p>
+            </div>
+            <div class="tiers">
+                <article class="tier" aria-labelledby="t-esencial">
+                    <h3 id="t-esencial">Esencial</h3>
+                    <p class="for">Para una cafetería o una dark kitchen pequeña que quiere empezar a vender hoy, sin configurar de más.</p>
+                    <p class="price">$850 <small>MXN al mes</small></p>
+                    <ul class="includes">
+                        <li>Cuentas abiertas, por cerrar y cerradas</li>
+                        <li>Inventario de tus productos</li>
+                        <li>Reporte de cierre del día</li>
+                        <li>Tablero con tus ventas</li>
                     </ul>
-                    <a class="btn light" href="demo.html#incoming"><i data-lucide="inbox"></i>Ver la cola de pedidos</a>
-                </div>
-                <div class="device">
-                    <div class="screen" data-fit="1194x834">
-                        <iframe title="Cola de pedidos a domicilio, en vivo" tabindex="-1" data-src="ui_kits/pos-tablet/Incoming Layout.html"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="flujo">
-        <div class="wrap">
-            <div class="sh">
-                <div><span class="eyebrow"><i data-lucide="route"></i>El flujo</span>
-                    <h2>Un servicio, de principio a fin</h2></div>
-                <p>Doce pantallas agrupadas en los cinco momentos de un turno. Cada enlace abre la demo en ese
-                    paso; las pantallas funcionan y están conectadas, así que puedes seguir tocando.</p>
-            </div>
-            <div class="phases" id="phases"><div class="phase rv" style="--d: 0ms;"><div class="top"><span class="ic"><i data-lucide="door-open"></i></span><span class="n">01</span></div><h3>Abrir</h3><ol><li><a href="demo.html#signin"><span>Entra con tu PIN</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#shift"><span>Abre el turno</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 80ms;"><div class="top"><span class="ic"><i data-lucide="clipboard-list"></i></span><span class="n">02</span></div><h3>Tomar</h3><ol><li><a href="demo.html#incoming"><span>Acepta pedidos a domicilio</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#menu"><span>Arma una orden</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 160ms;"><div class="top"><span class="ic"><i data-lucide="flame"></i></span><span class="n">03</span></div><h3>Operar</h3><ol><li><a href="demo.html#orders"><span>Maneja los checks</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#kitchen"><span>Manda a cocina</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#search"><span>Encuentra lo que sea</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 240ms;"><div class="top"><span class="ic"><i data-lucide="receipt"></i></span><span class="n">04</span></div><h3>Cobrar</h3><ol><li><a href="demo.html#split"><span>Divide la cuenta</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#payment"><span>Cobra</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#refund"><span>Reembolsa con autorización</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 320ms;"><div class="top"><span class="ic"><i data-lucide="moon"></i></span><span class="n">05</span></div><h3>Cerrar</h3><ol><li><a href="demo.html#reports"><span>Cierra con reportes</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#settings"><span>Configura el negocio</span><i data-lucide="arrow-right"></i></a></li></ol></div></div>
-        </div>
-    </section>
-
-    <section class="screens" id="pantallas">
-        <div class="wrap">
-            <div class="sh">
-                <div><span class="eyebrow"><i data-lucide="monitor-smartphone"></i>Pantallas</span>
-                    <h2>Todo, funcionando</h2></div>
-                <p>Las pantallas reales de la app. Abre una para usarla en vivo dentro de la demo guiada.</p>
-            </div>
-            <div class="grid" id="grid"><a class="card rv" href="demo.html#signin" style="--d: 0ms;"><div class="thumb"><img src="brand/screens/thumbs/signin.webp" alt="Pantalla de Compos: Entra con tu PIN" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="key-round"></i></span><div><span class="tag">01 · Abrir</span><b>Entra con tu PIN</b><span>Elige tu nombre y escribe 4 dígitos</span></div></div></a><a class="card rv" href="demo.html#shift" style="--d: 80ms;"><div class="thumb"><img src="brand/screens/thumbs/shift.webp" alt="Pantalla de Compos: Abre el turno" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="wallet"></i></span><div><span class="tag">02 · Abrir</span><b>Abre el turno</b><span>Fondo, retiros, conteo y cierre</span></div></div></a><a class="card rv" href="demo.html#incoming" style="--d: 160ms;"><div class="thumb"><img src="brand/screens/thumbs/incoming.webp" alt="Pantalla de Compos: Acepta pedidos a domicilio" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="bike"></i></span><div><span class="tag">03 · Tomar</span><b>Acepta pedidos a domicilio</b><span>Cola con cuenta regresiva</span></div></div></a><a class="card rv" href="demo.html#menu" style="--d: 240ms;"><div class="thumb"><img src="brand/screens/thumbs/menu.webp" alt="Pantalla de Compos: Arma una orden" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="utensils"></i></span><div><span class="tag">04 · Tomar</span><b>Arma una orden</b><span>Categorías y opciones del producto</span></div></div></a><a class="card rv" href="demo.html#orders" style="--d: 320ms;"><div class="thumb"><img src="brand/screens/thumbs/orders.webp" alt="Pantalla de Compos: Maneja los checks" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="layout-grid"></i></span><div><span class="tag">05 · Operar</span><b>Maneja los checks</b><span>Abiertas, por cerrar y cerradas</span></div></div></a><a class="card rv" href="demo.html#kitchen" style="--d: 400ms;"><div class="thumb"><img src="brand/screens/thumbs/kitchen.webp" alt="Pantalla de Compos: Manda a cocina" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="chef-hat"></i></span><div><span class="tag">06 · Operar</span><b>Manda a cocina</b><span>Nueva → preparando → lista</span></div></div></a><a class="card rv" href="demo.html#split" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/split.webp" alt="Pantalla de Compos: Divide la cuenta" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="split"></i></span><div><span class="tag">07 · Cobrar</span><b>Divide la cuenta</b><span>Mueve productos entre cuentas</span></div></div></a><a class="card rv" href="demo.html#payment" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/payment.webp" alt="Pantalla de Compos: Cobra" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="credit-card"></i></span><div><span class="tag">08 · Cobrar</span><b>Cobra</b><span>Efectivo, tarjeta, transferencia y vale</span></div></div></a><a class="card rv" href="demo.html#refund" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/refund.webp" alt="Pantalla de Compos: Reembolsa con autorización" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="undo-2"></i></span><div><span class="tag">09 · Cobrar</span><b>Reembolsa con autorización</b><span>Productos, motivo y método</span></div></div></a><a class="card rv" href="demo.html#search" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/search.webp" alt="Pantalla de Compos: Encuentra lo que sea" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="search"></i></span><div><span class="tag">10 · Operar</span><b>Encuentra lo que sea</b><span>Menú, cuentas y clientes</span></div></div></a><a class="card rv" href="demo.html#reports" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/reports.webp" alt="Pantalla de Compos: Cierra con reportes" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="chart-column"></i></span><div><span class="tag">11 · Cerrar</span><b>Cierra con reportes</b><span>Indicadores, canales y plataformas</span></div></div></a><a class="card rv" href="demo.html#settings" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/settings.webp" alt="Pantalla de Compos: Configura el negocio" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="settings"></i></span><div><span class="tag">12 · Cerrar</span><b>Configura el negocio</b><span>IVA, plataformas, personal y tema</span></div></div></a></div>
-        </div>
-    </section>
-
-    <section class="phone" id="telefono">
-        <div class="wrap">
-            <div class="row">
-                <div>
-                    <span class="eyebrow"><i data-lucide="smartphone"></i>Teléfono</span>
-                    <h2 class="h2">La misma app en la bolsa del mandil</h2>
-                    <ul class="list">
-                        <li><span class="ic"><i data-lucide="hand"></i></span>Elegir platillos y revisar la cuenta van en dos pasos, para que el pulgar no cruce la pantalla.</li>
-                        <li><span class="ic"><i data-lucide="panels-top-left"></i></span>Cada pantalla de tablet tiene versión de teléfono: el menú lateral se vuelve un cajón y los paneles, hojas.</li>
-                        <li><span class="ic"><i data-lucide="refresh-cw"></i></span>Meseros y caja comparten las mismas cuentas por la red del local.</li>
+                    <a class="btn quiet" href="#contacto">Quiero Esencial</a>
+                </article>
+                <article class="tier is-rec" aria-labelledby="t-completo">
+                    <div class="tier-top"><h3 id="t-completo">Completo</h3><span class="rec">Recomendado</span></div>
+                    <p class="for">Todo el sistema, para el restaurante con cocina, repartidores y equipo por turnos.</p>
+                    <p class="price">$1,250 <small>MXN al mes</small></p>
+                    <ul class="includes">
+                        <li>Todo lo de Esencial</li>
+                        <li>Pantalla de cocina conectada a la caja</li>
+                        <li>Pedidos de Uber Eats, DiDi Food y Rappi en una cola</li>
+                        <li>Turnos, corte de caja y reportes de cierre</li>
+                        <li>Tus reportes desde fuera del local</li>
+                        <li>Empleados, permisos y PIN de gerente</li>
                     </ul>
-                    <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
-                        <a class="btn primary" href="demo.html#menu-telefono"><i data-lucide="smartphone"></i>Probar en teléfono</a>
-                        <a class="btn ghost" href="ui_kits/pos-mobile/Phone Layouts.html">Todas las pantallas</a>
-                    </div>
+                    <a class="btn primary" href="#contacto">Quiero Completo</a>
+                </article>
+            </div>
+            <article class="extended" aria-labelledby="t-extendido">
+                <div class="ext-intro">
+                    <h3 id="t-extendido">Extendido</h3>
+                    <p class="for">Todo lo de Completo, y Compos se adapta a cómo trabaja tu negocio. Lo diseñamos contigo desde el inicio, por eso se cotiza aparte y cuesta más.</p>
+                    <p class="price">Cotización a tu medida</p>
+                    <a class="btn quiet on-night" href="#contacto">Cuéntanos qué necesitas</a>
                 </div>
-                <div class="phones">
-                    <div class="pf"><div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Menú en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Menu.html"></iframe></div></div>
-                    <div class="pf"><div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Checks en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Orders.html"></iframe></div></div>
+                <ul class="ext-cases">
+                    <li><b>¿Cobras por kilo o por porción?</b><span>La cuenta se arma con peso o fracción, no solo por pieza.</span></li>
+                    <li><b>¿Tu cocina trabaja por estaciones?</b><span>Parrilla, barra y postres ven cada una solo sus comandas.</span></li>
+                    <li><b>¿Las propinas se reparten por turno?</b><span>Compos las calcula al cierre y te da el reparto por persona.</span></li>
+                    <li><b>¿Cada sucursal tiene su menú y sus precios?</b><span>Cada local con el suyo y un reporte que los junta.</span></li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section class="phone" id="telefono" aria-labelledby="phone-h">
+        <div class="container split mirror">
+            <div class="phones">
+                <div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Menú en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Menu.html"></iframe></div>
+                <div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Checks en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Orders.html"></iframe></div>
+            </div>
+            <div class="split-text">
+                <h2 id="phone-h">La misma app en la bolsa del mandil</h2>
+                <ul class="checks">
+                    <li>Elegir platillos y revisar la cuenta van en dos pasos, para que el pulgar no cruce la pantalla.</li>
+                    <li>Cada pantalla de tablet tiene versión de teléfono: el menú lateral se vuelve un cajón y los paneles, hojas.</li>
+                    <li>Meseros y caja comparten las mismas cuentas por la red del local.</li>
+                </ul>
+                <div class="acts">
+                    <a class="btn primary" href="demo.html#menu-telefono"><i data-lucide="smartphone"></i>Probar en teléfono</a>
+                    <a class="btn quiet" href="ui_kits/pos-mobile/Phone Layouts.html">Todas las pantallas</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="themes" id="temas">
-        <div class="wrap">
-            <div class="row">
-                <div>
-                    <span class="eyebrow"><i data-lucide="palette"></i>Temas</span>
-                    <h2 class="h2">Oscuro de base, con tu marca si la tienes</h2>
-                    <p class="lead" style="margin-top:16px">Oscuro para una pantalla encendida toda la noche, claro
-                        y alto contraste para mostradores con mucha luz. Si tu negocio ya tiene marca, Compos usa
-                        tus colores: elige uno y mira cómo se adapta. Tu elección se lleva a la demo.</p>
-                    <div class="tlist" id="tlist"></div>
-                </div>
-                <div class="device">
-                    <div class="screen" data-fit="1194x834">
-                        <iframe id="tframe" title="Pantalla de órdenes con tema" tabindex="-1" data-src="ui_kits/pos-tablet/Orders Layout.html"></iframe>
-                    </div>
+    <section class="themes" id="temas" aria-labelledby="themes-h">
+        <div class="container">
+            <div class="head split-head">
+                <h2 id="themes-h">Oscuro de base, con tu marca si la tienes</h2>
+                <p class="lead">Oscuro para una pantalla encendida toda la noche, claro y alto contraste para mostradores con mucha luz. Si tu negocio ya tiene marca, Compos usa tus colores. Tu elección se lleva a la demo.</p>
+            </div>
+            <div class="theme-stage">
+                <div class="tlist" id="tlist"></div>
+                <div class="screen" data-fit="1194x834">
+                    <iframe id="tframe" title="Pantalla de órdenes con tema" tabindex="-1" data-src="ui_kits/pos-tablet/Orders Layout.html"></iframe>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="contact" id="contacto">
-        <div class="wrap">
+    <section class="contact" id="contacto" aria-labelledby="contact-h">
+        <div class="container">
             <div class="cta" id="cta">
                 <div class="cta-in">
                     <div class="intro">
-                        <span class="eyebrow"><i data-lucide="message-circle"></i>Contacto</span>
-                        <h2 style="margin-top:14px">¿Quieres Compos en tu negocio?</h2>
+                        <h2 id="contact-h">¿Quieres Compos en tu negocio?</h2>
                         <p>Cuéntanos de tu negocio y te ayudamos a configurarlo con tu menú, tu equipo y tus plataformas de delivery.
                             Respondemos en español, normalmente el mismo día.</p>
                         <a class="mail" href="mailto:info@puntocompos.com?subject=Quiero%20Compos%20en%20mi%20negocio">
-                            <span class="ic"><i data-lucide="mail"></i></span>
                             <span><small>Ventas y soporte</small><b>info@puntocompos.com</b></span>
-                            <i data-lucide="arrow-up-right"></i>
+                            <i data-lucide="mail"></i>
                         </a>
-                        <a class="btn ghost inv" href="demo.html"><i data-lucide="play"></i>Probar la demo primero</a>
+                        <a class="btn quiet on-night" href="demo.html"><i data-lucide="play"></i>Probar la demo primero</a>
                     </div>
                     <form class="cform" id="cform" novalidate>
                         <div class="fgrid">
                             <label class="f"><span>Nombre</span><input name="nombre" autocomplete="name" required maxlength="80"></label>
                             <label class="f"><span>Negocio</span><input name="negocio" autocomplete="organization" required maxlength="100"></label>
-                            <label class="f"><span>Correo</span><input name="correo" type="email" autocomplete="email" required maxlength="120"></label>
-                            <label class="f"><span>Teléfono o WhatsApp <em>opcional</em></span><input name="telefono" type="tel" autocomplete="tel" maxlength="30"></label>
+                            <label class="f"><span>Correo</span><input name="correo" type="email" inputmode="email" autocomplete="email" required maxlength="120"></label>
+                            <label class="f"><span>Teléfono o WhatsApp <em>(opcional)</em></span><input name="telefono" type="tel" inputmode="tel" autocomplete="tel" maxlength="30"></label>
                             <label class="f"><span>Tipo de negocio</span><select name="tipo">
                                 <option>Cafetería</option><option>Restaurante</option><option>Dark kitchen</option><option>Panadería</option><option>Food truck</option><option>Otro</option>
                             </select></label>
@@ -375,7 +432,6 @@
                         </div>
                     </form>
                     <div class="fdone" id="fdone" hidden tabindex="-1">
-                        <span class="ic"><i data-lucide="check"></i></span>
                         <h3>¡Gracias! Recibimos tu mensaje</h3>
                         <p>Te respondemos a <b id="fmail"></b> desde info@puntocompos.com, normalmente el mismo día.</p>
                     </div>
@@ -385,33 +441,33 @@
     </section>
 </main>
 
-<footer>
-    <div class="wrap">
+<footer class="foot">
+    <div class="container">
         <div class="top">
             <div>
                 <a class="brand" href="#top" aria-label="Compos, inicio"><img src="brand/compos-lockup.svg" alt="Compos" width="112" height="30"></a>
-                <p class="tag">Punto de venta para restaurantes y cafeterías, hecho en México. <em>Compos</em> es latín para «en control».</p>
+                <p class="tag">Punto de venta para todo tipo de negocio ajustado a tus necesidades, siempre tuyo y siempre en control.</p>
             </div>
             <div>
-                <h4>Producto</h4>
+                <h2 class="fh">Producto</h2>
                 <nav aria-label="Producto">
                     <a href="#funciones">Funciones</a>
                     <a href="#delivery">Delivery</a>
-                    <a href="#pantallas">Pantallas</a>
+                    <a href="#planes">Planes</a>
                     <a href="demo.html">Demo guiada</a>
                 </nav>
             </div>
             <div>
-                <h4>Contacto</h4>
+                <h2 class="fh">Contacto</h2>
                 <nav aria-label="Contacto">
-                    <a href="mailto:info@puntocompos.com"><i data-lucide="mail"></i>info@puntocompos.com</a>
-                    <a href="https://puntocompos.com"><i data-lucide="globe"></i>puntocompos.com</a>
+                    <a href="mailto:info@puntocompos.com">info@puntocompos.com</a>
+                    <a href="https://puntocompos.com">puntocompos.com</a>
                 </nav>
             </div>
         </div>
         <div class="bottom">
             <span>© 2026 Compos. Todos los derechos reservados.</span>
-            <span>La demo usa datos de ejemplo. Precios en MXN con IVA incluido.</span>
+            <span>La demo usa datos de ejemplo.</span>
         </div>
     </div>
 </footer>
@@ -422,39 +478,87 @@
       var ic = function (n) { return '<i data-lucide="' + n + '"></i>'; };
 
       var FACTS = [
-        { i:'wifi-off', b:'Sin internet', t:'Sigue tomando y cobrando' },
-        { i:'shield-check', b:'PIN de gerente', t:'Reembolsos y descuentos controlados' },
-        { i:'printer', b:'Impresoras', t:'Red, Bluetooth y USB' },
-        { i:'receipt-text', b:'IVA 16%', t:'Precios en MXN, impuesto incluido' }
+        { b:'Sin internet', t:'Sigue tomando y cobrando' },
+        { b:'PIN de gerente', t:'Reembolsos y descuentos controlados' },
+        { b:'Impresoras', t:'Red, Bluetooth y USB' },
+        { b:'IVA 16%', t:'Precios en MXN, impuesto incluido' }
       ];
       document.getElementById('facts').innerHTML = FACTS.map(function (f) {
-        return '<div class="fact"><span class="ic">' + ic(f.i) + '</span><span><b>' + f.b + '</b>' + f.t + '</span></div>';
+        return '<div class="fact"><dt>' + f.b + '</dt><dd>' + f.t + '</dd></div>';
       }).join('');
 
-      var FEATS = [
-        { s:'incoming', i:'inbox', t:'Todas las apps en una sola cola', pro:['Uber Eats, DiDi Food y Rappi en un mismo lugar','Cuenta regresiva por pedido','Una tablet en lugar de cuatro'] },
-        { s:'menu', i:'wifi-off', t:'Sigue vendiendo sin internet', pro:['Mostrador y teléfono siguen tomando y cobrando','Las cuentas se sincronizan al volver la conexión'] },
-        { s:'kitchen', i:'chef-hat', t:'Cocina sin papel', pro:['Comandas, no cuentas: cocina ve solo lo que prepara','El tiempo cambia de color conforme envejece'] },
-        { s:'shift', i:'wallet', t:'La caja cuadra al cerrar', pro:['Fondo, retiros y conteo en el mismo turno','La diferencia se calcula mientras cuentas'] },
-        { s:'refund', i:'shield-check', t:'Control con PIN de gerente', pro:['Reembolsos, descuentos y anulaciones con autorización','Tú decides quién actúa sin PIN'] },
-        { s:'reports', i:'chart-column', t:'Cierra el día sin hoja de cálculo', pro:['Ventas por canal y por plataforma','Lo más vendido y el volumen por hora'] }
-      ];
-      document.getElementById('bento').innerHTML = FEATS.map(function (f, i) {
-        return '<a class="feat c' + (i + 1) + '" href="demo.html#' + f.s + '"><span class="ic">' + ic(f.i) + '</span><h3>' + esc(f.t) + '</h3><ul>' +
-          f.pro.map(function (p) { return '<li>' + ic('check') + '<span>' + esc(p) + '</span></li>'; }).join('') +
-          '</ul><span class="go">Probar esta pantalla' + ic('arrow-right') + '</span></a>';
-      }).join('');
+      // Funciones: el marcado estático trae los seis paneles en orden; con script se vuelven un selector con pestañas.
+      // En pantallas anchas y con movimiento, la sección se fija y el scroll apila las pantallas como hojas sobre un escritorio.
+      (function () {
+        var sec = document.getElementById('funciones'), box = document.getElementById('bento'), track = box.parentElement;
+        var tabs = box.querySelector('.feat-tabs'), panels = [].slice.call(box.querySelectorAll('.feat')), n = panels.length;
+        var figs = panels.map(function (p) { return p.querySelector('.shot'); }), copies = panels.map(function (p) { return p.querySelector('.feat-copy'); });
+        tabs.innerHTML = panels.map(function (p, i) {
+          return '<button type="button" role="tab" id="tab-' + p.id + '" aria-controls="' + p.id + '" aria-selected="' + (i === 0) + '"' + (i ? ' tabindex="-1"' : '') + '>' + esc(p.getAttribute('data-tab')) + '</button>';
+        }).join('');
+        tabs.hidden = false; box.classList.add('is-tabbed');
+        var btns = [].slice.call(tabs.children), cur = 0, scrolly = false, raf = 0;
+        panels.forEach(function (p) { p.setAttribute('role', 'tabpanel'); p.setAttribute('aria-labelledby', 'tab-' + p.id); });
+        var mark = function (k) {
+          cur = k;
+          btns.forEach(function (b, j) { b.setAttribute('aria-selected', j === k); b.tabIndex = j === k ? 0 : -1; });
+          if (scrolly) panels.forEach(function (p, j) { p.inert = j !== k; });
+        };
+        var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+        // Recorrido del tramo fijo: 0 cuando la sección se fija, 1 cuando se suelta.
+        var span = function () { return track.offsetHeight - box.offsetHeight; };
+        var stuck = function () { return parseFloat(getComputedStyle(box).top) || 0; };
+        var paint = function () {
+          raf = 0; if (!scrolly) return;
+          var p = clamp((stuck() - track.getBoundingClientRect().top) / Math.max(1, span()));
+          // Cada pantalla se detiene un rato: el cambio ocurre en el 60% central de cada tramo.
+          var raw = p * (n - 1), k = Math.min(n - 2, Math.floor(raw)), g = clamp((raw - k - 0.2) / 0.6);
+          var s = k + g * g * (3 - 2 * g);
+          panels.forEach(function (el, i) {
+            var d = i - s, f = figs[i], c = copies[i];
+            if (d > 0) {
+              var e = Math.min(d, 1);
+              f.style.transform = 'translate3d(0,' + (118 * e).toFixed(2) + '%,0)';
+              f.style.opacity = d >= 1 ? 0 : 1; f.style.filter = '';
+            } else {
+              var q = Math.min(-d, 3);
+              f.style.transform = 'translate3d(0,' + (-3 * q).toFixed(2) + '%,0) scale(' + (1 - 0.04 * q).toFixed(4) + ')';
+              f.style.opacity = -d >= 3 ? 0 : 1; f.style.filter = q > 0.01 ? 'brightness(' + (1 - 0.08 * q).toFixed(3) + ')' : '';
+            }
+            c.style.opacity = clamp((0.5 - Math.abs(d)) * 4).toFixed(3);
+          });
+          var a = Math.round(s); if (a !== cur) mark(a);
+        };
+        var ask = function () { if (scrolly && !raf) raf = requestAnimationFrame(paint); };
+        var go = function (k) { window.scrollTo({ top: track.getBoundingClientRect().top + window.scrollY - stuck() + span() * k / (n - 1), behavior: 'smooth' }); };
+        var pick = function (k, focus) {
+          mark(k);
+          if (scrolly) go(k); else panels.forEach(function (p, j) { p.hidden = j !== k; });
+          if (focus) btns[k].focus({ preventScroll: scrolly });
+        };
+        var mq = matchMedia('(min-width: 60rem) and (prefers-reduced-motion: no-preference)');
+        var setMode = function () {
+          scrolly = mq.matches;
+          sec.classList.toggle('is-scrolly', scrolly);
+          if (scrolly) { panels.forEach(function (p) { p.hidden = false; }); mark(cur); paint(); return; }
+          figs.concat(copies).forEach(function (el) { el.style.transform = el.style.opacity = el.style.filter = ''; });
+          panels.forEach(function (p, j) { p.inert = false; p.hidden = j !== cur; });
+        };
+        tabs.addEventListener('click', function (e) { var b = e.target.closest('[role="tab"]'); if (b) pick(btns.indexOf(b)); });
+        tabs.addEventListener('keydown', function (e) {
+          var k = btns.indexOf(document.activeElement), d = { ArrowDown:1, ArrowRight:1, ArrowUp:-1, ArrowLeft:-1 }[e.key];
+          if (k < 0 || !d) return; e.preventDefault(); pick((k + d + n) % n, true);
+        });
+        addEventListener('scroll', ask, { passive:true }); addEventListener('resize', ask);
+        mq.addEventListener ? mq.addEventListener('change', setMode) : mq.addListener(setMode);
+        setMode();
+      })();
 
-      document.getElementById('phases').innerHTML = window.POS_PHASES.map(function (p, i) {
+      document.getElementById('phases').innerHTML = window.POS_PHASES.map(function (p) {
         var steps = F.filter(function (s) { return s.phase === p.name; });
-        return '<div class="phase"><div class="top"><span class="ic">' + ic(p.icon) + '</span><span class="n">0' + (i + 1) + '</span></div><h3>' + p.name + '</h3><ol>' + steps.map(function (s) {
-          return '<li><a href="demo.html#' + s.id + '"><span>' + esc(s.title) + '</span>' + ic('arrow-right') + '</a></li>';
-        }).join('') + '</ol></div>';
-      }).join('');
-
-      document.getElementById('grid').innerHTML = F.map(function (s, i) {
-        return '<a class="card" href="demo.html#' + s.id + '"><div class="thumb"><img src="brand/screens/thumbs/' + s.id + '.webp" alt="Pantalla de Compos: ' + esc(s.title) + '" width="960" height="670" loading="lazy" decoding="async"></div>' +
-          '<div class="meta"><span class="ic">' + ic(s.icon) + '</span><div><span class="tag">' + String(i + 1).padStart(2, '0') + ' · ' + s.phase + '</span><b>' + esc(s.title) + '</b><span>' + esc(s.sub) + '</span></div></div></a>';
+        return '<li class="phase"><h3>' + p.name + '</h3><ul>' + steps.map(function (s) {
+          return '<li><a href="demo.html#' + s.id + '">' + esc(s.title) + '</a></li>';
+        }).join('') + '</ul></li>';
       }).join('');
 
       var tl = document.getElementById('tlist');
@@ -463,11 +567,11 @@
         var custom = cur.indexOf('custom:') === 0 ? cur.slice(7).toUpperCase() : '';
         var named = window.POS_COLORS.filter(function (c) { return c.hex.toUpperCase() === custom; })[0];
         tl.innerHTML = window.POS_THEMES.map(function (t) {
-          return '<button class="tbtn" data-t="' + t.id + '" aria-pressed="' + (t.id === cur) + '"><span class="sw">' + t.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>' + t.label + '<span class="ck">' + ic('check') + '</span></button>';
+          return '<button type="button" class="tbtn" data-t="' + t.id + '" aria-pressed="' + (t.id === cur) + '"><span class="sw">' + t.sw.map(function (c) { return '<i style="--c:' + c + '"></i>'; }).join('') + '</span>' + t.label + '<span class="ck">' + ic('check') + '</span></button>';
         }).join('') +
-          '<div class="tcustom' + (custom ? ' on' : '') + '" role="group" aria-label="Tu color"><div class="tc-h"><span class="sw"><i style="background:' + (custom || 'conic-gradient(#1E9E5A,#0FA3A3,#7B4FE0,#E0457B,#F0712C,#F2B90C,#1E9E5A)') + '"></i></span>' +
+          '<div class="tcustom' + (custom ? ' on' : '') + '" role="group" aria-label="Tu color"><div class="tc-h">' +
           '<span><b>Tu color</b><small>' + (named ? named.label + ': así se adapta la app' : 'Elige uno y mira cómo se adapta la app') + '</small></span>' + (custom ? '<span class="ck">' + ic('check') + '</span>' : '') + '</div>' +
-          '<div class="dots">' + window.POS_COLORS.map(function (c) { var on = c.hex.toUpperCase() === custom; return '<button class="dot" data-t="custom:' + c.hex + '" aria-pressed="' + on + '" aria-label="' + c.label + '" title="' + c.label + '" style="--c:' + c.hex + '"></button>'; }).join('') + '</div></div>';
+          '<div class="dots">' + window.POS_COLORS.map(function (c) { var on = c.hex.toUpperCase() === custom; return '<button type="button" class="dot" data-t="custom:' + c.hex + '" aria-pressed="' + on + '" aria-label="' + c.label + '" title="' + c.label + '" style="--c:' + c.hex + '"></button>'; }).join('') + '</div></div>';
         window.lucide && lucide.createIcons();
       };
       tl.addEventListener('click', function (e) {
@@ -477,24 +581,6 @@
       });
 
       drawT(); window.fitFrames();
-
-      // Contacto: la tarjeta crece a todo el ancho mientras entra en pantalla; completa cuando su borde inferior llega abajo.
-      (function () {
-        var cta = document.getElementById('cta'), wrap = cta.parentElement, raf = 0;
-        var still2 = matchMedia('(prefers-reduced-motion: reduce)').matches;
-        var paintCta = function () {
-          raf = 0;
-          var vw = document.documentElement.clientWidth, vh = innerHeight, r = cta.getBoundingClientRect();
-          var w = wrap.getBoundingClientRect(), cs = getComputedStyle(wrap);
-          var gap = Math.max(0, w.left + parseFloat(cs.paddingLeft));
-          var p = still2 ? 1 : Math.min(1, Math.max(0, (vh - r.top) / Math.max(1, r.height)));
-          p = p * p * (3 - 2 * p);
-          cta.style.setProperty('--x', (gap * p).toFixed(1) + 'px');
-          cta.style.setProperty('--p', p.toFixed(3));
-        };
-        var ask = function () { if (!raf) raf = requestAnimationFrame(paintCta); };
-        addEventListener('scroll', ask, { passive:true }); addEventListener('resize', ask); paintCta();
-      })();
 
       // Contacto: el formulario se envía a /api/contacto (worker.js) y llega a info@puntocompos.com.
       (function () {
@@ -512,7 +598,7 @@
           form.querySelectorAll('.f').forEach(function (f) { f.classList.remove('bad'); });
           if (bad.length) { bad.forEach(function (el) { el.closest('.f').classList.add('bad'); }); bad[0].focus(); return fail(bad[0].type === 'email' && bad[0].value ? 'Revisa tu correo, parece incompleto.' : 'Llena los campos marcados.'); }
           var data = {}; new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
-          btn.disabled = true; label.textContent = 'Enviando…';
+          btn.disabled = true; btn.setAttribute('aria-busy', 'true'); label.textContent = 'Enviando…';
           fetch('/api/contacto', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(data) })
             .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'send'); }); })
             .then(function () {
@@ -520,7 +606,7 @@
               form.hidden = true; done.hidden = false; done.focus();
             })
             .catch(function (x) { fail(x && x.message && x.message !== 'send' && x.message.indexOf('fetch') < 0 ? x.message : 'No pudimos enviar tu mensaje.', data); })
-            .then(function () { btn.disabled = false; label.textContent = 'Enviar mensaje'; });
+            .then(function () { btn.disabled = false; btn.removeAttribute('aria-busy'); label.textContent = 'Enviar mensaje'; });
         });
       })();
 
@@ -529,12 +615,10 @@
 
       // «Semper listo»: alterna latín ↔ español solo, y al pasar el cursor, enfocar o tocar.
       var motto = hero.querySelector('.motto'), vs = motto.querySelectorAll('.v');
-      var mi = 0, hold = false, mw = motto.querySelector('.mw');
-      var fit = function () { mw.style.width = Math.ceil(vs[mi].offsetWidth) + 'px'; };
+      var mi = 0, hold = false;
       var show = function (n) {
         mi = (n + vs.length) % vs.length;
         vs.forEach(function (v, k) { v.classList.toggle('is-on', k === mi); v.setAttribute('aria-hidden', k === mi ? 'false' : 'true'); });
-        fit();
         motto.setAttribute('aria-label', vs[mi].textContent + (mi ? ', cambiar al lema' : ', cambiar a español'));
       };
       var next = function () { show(mi + 1); };
@@ -543,7 +627,6 @@
       motto.addEventListener('focus', function () { hold = true; next(); });
       motto.addEventListener('blur', function () { hold = false; });
       motto.addEventListener('click', next);
-      fit(); addEventListener('resize', fit); document.fonts && document.fonts.ready.then(fit);
       if (!still) setInterval(function () { if (!hold && !document.hidden) next(); }, 3200);
 
       // Galería en ángulo: se endereza con el scroll (75° → 0°) y luego se asienta (escala 1.2 → 1 + paralaje por columna).
@@ -626,15 +709,16 @@
         setTimeout(show, 8000);
       })();
 
+      // Aparición al hacer scroll, una vez por elemento. Sin script o con movimiento reducido todo se ve desde el inicio.
       if (still || !('IntersectionObserver' in window)) return;
-      var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { rootMargin:'0px 0px -8% 0px' });
-      ['.hero-copy > *', '.fact', '.sh > *', '.feat', '.delivery .row > *', '.platforms > *', '.checks li', '.phase', '.card', '.phone .row > *', '.list li', '.themes .row > *', '.tbtn', '.cta', '.tcard', 'footer .top > div'].forEach(function (sel) {
+      var rio = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-in'); rio.unobserve(e.target); } });
+      }, { rootMargin:'0px 0px -10% 0px' });
+      ['.fact', 'main .head > *', '.versus tbody tr', '.versus-foot', '.split > *', '.phase', '.tier', '.extended', '.theme-stage > *', '.cta-in > *', '.foot .top > div'].forEach(function (sel) {
         document.querySelectorAll(sel).forEach(function (el) {
           var i = Array.prototype.indexOf.call(el.parentNode.children, el);
-          el.style.setProperty('--d', Math.min(i, 6) * 80 + 'ms');
-          el.classList.add('rv'); io.observe(el);
+          el.style.setProperty('--i', Math.min(i, 6));
+          el.setAttribute('data-reveal', ''); rio.observe(el);
         });
       });
     })();
