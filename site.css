@@ -7,7 +7,8 @@
 /* Hallmark · waive 44c · hero: kept, the user asked to keep the parallax gallery hero · the gallery of real Compos screens starts at the fold and straightens as the visitor scrolls */
 /* Hallmark · waive 79 · hero: kept, the gallery fills the space under the copy · the Compos screens tilt up into that band on scroll, which the still render does not show */
 /* Hallmark · answered F7 · the pill radius sits on round number marks, colour swatches, one tag and the skip link, which are circles or controls */
-/* Hallmark · dismissed 59 · the factbar is a four-fact ledger under the hero, not a section; the page keeps every block the owner had */
+/* Hallmark · dropped #facts and the four-fact strip · the owner asked to remove it from under the hero */
+/* Hallmark · waive 29 · one translucent nav pill over the light page · the owner asked for the frosted top bar on light sections */
 /* Hallmark · dropped demo.html#' + f.s + ' · the feature generator became static markup with the same six demo.html links */
 /* Hallmark · dropped .feat bento tiles, .tcard trio, the eyebrows and the growing indigo contact card · the map, the switcher and the night band carry the same content */
 /* Hallmark · answered F8 · the user asked for the Coral desk showcase in Funciones beside the kept hero gallery; both scrub transforms only and both are off under reduced motion */
@@ -17,6 +18,9 @@
 /* Hallmark · dropped #pantallas, #grid and "Todo, funcionando" · the owner replaced the screens rail with the three plans; nav and footer now point to #planes */
 /* Hallmark · dropped grid, pantallas · the screens rail ids went with the rail the owner removed */
 /* Hallmark · dropped signin.webp, orders.webp, split.webp, payment.webp, search.webp, reports.webp, settings.webp · rail thumbnails, removed with the screens rail */
+/* Hallmark · reworded "Cierra el día sin hoja de cálculo" to "Cierra el día sabiendo cuánto ganaste y su tendencia" · the owner wrote the new head */
+/* Hallmark · dropped facts, 16% · the four-fact strip and its IVA figure, removed by the owner */
+/* Hallmark · dismissed 59 · ten blocks are the owner's own sections; none can merge without losing a plan, a demo or the form */
 /* Hallmark · finish-review: in-thread · checked the motion hero at 0, 500 and 1200px of scroll and the 375 page; no subagent was run */
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600&display=swap");
 @import url("./tokens.css");
@@ -57,7 +61,7 @@ svg.lucide { width: 1.15em; height: 1.15em; stroke-width: 2; flex-shrink: 0; }
 
 /* ---------- Nav: a floating pill ---------- */
 .nav { position: fixed; inset: var(--space-sm) 0 auto; z-index: var(--z-sticky-nav); padding-inline: var(--gutter); pointer-events: none; }
-.nav-pill { display: flex; align-items: center; gap: var(--space-lg); max-width: calc(var(--container) - 2 * var(--gutter)); min-height: 64px; margin-inline: auto; padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: var(--color-paper); pointer-events: auto; transition: background-color var(--dur-long) var(--ease-out), border-color var(--dur-long) var(--ease-out); }
+.nav-pill { -webkit-backdrop-filter: saturate(1.4) blur(14px); backdrop-filter: saturate(1.4) blur(14px); display: flex; align-items: center; gap: var(--space-lg); max-width: calc(var(--container) - 2 * var(--gutter)); min-height: 64px; margin-inline: auto; padding: var(--space-xs) var(--space-xs) var(--space-xs) var(--space-lg); border: 1px solid var(--color-rule); border-radius: var(--radius-pill); background: color-mix(in oklch, var(--color-paper) 72%, transparent); pointer-events: auto; transition: background-color var(--dur-long) var(--ease-out), border-color var(--dur-long) var(--ease-out); }
 .brand { display: flex; flex-shrink: 0; }
 .brand img { display: block; width: auto; height: 30px; }
 .brand .lk-dark { display: none; }
@@ -107,12 +111,6 @@ html:not(.js) .mw .v:not(.is-on) { display: none; }
 }
 
 /* ---------- Facts ---------- */
-.factbar { padding-top: var(--space-xl); }
-.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-block: 0; padding-block: var(--space-xl); }
-.fact { padding-inline: var(--space-lg); border-left: 1px solid var(--color-rule); }
-.fact:first-child { padding-left: 0; border-left: 0; }
-.fact dt { font-weight: 600; }
-.fact dd { margin: var(--space-2xs) 0 0; color: var(--color-ink-2); font-size: var(--text-sm); }
 
 /* ---------- Sin internet: Compos against a cloud POS, row by row ---------- */
 .map { padding-top: var(--section-gap-s); }
@@ -221,6 +219,12 @@ html:not(.js) .mw .v:not(.is-on) { display: none; }
 .pf-scr + .pf-scr { margin-top: var(--space-2xl); }
 .acts { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 
+.phone .split-text { gap: var(--space-md); }
+.phone .split-text p { max-width: 46ch; color: var(--color-ink-2); }
+.phone .phone-lead { color: var(--color-ink); font-weight: 600; }
+.phone .phone-q { margin-top: var(--space-xs); color: var(--color-ink); font-size: var(--text-lg); font-weight: 600; }
+.phone .acts { margin-top: var(--space-md); }
+
 /* ---------- Themes ---------- */
 .theme-stage { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gap-columns); align-items: start; }
 .tlist { display: grid; gap: var(--space-xs); }
@@ -300,16 +304,17 @@ html.loading .loader, .loader.done { position: fixed; inset: 0; z-index: var(--z
   .split-head > h2, .split-head > .lead { grid-column: 1 / -1; }
   .nav .links { display: none; }
   .nav .btn { margin-left: auto; }
-  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-lg); }
-  .fact:nth-child(3) { padding-left: 0; border-left: 0; }
-  .versus, .versus tbody, .versus tr, .versus th, .versus td { display: block; }
+  /* Phones: each row is the situation over two side-by-side answers, each named on top */
+  .versus, .versus tbody { display: block; }
   .versus thead { display: none; }
-  .versus tbody tr { padding-block: var(--space-md); border-top: 1px solid var(--color-rule); }
-  .versus th, .versus td { padding: var(--space-2xs) 0; border-top: 0; }
-  .versus .us { margin-top: var(--space-xs); padding: var(--space-sm) var(--space-md); border-radius: var(--radius-input); font-size: var(--text-md); }
-  .versus tbody tr:last-child .us { border-radius: var(--radius-input); }
-  .versus td::before { content: attr(data-label) ": "; color: var(--color-ink-2); }
-  .versus td.us::before { content: none; }
+  .versus tbody tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-xs); padding-block: var(--space-lg); border-top: 1px solid var(--color-rule); }
+  .versus tbody tr:first-child { border-top: 0; padding-top: 0; }
+  .versus tbody th { grid-column: 1 / -1; padding: 0 0 var(--space-2xs); border: 0; font-size: var(--text-lg); }
+  .versus tbody td, .versus tbody td.us, .versus tbody tr:last-child .us { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-sm) var(--space-md); border: 0; border-radius: var(--radius-input); font-size: var(--text-md); }
+  .versus tbody td { background: var(--color-paper-2); }
+  .versus td::before { content: attr(data-label); color: var(--color-ink-2); font-size: var(--text-sm); }
+  .versus td.us::before { color: var(--color-accent); font-weight: 600; }
+  .versus td.us svg.lucide { display: none; }
   .feat, .feats.is-tabbed, .feats.is-tabbed .feat-copy { grid-template-columns: minmax(0, 1fr); }
   .feats.is-tabbed .feat-copy ul { grid-row: auto; grid-column: auto; }
   .feat-tabs { position: static; flex-direction: row; overflow-x: auto; }
@@ -329,8 +334,7 @@ html.loading .loader, .loader.done { position: fixed; inset: 0; z-index: var(--z
   .hero-track { height: 150svh; margin-top: -12svh; }
   .gal { width: 150%; margin-left: -25%; gap: var(--space-xs); padding: 0 var(--space-xs); }
   .gcol { gap: var(--space-xs); }
-  .facts, .fgrid { grid-template-columns: minmax(0, 1fr); }
-  .fact { padding-left: 0; border-left: 0; }
+  .fgrid { grid-template-columns: minmax(0, 1fr); }
   .phones { gap: var(--space-sm); }
   .pf-scr + .pf-scr { margin-top: var(--space-xl); }
   .foot .top { grid-template-columns: minmax(0, 1fr); }
