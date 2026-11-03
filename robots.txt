@@ -1,0 +1,7 @@
+# Compos — puntocompos.com
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /email/
+
+Sitemap: https://puntocompos.com/sitemap.xml

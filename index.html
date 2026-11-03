@@ -9,7 +9,7 @@
   ~ Unauthorized copying, modification, or distribution of this file,
   ~ via any medium, is strictly prohibited.
   ~
-  ~ Last modified: 2026-10-31
+  ~ Last modified: 2026-11-02
   -->
 
 <!doctype html>
@@ -19,6 +19,70 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Compos — Punto de venta para restaurantes y cafeterías</title>
     <meta name="description" content="Compos es un punto de venta hecho en México para restaurantes y cafeterías: pedidos, cocina, cobro y corte de caja, aunque se caiga el internet.">
+    <meta name="theme-color" content="#7472F6">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.webmanifest">
+    <link rel="canonical" href="https://puntocompos.com/">
+    <meta name="robots" content="index,follow,max-image-preview:large">
+    <meta name="author" content="Isaac Serrano">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compos">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:url" content="https://puntocompos.com/">
+    <meta property="og:title" content="Compos — Punto de venta «Semper listo»">
+    <meta property="og:description" content="Punto de venta hecho en México para restaurantes y cafeterías: pedidos de mostrador y delivery, cocina, cobro y corte de caja, aunque se caiga el internet.">
+    <meta property="og:image" content="https://puntocompos.com/brand/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Compos, punto de venta: la pantalla de nueva orden en una tablet">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Compos — Punto de venta «Semper listo»">
+    <meta name="twitter:description" content="Punto de venta hecho en México para restaurantes y cafeterías que sigue vendiendo aunque se caiga el internet.">
+    <meta name="twitter:image" content="https://puntocompos.com/brand/og-image.png">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://puntocompos.com/#org",
+          "name": "Compos",
+          "url": "https://puntocompos.com/",
+          "logo": "https://puntocompos.com/icon-512.png",
+          "email": "info@puntocompos.com",
+          "slogan": "Semper listo",
+          "address": { "@type": "PostalAddress", "addressCountry": "MX" },
+          "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "email": "info@puntocompos.com", "areaServed": "MX", "availableLanguage": ["es"] }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://puntocompos.com/#web",
+          "url": "https://puntocompos.com/",
+          "name": "Compos",
+          "inLanguage": "es-MX",
+          "publisher": { "@id": "https://puntocompos.com/#org" }
+        },
+        {
+          "@type": "SoftwareApplication",
+          "@id": "https://puntocompos.com/#app",
+          "name": "Compos",
+          "applicationCategory": "BusinessApplication",
+          "applicationSubCategory": "Punto de venta para restaurantes y cafeterías",
+          "operatingSystem": "Android",
+          "inLanguage": "es-MX",
+          "url": "https://puntocompos.com/",
+          "description": "Punto de venta hecho en México para restaurantes y cafeterías: pedidos de mostrador y de Uber Eats, DiDi Food y Rappi en una sola cola, cocina, cobro y corte de caja, aunque se caiga el internet.",
+          "screenshot": "https://puntocompos.com/brand/screens/thumbs/menu.webp",
+          "featureList": ["Funciona sin internet", "Pedidos de Uber Eats, DiDi Food y Rappi en una sola cola", "Pantalla de cocina", "Cobro en efectivo, tarjeta, transferencia y vale", "Corte de caja por turno", "Reembolsos y descuentos con PIN de gerente", "Reportes por canal y por plataforma", "Precios en MXN con IVA 16% incluido"],
+          "publisher": { "@id": "https://puntocompos.com/#org" }
+        }
+      ]
+    }
+    </script>
+    <link rel="preload" as="image" href="brand/screens/menu.webp" fetchpriority="high">
+    <script>document.documentElement.classList.add('loading');</script>
     <link rel="stylesheet" href="site.css">
     <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
     <script>
@@ -29,14 +93,14 @@
             { id:'signin', phase:'Abrir', icon:'key-round', title:'Entra con tu PIN', file:T+'index.html', sub:'Elige tu nombre y escribe 4 dígitos' },
             { id:'shift', phase:'Abrir', icon:'wallet', title:'Abre el turno', file:T+'Shift Layout.html', sub:'Fondo, retiros, conteo y cierre' },
             { id:'incoming', phase:'Tomar', icon:'bike', title:'Acepta pedidos a domicilio', file:T+'Incoming Layout.html', sub:'Cola con cuenta regresiva' },
-            { id:'menu', phase:'Tomar', icon:'utensils', title:'Arma una cuenta', file:T+'Menu Layout.html', sub:'Categorías, opciones y agotados' },
-            { id:'orders', phase:'Operar', icon:'layout-grid', title:'Maneja las cuentas abiertas', file:T+'Orders Layout.html', sub:'Cuentas por estado, tiempos y acciones' },
+            { id:'menu', phase:'Tomar', icon:'utensils', title:'Arma una orden', file:T+'Menu Layout.html', sub:'Categorías y opciones del producto' },
+            { id:'orders', phase:'Operar', icon:'layout-grid', title:'Maneja los checks', file:T+'Orders Layout.html', sub:'Abiertas, por cerrar y cerradas' },
             { id:'kitchen', phase:'Operar', icon:'chef-hat', title:'Manda a cocina', file:T+'Kitchen Layout.html', sub:'Nueva → preparando → lista' },
             { id:'split', phase:'Cobrar', icon:'split', title:'Divide la cuenta', file:T+'Split Layout.html', sub:'Mueve productos entre cuentas' },
-            { id:'payment', phase:'Cobrar', icon:'credit-card', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta y teclado' },
+            { id:'payment', phase:'Cobrar', icon:'credit-card', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta, transferencia y vale' },
             { id:'refund', phase:'Cobrar', icon:'undo-2', title:'Reembolsa con autorización', file:T+'Refund Layout.html', sub:'Productos, motivo y método' },
             { id:'search', phase:'Operar', icon:'search', title:'Encuentra lo que sea', file:T+'Search Layout.html', sub:'Menú, cuentas y clientes' },
-            { id:'feedback', phase:'Operar', icon:'bell-ring', title:'Avisos y autorizaciones', file:T+'Feedback Layout.html', sub:'Avisos, confirmaciones y PIN de gerente' },
+            // Oculto por ahora: { id:'feedback', phase:'Operar', icon:'bell-ring', title:'Avisos y autorizaciones', file:T+'Feedback Layout.html', sub:'Avisos, confirmaciones y PIN de gerente' },
             { id:'reports', phase:'Cerrar', icon:'chart-column', title:'Cierra con reportes', file:T+'Reports Layout.html', sub:'Indicadores, canales y plataformas' },
             { id:'settings', phase:'Cerrar', icon:'settings', title:'Configura el negocio', file:T+'Settings Layout.html', sub:'IVA, plataformas, personal y tema' }
           ];
@@ -48,8 +112,7 @@
             { id:'default', label:'Oscuro', sw:['#111315','#292C2D','#C9CAEF'] },
             { id:'light', label:'Claro', sw:['#FAFAFA','#FFFFFF','#111315'] },
             { id:'hc', label:'Alto contraste', sw:['#000000','#1E2021','#9CF2C6'] },
-            { id:'qsr', label:'Tu marca: rojo y amarillo', sw:['#17130F','#C8102E','#FFC72C'] },
-            { id:'blue', label:'Tu marca: azul', sw:['#E6ECF5','#FFFFFF','#1F5BD8'] }
+            { id:'blue', label:'Azul de marca', sw:['#E6ECF5','#FFFFFF','#1F5BD8'] }
           ];
           // Scale fixed-size app frames into whatever box they sit in.
           window.fitFrames = function (root) {
@@ -67,27 +130,24 @@
               new ResizeObserver(go).observe(box); go();
             });
           };
-          window.posTheme = function () { try { return localStorage.getItem('compos-theme') || 'default'; } catch (e) { return 'default'; } };
+          window.POS_COLORS = [
+            { id:'verde', label:'Verde', hex:'#1E9E5A' }, { id:'rosa', label:'Rosa', hex:'#E0457B' }, { id:'amarillo', label:'Amarillo', hex:'#F2B90C' },
+            { id:'naranja', label:'Naranja', hex:'#F0712C' }, { id:'morado', label:'Morado', hex:'#7B4FE0' }, { id:'turquesa', label:'Turquesa', hex:'#0FA3A3' }
+          ];
+          window.posTheme = function () { var t = 'default'; try { t = localStorage.getItem('compos-theme') || 'default'; } catch (e) {} return t === 'qsr' ? 'default' : t; };
           window.posSetTheme = function (id) { try { localStorage.setItem('compos-theme', id); } catch (e) {} };
         })();
     </script>
 </head>
 <body>
-<template id="logo">
-    <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true">
-        <g transform="scale(.125) translate(6 23)">
-            <g transform="rotate(12 380 210)">
-                <path fill="#FFB627" d="M310,96 l23.3,-20 l23.3,20 l23.3,-20 l23.3,20 l23.3,-20 l23.3,20 v234 a22,22 0 0,1 -22,22 h-96 a22,22 0 0,1 -22,-22 z"/>
-            </g>
-            <path fill="#3F7FF2" d="M204,172 a26,26 0 1,0 52,0 a26,26 0 1,0 -52,0 z M70,350 A160,160 0 0,1 390,350 Z M74,344 h312 a24,24 0 0,1 0,48 h-312 a24,24 0 0,1 0,-48 z"/>
-        </g>
-    </svg>
-</template>
-
-<div class="progress" aria-hidden="true"></div>
+<div class="loader" id="loader" role="status" aria-live="polite">
+    <img class="lmark" src="brand/compos-symbol.svg" alt="" width="72" height="72">
+    <span class="lbar" aria-hidden="true"><i id="lbar"></i></span>
+    <span class="lsr">Cargando Compos…</span>
+</div>
 <header class="nav">
     <div class="wrap">
-        <a class="brand" href="#top" data-logo>Compos</a>
+        <a class="brand" href="#top" aria-label="Compos, inicio"><img class="lk-light" src="brand/compos-lockup.svg" alt="Compos" width="112" height="30"><img class="lk-dark" src="brand/compos-lockup-on-dark.svg" alt="" width="112" height="30"></a>
         <nav class="links" aria-label="Secciones">
             <a href="#funciones">Funciones</a>
             <a href="#delivery">Delivery</a>
@@ -95,37 +155,77 @@
             <a href="#pantallas">Pantallas</a>
             <a href="#contacto">Contacto</a>
         </nav>
-        <a class="btn dark sm" href="demo.html"><i data-lucide="play"></i>Abrir demo</a>
+        <a class="btn primary sm" href="demo.html"><i data-lucide="play"></i>Abrir demo</a>
     </div>
 </header>
 
 <main id="top">
-    <section class="hero">
-        <div class="wrap">
-            <div class="copy">
-                <div>
-                    <h1>Compos</h1>
-                    <p class="motto">Semper listo</p>
-                </div>
-                <div>
-                    <p>Toma los pedidos del mostrador, el teléfono y las apps de delivery, mándalos a cocina,
-                        cobra y cuadra la caja al cerrar. Todo desde una tablet, y sigue vendiendo aunque se
-                        caiga el internet.</p>
-                    <div class="ctas">
-                        <a class="btn dark" href="demo.html"><i data-lucide="play"></i>Empezar la demo guiada</a>
-                        <a class="btn ghost" href="#contacto"><i data-lucide="mail"></i>Hablar con nosotros</a>
+    <section class="hero" aria-labelledby="hero-h">
+        <div class="hero-copy wrap">
+            <h1 id="hero-h">
+                <span class="l1">Un punto de venta</span>
+                <button class="motto" type="button" aria-label="Semper listo, cambiar a español">
+                    <span class="q" aria-hidden="true">“</span><span class="mw">
+                        <span class="v is-on" lang="es">Semper listo</span>
+                        <span class="v" lang="es" aria-hidden="true">Siempre listo</span>
+                    </span><span class="q" aria-hidden="true">”</span>
+                </button>
+            </h1>
+            <p class="sub">Toma los pedidos del mostrador, el teléfono y las apps de delivery, mándalos a cocina,
+                cobra y cuadra la caja al cerrar. Todo desde una tablet, y <b>sigue vendiendo aunque se caiga el internet.</b></p>
+            <div class="ctas">
+                <a class="btn primary" href="demo.html"><i data-lucide="play"></i>Empezar la demo guiada</a>
+                <a class="btn ghost inv" href="#contacto"><i data-lucide="mail"></i>Hablar con nosotros</a>
+            </div>
+        </div>
+
+        <div class="hero-track">
+            <div class="hero-stage">
+                <div class="gal" aria-hidden="true">
+                    <div class="gcol">
+                        <img src="brand/screens/incoming.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/orders-claro.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/kitchen.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/shift.webp" alt="" width="960" height="670" decoding="async">
+                    </div>
+                    <div class="gcol mid">
+                        <img src="brand/screens/menu.webp" alt="" width="960" height="670" decoding="async" fetchpriority="high">
+                        <img src="brand/screens/payment-azul.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/split-marca.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/reports-claro.webp" alt="" width="960" height="670" decoding="async">
+                    </div>
+                    <div class="gcol">
+                        <img src="brand/screens/search-contraste.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/settings-claro.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/refund.webp" alt="" width="960" height="670" decoding="async">
+                        <img src="brand/screens/opciones.webp" alt="" width="960" height="670" decoding="async">
                     </div>
                 </div>
             </div>
-            <div class="device">
-                <div class="screen" data-fit="1194x834">
-                    <iframe title="Pantalla de menú, en vivo" tabindex="-1" src="ui_kits/pos-tablet/Menu Layout.html"></iframe>
-                </div>
+        </div>
+        <div class="hero-tear" aria-hidden="true"></div>
+    </section>
+
+    <div class="factbar"><div class="wrap facts" id="facts"><div class="fact rv" style="--d: 0ms;"><span class="ic"><i data-lucide="wifi-off"></i></span><span><b>Sin internet</b>Sigue tomando y cobrando</span></div><div class="fact rv" style="--d: 80ms;"><span class="ic"><i data-lucide="shield-check"></i></span><span><b>PIN de gerente</b>Reembolsos y descuentos controlados</span></div><div class="fact rv" style="--d: 160ms;"><span class="ic"><i data-lucide="printer"></i></span><span><b>Impresoras</b>Red, Bluetooth y USB</span></div><div class="fact rv" style="--d: 240ms;"><span class="ic"><i data-lucide="receipt-text"></i></span><span><b>IVA 16%</b>Precios en MXN, impuesto incluido</span></div></div></div>
+
+    <section class="offline" id="sin-internet" aria-labelledby="offline-h">
+        <div class="wrap">
+            <div class="sh">
+                <div><span class="eyebrow"><i data-lucide="wifi-off"></i>Semper listo</span>
+                    <h2 id="offline-h">Sin internet, sin pausa</h2></div>
+                <p>Se cae la red y la caja ni se entera. Compos guarda cada venta en tus propios dispositivos y
+                    los mantiene en sintonía dentro de tu local.</p>
+            </div>
+            <div class="trio">
+                <div class="tcard"><span class="ic"><i data-lucide="house"></i></span><h3>Todo vive en tu local</h3>
+                    <p>Ventas, menú e inventario desde el primer día, guardados en tus equipos. Tu información es tuya.</p></div>
+                <div class="tcard"><span class="ic"><i data-lucide="network"></i></span><h3>Caja, cocina y teléfonos en sintonía</h3>
+                    <p>La red de tu local conecta todo: una orden tomada en el teléfono llega a cocina al instante.</p></div>
+                <div class="tcard"><span class="ic"><i data-lucide="refresh-cw"></i></span><h3>Se pone al día solo</h3>
+                    <p>Cuando vuelve el internet, Compos sincroniza lo pendiente sin pedirle nada al cajero.</p></div>
             </div>
         </div>
     </section>
-
-    <div class="factbar"><div class="wrap facts" id="facts"></div></div>
 
     <section id="funciones">
         <div class="wrap">
@@ -135,7 +235,7 @@
                 <p>Compos está pensado para el ritmo real de una cocina: muchas manos, poco tiempo y cero
                     margen para errores en la caja. Cada tarjeta abre la pantalla en la demo.</p>
             </div>
-            <div class="bento" id="bento"></div>
+            <div class="bento" id="bento"><a class="feat c1 rv" href="demo.html#incoming" style="--d: 0ms;"><span class="ic"><i data-lucide="inbox"></i></span><h3>Todas las apps en una sola cola</h3><ul><li><i data-lucide="check"></i><span>Uber Eats, DiDi Food y Rappi en un mismo lugar</span></li><li><i data-lucide="check"></i><span>Cuenta regresiva por pedido</span></li><li><i data-lucide="check"></i><span>Una tablet en lugar de cuatro</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c2 rv" href="demo.html#menu" style="--d: 80ms;"><span class="ic"><i data-lucide="wifi-off"></i></span><h3>Sigue vendiendo sin internet</h3><ul><li><i data-lucide="check"></i><span>Mostrador y teléfono siguen tomando y cobrando</span></li><li><i data-lucide="check"></i><span>Las cuentas se sincronizan al volver la conexión</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c3 rv" href="demo.html#kitchen" style="--d: 160ms;"><span class="ic"><i data-lucide="chef-hat"></i></span><h3>Cocina sin papel</h3><ul><li><i data-lucide="check"></i><span>Comandas, no cuentas: cocina ve solo lo que prepara</span></li><li><i data-lucide="check"></i><span>El tiempo cambia de color conforme envejece</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c4 rv" href="demo.html#shift" style="--d: 240ms;"><span class="ic"><i data-lucide="wallet"></i></span><h3>La caja cuadra al cerrar</h3><ul><li><i data-lucide="check"></i><span>Fondo, retiros y conteo en el mismo turno</span></li><li><i data-lucide="check"></i><span>La diferencia se calcula mientras cuentas</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c5 rv" href="demo.html#refund" style="--d: 320ms;"><span class="ic"><i data-lucide="shield-check"></i></span><h3>Control con PIN de gerente</h3><ul><li><i data-lucide="check"></i><span>Reembolsos, descuentos y anulaciones con autorización</span></li><li><i data-lucide="check"></i><span>Tú decides quién actúa sin PIN</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a><a class="feat c6 rv" href="demo.html#reports" style="--d: 400ms;"><span class="ic"><i data-lucide="chart-column"></i></span><h3>Cierra el día sin hoja de cálculo</h3><ul><li><i data-lucide="check"></i><span>Ventas por canal y por plataforma</span></li><li><i data-lucide="check"></i><span>Lo más vendido y el volumen por hora</span></li></ul><span class="go">Probar esta pantalla<i data-lucide="arrow-right"></i></span></a></div>
         </div>
     </section>
 
@@ -148,9 +248,9 @@
                     <p class="lead">Deja de saltar entre tablets. Los pedidos de las plataformas llegan a la misma
                         pantalla que el mostrador, con su cuenta regresiva, y pasan directo a cocina al aceptarlos.</p>
                     <div class="platforms">
-                        <span><i style="background:var(--mint-200)"></i>Uber Eats</span>
-                        <span><i style="background:#FFB627"></i>DiDi Food</span>
-                        <span><i style="background:var(--rose-200)"></i>Rappi</span>
+                        <span><i></i>Uber Eats</span>
+                        <span><i></i>DiDi Food</span>
+                        <span><i></i>Rappi</span>
                         <span class="soon"><i data-lucide="clock"></i>Integración próximamente</span>
                     </div>
                     <ul class="checks">
@@ -163,7 +263,7 @@
                 </div>
                 <div class="device">
                     <div class="screen" data-fit="1194x834">
-                        <iframe title="Cola de pedidos a domicilio, en vivo" tabindex="-1" loading="lazy" src="ui_kits/pos-tablet/Incoming Layout.html"></iframe>
+                        <iframe title="Cola de pedidos a domicilio, en vivo" tabindex="-1" data-src="ui_kits/pos-tablet/Incoming Layout.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -175,10 +275,10 @@
             <div class="sh">
                 <div><span class="eyebrow"><i data-lucide="route"></i>El flujo</span>
                     <h2>Un servicio, de principio a fin</h2></div>
-                <p>Trece pantallas agrupadas en los cinco momentos de un turno. Cada enlace abre la demo en ese
+                <p>Doce pantallas agrupadas en los cinco momentos de un turno. Cada enlace abre la demo en ese
                     paso; las pantallas funcionan y están conectadas, así que puedes seguir tocando.</p>
             </div>
-            <div class="phases" id="phases"></div>
+            <div class="phases" id="phases"><div class="phase rv" style="--d: 0ms;"><div class="top"><span class="ic"><i data-lucide="door-open"></i></span><span class="n">01</span></div><h3>Abrir</h3><ol><li><a href="demo.html#signin"><span>Entra con tu PIN</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#shift"><span>Abre el turno</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 80ms;"><div class="top"><span class="ic"><i data-lucide="clipboard-list"></i></span><span class="n">02</span></div><h3>Tomar</h3><ol><li><a href="demo.html#incoming"><span>Acepta pedidos a domicilio</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#menu"><span>Arma una orden</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 160ms;"><div class="top"><span class="ic"><i data-lucide="flame"></i></span><span class="n">03</span></div><h3>Operar</h3><ol><li><a href="demo.html#orders"><span>Maneja los checks</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#kitchen"><span>Manda a cocina</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#search"><span>Encuentra lo que sea</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 240ms;"><div class="top"><span class="ic"><i data-lucide="receipt"></i></span><span class="n">04</span></div><h3>Cobrar</h3><ol><li><a href="demo.html#split"><span>Divide la cuenta</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#payment"><span>Cobra</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#refund"><span>Reembolsa con autorización</span><i data-lucide="arrow-right"></i></a></li></ol></div><div class="phase rv" style="--d: 320ms;"><div class="top"><span class="ic"><i data-lucide="moon"></i></span><span class="n">05</span></div><h3>Cerrar</h3><ol><li><a href="demo.html#reports"><span>Cierra con reportes</span><i data-lucide="arrow-right"></i></a></li><li><a href="demo.html#settings"><span>Configura el negocio</span><i data-lucide="arrow-right"></i></a></li></ol></div></div>
         </div>
     </section>
 
@@ -187,9 +287,9 @@
             <div class="sh">
                 <div><span class="eyebrow"><i data-lucide="monitor-smartphone"></i>Pantallas</span>
                     <h2>Todo, funcionando</h2></div>
-                <p>Son las pantallas reales, no imágenes. Abre una para usarla dentro de la demo guiada.</p>
+                <p>Las pantallas reales de la app. Abre una para usarla en vivo dentro de la demo guiada.</p>
             </div>
-            <div class="grid" id="grid"></div>
+            <div class="grid" id="grid"><a class="card rv" href="demo.html#signin" style="--d: 0ms;"><div class="thumb"><img src="brand/screens/thumbs/signin.webp" alt="Pantalla de Compos: Entra con tu PIN" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="key-round"></i></span><div><span class="tag">01 · Abrir</span><b>Entra con tu PIN</b><span>Elige tu nombre y escribe 4 dígitos</span></div></div></a><a class="card rv" href="demo.html#shift" style="--d: 80ms;"><div class="thumb"><img src="brand/screens/thumbs/shift.webp" alt="Pantalla de Compos: Abre el turno" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="wallet"></i></span><div><span class="tag">02 · Abrir</span><b>Abre el turno</b><span>Fondo, retiros, conteo y cierre</span></div></div></a><a class="card rv" href="demo.html#incoming" style="--d: 160ms;"><div class="thumb"><img src="brand/screens/thumbs/incoming.webp" alt="Pantalla de Compos: Acepta pedidos a domicilio" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="bike"></i></span><div><span class="tag">03 · Tomar</span><b>Acepta pedidos a domicilio</b><span>Cola con cuenta regresiva</span></div></div></a><a class="card rv" href="demo.html#menu" style="--d: 240ms;"><div class="thumb"><img src="brand/screens/thumbs/menu.webp" alt="Pantalla de Compos: Arma una orden" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="utensils"></i></span><div><span class="tag">04 · Tomar</span><b>Arma una orden</b><span>Categorías y opciones del producto</span></div></div></a><a class="card rv" href="demo.html#orders" style="--d: 320ms;"><div class="thumb"><img src="brand/screens/thumbs/orders.webp" alt="Pantalla de Compos: Maneja los checks" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="layout-grid"></i></span><div><span class="tag">05 · Operar</span><b>Maneja los checks</b><span>Abiertas, por cerrar y cerradas</span></div></div></a><a class="card rv" href="demo.html#kitchen" style="--d: 400ms;"><div class="thumb"><img src="brand/screens/thumbs/kitchen.webp" alt="Pantalla de Compos: Manda a cocina" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="chef-hat"></i></span><div><span class="tag">06 · Operar</span><b>Manda a cocina</b><span>Nueva → preparando → lista</span></div></div></a><a class="card rv" href="demo.html#split" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/split.webp" alt="Pantalla de Compos: Divide la cuenta" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="split"></i></span><div><span class="tag">07 · Cobrar</span><b>Divide la cuenta</b><span>Mueve productos entre cuentas</span></div></div></a><a class="card rv" href="demo.html#payment" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/payment.webp" alt="Pantalla de Compos: Cobra" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="credit-card"></i></span><div><span class="tag">08 · Cobrar</span><b>Cobra</b><span>Efectivo, tarjeta, transferencia y vale</span></div></div></a><a class="card rv" href="demo.html#refund" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/refund.webp" alt="Pantalla de Compos: Reembolsa con autorización" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="undo-2"></i></span><div><span class="tag">09 · Cobrar</span><b>Reembolsa con autorización</b><span>Productos, motivo y método</span></div></div></a><a class="card rv" href="demo.html#search" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/search.webp" alt="Pantalla de Compos: Encuentra lo que sea" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="search"></i></span><div><span class="tag">10 · Operar</span><b>Encuentra lo que sea</b><span>Menú, cuentas y clientes</span></div></div></a><a class="card rv" href="demo.html#reports" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/reports.webp" alt="Pantalla de Compos: Cierra con reportes" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="chart-column"></i></span><div><span class="tag">11 · Cerrar</span><b>Cierra con reportes</b><span>Indicadores, canales y plataformas</span></div></div></a><a class="card rv" href="demo.html#settings" style="--d: 480ms;"><div class="thumb"><img src="brand/screens/thumbs/settings.webp" alt="Pantalla de Compos: Configura el negocio" width="960" height="670" loading="lazy" decoding="async"></div><div class="meta"><span class="ic"><i data-lucide="settings"></i></span><div><span class="tag">12 · Cerrar</span><b>Configura el negocio</b><span>IVA, plataformas, personal y tema</span></div></div></a></div>
         </div>
     </section>
 
@@ -205,12 +305,13 @@
                         <li><span class="ic"><i data-lucide="refresh-cw"></i></span>Meseros y caja comparten las mismas cuentas por la red del local.</li>
                     </ul>
                     <div style="display:flex;gap:12px;margin-top:32px;flex-wrap:wrap">
-                        <a class="btn dark" href="demo.html#phone"><i data-lucide="smartphone"></i>Probar en teléfono</a>
+                        <a class="btn primary" href="demo.html#menu-telefono"><i data-lucide="smartphone"></i>Probar en teléfono</a>
                         <a class="btn ghost" href="ui_kits/pos-mobile/Phone Layouts.html">Todas las pantallas</a>
                     </div>
                 </div>
-                <div class="frame" data-fit="960x1000">
-                    <iframe title="App de teléfono, en vivo" tabindex="-1" loading="lazy" src="ui_kits/pos-mobile/index.html"></iframe>
+                <div class="phones">
+                    <div class="pf"><div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Menú en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Menu.html"></iframe></div></div>
+                    <div class="pf"><div class="pf-scr" data-fit="390x844" data-fit-top><iframe title="Checks en el teléfono, en vivo" data-src="ui_kits/pos-mobile/Orders.html"></iframe></div></div>
                 </div>
             </div>
         </div>
@@ -224,12 +325,12 @@
                     <h2 class="h2">Oscuro de base, con tu marca si la tienes</h2>
                     <p class="lead" style="margin-top:16px">Oscuro para una pantalla encendida toda la noche, claro
                         y alto contraste para mostradores con mucha luz. Si tu negocio ya tiene marca, Compos usa
-                        tus colores. Tu elección se lleva a la demo.</p>
+                        tus colores: elige uno y mira cómo se adapta. Tu elección se lleva a la demo.</p>
                     <div class="tlist" id="tlist"></div>
                 </div>
                 <div class="device">
                     <div class="screen" data-fit="1194x834">
-                        <iframe id="tframe" title="Pantalla de órdenes con tema" tabindex="-1" loading="lazy" src="ui_kits/pos-tablet/Orders Layout.html"></iframe>
+                        <iframe id="tframe" title="Pantalla de órdenes con tema" tabindex="-1" data-src="ui_kits/pos-tablet/Orders Layout.html"></iframe>
                     </div>
                 </div>
             </div>
@@ -238,20 +339,46 @@
 
     <section class="contact" id="contacto">
         <div class="wrap">
-            <div class="cta">
-                <div style="position:relative;z-index:1">
-                    <span class="eyebrow" style="color:#ABABAB"><i data-lucide="message-circle"></i>Contacto</span>
-                    <h2 style="margin-top:14px">¿Quieres Compos en tu negocio?</h2>
-                    <p>Escríbenos y te ayudamos a configurarlo con tu menú, tu equipo y tus plataformas de delivery.
-                        Respondemos en español.</p>
-                </div>
-                <div class="acts">
-                    <a class="mail" href="mailto:info@puntocompos.com?subject=Quiero%20Compos%20en%20mi%20negocio">
-                        <span class="ic"><i data-lucide="mail"></i></span>
-                        <span><small>Ventas y soporte</small><b>info@puntocompos.com</b></span>
-                        <i data-lucide="arrow-up-right"></i>
-                    </a>
-                    <a class="btn ghost inv" href="demo.html"><i data-lucide="play"></i>Probar la demo primero</a>
+            <div class="cta" id="cta">
+                <div class="cta-in">
+                    <div class="intro">
+                        <span class="eyebrow"><i data-lucide="message-circle"></i>Contacto</span>
+                        <h2 style="margin-top:14px">¿Quieres Compos en tu negocio?</h2>
+                        <p>Cuéntanos de tu negocio y te ayudamos a configurarlo con tu menú, tu equipo y tus plataformas de delivery.
+                            Respondemos en español, normalmente el mismo día.</p>
+                        <a class="mail" href="mailto:info@puntocompos.com?subject=Quiero%20Compos%20en%20mi%20negocio">
+                            <span class="ic"><i data-lucide="mail"></i></span>
+                            <span><small>Ventas y soporte</small><b>info@puntocompos.com</b></span>
+                            <i data-lucide="arrow-up-right"></i>
+                        </a>
+                        <a class="btn ghost inv" href="demo.html"><i data-lucide="play"></i>Probar la demo primero</a>
+                    </div>
+                    <form class="cform" id="cform" novalidate>
+                        <div class="fgrid">
+                            <label class="f"><span>Nombre</span><input name="nombre" autocomplete="name" required maxlength="80"></label>
+                            <label class="f"><span>Negocio</span><input name="negocio" autocomplete="organization" required maxlength="100"></label>
+                            <label class="f"><span>Correo</span><input name="correo" type="email" autocomplete="email" required maxlength="120"></label>
+                            <label class="f"><span>Teléfono o WhatsApp <em>opcional</em></span><input name="telefono" type="tel" autocomplete="tel" maxlength="30"></label>
+                            <label class="f"><span>Tipo de negocio</span><select name="tipo">
+                                <option>Cafetería</option><option>Restaurante</option><option>Dark kitchen</option><option>Panadería</option><option>Food truck</option><option>Otro</option>
+                            </select></label>
+                            <label class="f"><span>Sucursales</span><select name="sucursales">
+                                <option>1</option><option>2 a 3</option><option>4 o más</option>
+                            </select></label>
+                            <label class="f full"><span>¿Qué necesitas?</span><textarea name="mensaje" rows="4" required maxlength="2000" placeholder="Ej. Tenemos una cafetería con pedidos en Rappi y Uber Eats y queremos dejar de usar dos tablets."></textarea></label>
+                            <label class="hp" aria-hidden="true">No llenar<input name="sitio" tabindex="-1" autocomplete="off"></label>
+                        </div>
+                        <p class="ferr" id="ferr" role="alert" hidden></p>
+                        <div class="fsend">
+                            <button class="btn primary" type="submit" id="fbtn"><i data-lucide="send"></i><span>Enviar mensaje</span></button>
+                            <small>Llega directo a info@puntocompos.com y te respondemos a tu correo.</small>
+                        </div>
+                    </form>
+                    <div class="fdone" id="fdone" hidden tabindex="-1">
+                        <span class="ic"><i data-lucide="check"></i></span>
+                        <h3>¡Gracias! Recibimos tu mensaje</h3>
+                        <p>Te respondemos a <b id="fmail"></b> desde info@puntocompos.com, normalmente el mismo día.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -262,7 +389,7 @@
     <div class="wrap">
         <div class="top">
             <div>
-                <a class="brand" href="#top" data-logo>Compos</a>
+                <a class="brand" href="#top" aria-label="Compos, inicio"><img src="brand/compos-lockup.svg" alt="Compos" width="112" height="30"></a>
                 <p class="tag">Punto de venta para restaurantes y cafeterías, hecho en México. <em>Compos</em> es latín para «en control».</p>
             </div>
             <div>
@@ -293,9 +420,6 @@
     (function () {
       var F = window.POS_FLOW, esc = function (s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); };
       var ic = function (n) { return '<i data-lucide="' + n + '"></i>'; };
-
-      var logo = document.getElementById('logo').innerHTML;
-      document.querySelectorAll('[data-logo]').forEach(function (a) { a.insertAdjacentHTML('afterbegin', logo); });
 
       var FACTS = [
         { i:'wifi-off', b:'Sin internet', t:'Sigue tomando y cobrando' },
@@ -329,16 +453,21 @@
       }).join('');
 
       document.getElementById('grid').innerHTML = F.map(function (s, i) {
-        return '<a class="card" href="demo.html#' + s.id + '"><div class="thumb" data-fit="1194x834"><iframe tabindex="-1" aria-hidden="true" loading="lazy" src="' + encodeURI(s.file) + '"></iframe></div>' +
+        return '<a class="card" href="demo.html#' + s.id + '"><div class="thumb"><img src="brand/screens/thumbs/' + s.id + '.webp" alt="Pantalla de Compos: ' + esc(s.title) + '" width="960" height="670" loading="lazy" decoding="async"></div>' +
           '<div class="meta"><span class="ic">' + ic(s.icon) + '</span><div><span class="tag">' + String(i + 1).padStart(2, '0') + ' · ' + s.phase + '</span><b>' + esc(s.title) + '</b><span>' + esc(s.sub) + '</span></div></div></a>';
       }).join('');
 
       var tl = document.getElementById('tlist');
       var drawT = function () {
         var cur = window.posTheme();
+        var custom = cur.indexOf('custom:') === 0 ? cur.slice(7).toUpperCase() : '';
+        var named = window.POS_COLORS.filter(function (c) { return c.hex.toUpperCase() === custom; })[0];
         tl.innerHTML = window.POS_THEMES.map(function (t) {
           return '<button class="tbtn" data-t="' + t.id + '" aria-pressed="' + (t.id === cur) + '"><span class="sw">' + t.sw.map(function (c) { return '<i style="background:' + c + '"></i>'; }).join('') + '</span>' + t.label + '<span class="ck">' + ic('check') + '</span></button>';
-        }).join('');
+        }).join('') +
+          '<div class="tcustom' + (custom ? ' on' : '') + '" role="group" aria-label="Tu color"><div class="tc-h"><span class="sw"><i style="background:' + (custom || 'conic-gradient(#1E9E5A,#0FA3A3,#7B4FE0,#E0457B,#F0712C,#F2B90C,#1E9E5A)') + '"></i></span>' +
+          '<span><b>Tu color</b><small>' + (named ? named.label + ': así se adapta la app' : 'Elige uno y mira cómo se adapta la app') + '</small></span>' + (custom ? '<span class="ck">' + ic('check') + '</span>' : '') + '</div>' +
+          '<div class="dots">' + window.POS_COLORS.map(function (c) { var on = c.hex.toUpperCase() === custom; return '<button class="dot" data-t="custom:' + c.hex + '" aria-pressed="' + on + '" aria-label="' + c.label + '" title="' + c.label + '" style="--c:' + c.hex + '"></button>'; }).join('') + '</div></div>';
         window.lucide && lucide.createIcons();
       };
       tl.addEventListener('click', function (e) {
@@ -349,23 +478,159 @@
 
       drawT(); window.fitFrames();
 
+      // Contacto: la tarjeta crece a todo el ancho mientras entra en pantalla; completa cuando su borde inferior llega abajo.
+      (function () {
+        var cta = document.getElementById('cta'), wrap = cta.parentElement, raf = 0;
+        var still2 = matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var paintCta = function () {
+          raf = 0;
+          var vw = document.documentElement.clientWidth, vh = innerHeight, r = cta.getBoundingClientRect();
+          var w = wrap.getBoundingClientRect(), cs = getComputedStyle(wrap);
+          var gap = Math.max(0, w.left + parseFloat(cs.paddingLeft));
+          var p = still2 ? 1 : Math.min(1, Math.max(0, (vh - r.top) / Math.max(1, r.height)));
+          p = p * p * (3 - 2 * p);
+          cta.style.setProperty('--x', (gap * p).toFixed(1) + 'px');
+          cta.style.setProperty('--p', p.toFixed(3));
+        };
+        var ask = function () { if (!raf) raf = requestAnimationFrame(paintCta); };
+        addEventListener('scroll', ask, { passive:true }); addEventListener('resize', ask); paintCta();
+      })();
+
+      // Contacto: el formulario se envía a /api/contacto (worker.js) y llega a info@puntocompos.com.
+      (function () {
+        var form = document.getElementById('cform'), err = document.getElementById('ferr'), btn = document.getElementById('fbtn'), done = document.getElementById('fdone');
+        var label = btn.querySelector('span');
+        var fail = function (msg, data) {
+          var body = data ? Object.keys(data).filter(function (k) { return k !== 'sitio' && data[k]; }).map(function (k) { return k + ': ' + data[k]; }).join('\n') : '';
+          err.innerHTML = esc(msg) + (data ? ' <a href="mailto:info@puntocompos.com?subject=' + encodeURIComponent('Quiero Compos en ' + (data.negocio || 'mi negocio')) + '&body=' + encodeURIComponent(body) + '">Envíalo por correo</a>.' : '');
+          err.hidden = false;
+        };
+        form.addEventListener('input', function (e) { var f = e.target.closest('.f'); if (f) f.classList.remove('bad'); err.hidden = true; });
+        form.addEventListener('submit', function (e) {
+          e.preventDefault(); err.hidden = true;
+          var bad = [].filter.call(form.querySelectorAll('[required]'), function (el) { return !el.checkValidity() || !el.value.trim(); });
+          form.querySelectorAll('.f').forEach(function (f) { f.classList.remove('bad'); });
+          if (bad.length) { bad.forEach(function (el) { el.closest('.f').classList.add('bad'); }); bad[0].focus(); return fail(bad[0].type === 'email' && bad[0].value ? 'Revisa tu correo, parece incompleto.' : 'Llena los campos marcados.'); }
+          var data = {}; new FormData(form).forEach(function (v, k) { data[k] = String(v).trim(); });
+          btn.disabled = true; label.textContent = 'Enviando…';
+          fetch('/api/contacto', { method:'POST', headers:{ 'Content-Type':'application/json' }, body:JSON.stringify(data) })
+            .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { if (!r.ok || !j.ok) throw new Error(j.error || 'send'); }); })
+            .then(function () {
+              document.getElementById('fmail').textContent = data.correo;
+              form.hidden = true; done.hidden = false; done.focus();
+            })
+            .catch(function (x) { fail(x && x.message && x.message !== 'send' && x.message.indexOf('fetch') < 0 ? x.message : 'No pudimos enviar tu mensaje.', data); })
+            .then(function () { btn.disabled = false; label.textContent = 'Enviar mensaje'; });
+        });
+      })();
+
       var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      var nav = document.querySelector('.nav'), tilt = document.querySelector('.hero .device'), hero = document.querySelector('.hero');
+      var nav = document.querySelector('.nav'), hero = document.querySelector('.hero');
+
+      // «Semper listo»: alterna latín ↔ español solo, y al pasar el cursor, enfocar o tocar.
+      var motto = hero.querySelector('.motto'), vs = motto.querySelectorAll('.v');
+      var mi = 0, hold = false, mw = motto.querySelector('.mw');
+      var fit = function () { mw.style.width = Math.ceil(vs[mi].offsetWidth) + 'px'; };
+      var show = function (n) {
+        mi = (n + vs.length) % vs.length;
+        vs.forEach(function (v, k) { v.classList.toggle('is-on', k === mi); v.setAttribute('aria-hidden', k === mi ? 'false' : 'true'); });
+        fit();
+        motto.setAttribute('aria-label', vs[mi].textContent + (mi ? ', cambiar al lema' : ', cambiar a español'));
+      };
+      var next = function () { show(mi + 1); };
+      motto.addEventListener('mouseenter', function () { hold = true; next(); });
+      motto.addEventListener('mouseleave', function () { hold = false; });
+      motto.addEventListener('focus', function () { hold = true; next(); });
+      motto.addEventListener('blur', function () { hold = false; });
+      motto.addEventListener('click', next);
+      fit(); addEventListener('resize', fit); document.fonts && document.fonts.ready.then(fit);
+      if (!still) setInterval(function () { if (!hold && !document.hidden) next(); }, 3200);
+
+      // Galería en ángulo: se endereza con el scroll (75° → 0°) y luego se asienta (escala 1.2 → 1 + paralaje por columna).
+      var track = hero.querySelector('.hero-track'), gal = hero.querySelector('.gal'), cols = gal.querySelectorAll('.gcol');
+      var clamp = function (v) { return v < 0 ? 0 : v > 1 ? 1 : v; };
+      var ease = function (t) { return 1 - Math.pow(1 - t, 3); };
+      var paint = function () {
+        var r = track.getBoundingClientRect(), span = r.height - innerHeight;
+        var p = clamp(-r.top / (span > 0 ? span : 1));
+        var sm = function (t) { return t * t * (3 - 2 * t); };
+        var a = sm(clamp((p - .02) / .58)), b = ease(clamp((p - .55) / .45));
+        gal.style.transform = 'scale(' + (1.2 - .2 * b).toFixed(4) + ') rotateX(' + (75 * (1 - a)).toFixed(3) + 'deg)';
+        cols.forEach(function (c) {
+          var mid = c.classList.contains('mid');
+          c.style.transform = 'translate3d(0,' + (mid ? 15 - 10 * b : -13 + 15 * b).toFixed(3) + '%,0)';
+        });
+      };
+      var copy = hero.querySelector('.hero-copy');
+      var fadeCopy = function (y) {
+        var f = clamp(y / (copy.offsetHeight * .7));
+        copy.style.opacity = (1 - f).toFixed(3);
+        copy.style.filter = f > 0.01 ? 'blur(' + (f * 8).toFixed(2) + 'px)' : '';
+        copy.style.transform = 'translate3d(0,' + (-f * 40).toFixed(1) + 'px,0)';
+      };
       var onScroll = function () {
         var y = window.scrollY;
+        if (!still) fadeCopy(y);
         nav.classList.toggle('scrolled', y > 8);
-        if (still) return;
-        var p = Math.min(y / (hero.offsetHeight * .6), 1);
-        tilt.style.transform = 'perspective(1600px) rotateX(' + (12 * (1 - p)) + 'deg) scale(' + (.94 + .06 * p) + ')';
+        nav.classList.toggle('on-dark', hero.getBoundingClientRect().bottom > 68);
+        if (!still) paint();
       };
-      addEventListener('scroll', function () { requestAnimationFrame(onScroll); }, { passive:true });
+      var ticking = false;
+      addEventListener('scroll', function () { if (ticking) return; ticking = true; requestAnimationFrame(function () { ticking = false; onScroll(); }); }, { passive:true });
+      addEventListener('resize', onScroll);
       onScroll();
+
+      // Pantalla de carga: espera a que las 12 capturas de la galería estén descargadas Y decodificadas (y las fuentes),
+      // pre-pinta la galería en un par de posiciones y entonces muestra el sitio. Tope de 8 s por si la red está lenta.
+      (function () {
+        var root = document.documentElement, loader = document.getElementById('loader'), bar = document.getElementById('lbar');
+        var imgs = [].slice.call(gal.querySelectorAll('img')), n = imgs.length + 1, got = 0, shown = false;
+        var tick = function () { got++; bar.style.transform = 'scaleX(' + Math.min(1, got / n).toFixed(3) + ')'; };
+        var ready = function (img) {
+          var loaded = img.complete && img.naturalWidth ? Promise.resolve() : new Promise(function (ok) { img.addEventListener('load', ok, { once:true }); img.addEventListener('error', ok, { once:true }); });
+          return loaded.then(function () { return img.decode ? img.decode().catch(function () {}) : null; }).then(tick);
+        };
+        var frame = function () { return new Promise(function (ok) { requestAnimationFrame(function () { requestAnimationFrame(ok); }); }); };
+        var show = function () {
+          if (shown) return; shown = true;
+          root.classList.remove('loading'); loader.classList.add('done'); onScroll();
+          setTimeout(function () { loader.remove(); }, 600);
+          loadFrames();
+        };
+        // Pantallas en vivo: se cargan de una en una cuando el navegador está libre, no a media animación de scroll.
+        // Si el usuario se acerca a una antes de su turno, esa se adelanta.
+        var loadFrames = function () {
+          var q = [].slice.call(document.querySelectorAll('iframe[data-src]')), busy = false;
+          var start = function (f) {
+            var i = q.indexOf(f); if (i < 0) return; q.splice(i, 1); busy = true;
+            var fin = false, next = function () { if (fin) return; fin = true; busy = false; pump(); };
+            f.addEventListener('load', function () { setTimeout(next, 150); }, { once:true }); setTimeout(next, 4000);
+            f.src = f.getAttribute('data-src'); f.removeAttribute('data-src');
+          };
+          var idle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 300); };
+          var pump = function () { if (!busy && q.length) idle(function () { if (!busy && q.length) start(q[0]); }, { timeout:2500 }); };
+          if ('IntersectionObserver' in window) {
+            var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { io.unobserve(e.target); if (!busy) start(e.target); } }); }, { rootMargin:'400px 0px' });
+            q.forEach(function (f) { io.observe(f); });
+          }
+          pump();
+        };
+        Promise.all(imgs.map(ready).concat([(document.fonts ? document.fonts.ready : Promise.resolve()).then(tick)]))
+          .then(function () {
+            if (still) return;
+            // Calienta la GPU: dibuja la galería inclinada y derecha una vez antes de que el usuario haga scroll.
+            gal.style.transform = 'scale(1) rotateX(0deg)'; return frame();
+          })
+          .then(function () { onScroll(); return frame(); })
+          .then(show, show);
+        setTimeout(show, 8000);
+      })();
 
       if (still || !('IntersectionObserver' in window)) return;
       var io = new IntersectionObserver(function (es) {
         es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
       }, { rootMargin:'0px 0px -8% 0px' });
-      ['.hero .copy > div', '.fact', '.sh > *', '.feat', '.delivery .row > *', '.platforms > *', '.checks li', '.phase', '.card', '.phone .row > *', '.list li', '.themes .row > *', '.tbtn', '.cta', 'footer .top > div'].forEach(function (sel) {
+      ['.hero-copy > *', '.fact', '.sh > *', '.feat', '.delivery .row > *', '.platforms > *', '.checks li', '.phase', '.card', '.phone .row > *', '.list li', '.themes .row > *', '.tbtn', '.cta', '.tcard', 'footer .top > div'].forEach(function (sel) {
         document.querySelectorAll(sel).forEach(function (el) {
           var i = Array.prototype.indexOf.call(el.parentNode.children, el);
           el.style.setProperty('--d', Math.min(i, 6) * 80 + 'ms');

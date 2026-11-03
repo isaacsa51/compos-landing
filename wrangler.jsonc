@@ -1,9 +1,21 @@
 {
   "name": "puntocompos",
   "compatibility_date": "2026-10-01",
+  // worker.js atiende /api/contacto; todo lo demás se sirve como archivo estático.
+  "main": "worker.js",
   "assets": {
     "directory": "./",
+    "binding": "ASSETS",
     "html_handling": "auto-trailing-slash",
-    "not_found_handling": "404-page"
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  // Cloudflare Email Service. El dominio debe estar dado de alta en Compute > Email Service > Email Sending.
+  "send_email": [
+    { "name": "EMAIL", "allowed_destination_addresses": ["info@puntocompos.com"] }
+  ],
+  "vars": {
+    "CONTACT_TO": "info@puntocompos.com",
+    "CONTACT_FROM": "formulario@puntocompos.com"
   }
 }

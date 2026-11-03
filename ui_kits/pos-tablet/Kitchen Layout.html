@@ -16,20 +16,18 @@
 <html>
 <head>
     <meta charset="utf-8">
+    <meta name="robots" content="noindex">
     <title>Compos — Kitchen</title>
     <link rel="stylesheet" href="../../styles.css">
     <script src="../theme.js"></script>
     <style>
         html,body{margin:0;height:100%}body{background:var(--surface-canvas);font-family:var(--font-ui);color:var(--text-primary)}#root{height:100vh;min-height:700px}button{font-family:inherit}button:disabled{opacity:.45}a{color:var(--text-link)}a:hover{color:var(--white)}::-webkit-scrollbar{width:6px;height:6px}::-webkit-scrollbar-thumb{background:var(--surface-raised);border-radius:6px}
     </style>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
-            integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+    <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js"
+            integrity="sha384-DGyLxAyjq0f9SPpVevD6IgztCFlnMF6oW/XQGmfe+IsZ8TqEiDrcHkMLKI6fiB/Z"
             crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
-            integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
-            integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"
+            integrity="sha384-gTGxhz21lVGYNMcdJOyq01Edg0jhn/c22nsx0kyqP0TxaV5WVdsSH1fSDUf5YJj1"
             crossorigin="anonymous"></script>
     <script src="../../_ds_bundle.js"></script>
     <script src="../i18n.js"></script>
@@ -37,764 +35,2703 @@
 </head>
 <body>
 <div id="root"></div>
-<script type="text/babel" data-src="PosExtras.jsx">
-    const { Icon: PXIcon, Button: PXButton, IconButton: PXIconButton, Badge: PXBadge, QuantityStepper: PXStepper } = window.ComposDesignSystem_9739cd;
+<script data-src="PosExtras.jsx">
+var {
+  Icon: PXIcon,
+  Button: PXButton,
+  IconButton: PXIconButton,
+  Badge: PXBadge,
+  QuantityStepper: PXStepper
+} = window.ComposDesignSystem_9739cd;
 
-    /* ---------- Modifiers ---------- */
-    const PX_SIZE = { id:'size', name:'Tamaño', min:1, max:1, options:[['Chico',0],['Mediano',20],['Grande',40]] };
-    const PX_TEMP = { id:'temp', name:'Base', min:1, max:1, options:[['Arroz',0],['Fideos',0]] };
-    const PX_ICE = { id:'ice', name:'Tipo de fideo', min:1, max:1, options:[['Udon',0],['Ramen',0],['Soba',0]] };
-    const PX_MILK = { id:'milk', name:'Proteína', min:1, max:1, options:[['Pollo',0],['Res',15],['Salmón',35],['Camarón',35],['Tofu',0]] };
-    const PX_EXTRAS = { id:'extras', name:'Extras', min:0, max:3, options:[['Extra proteína',45],['Sin cebollín',0],['Aguacate',25],['Huevo marinado',20],['Alga nori',15],['Ajonjolí',10]] };
-    const PX_SWEET = { id:'sweet', name:'Picante', min:0, max:1, options:[['Sin picante',0],['Suave',0],['Medio',0],['Muy picante',0]] };
-    const pxOptMilk = { ...PX_MILK, min:0, name:'Proteína extra' };
-    const PX_ICE_DEP = { ...PX_ICE, dependsOn:{ group:'temp', value:'Fideos' } };
-    const PX_MODS = {
-      'Bowl teriyaki': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS, PX_SWEET],
-      'Bowl spicy tuna': [PX_SIZE, PX_MILK, PX_EXTRAS, PX_SWEET],
-      'Bowl katsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
-      'Ramen miso': [PX_SIZE, PX_TEMP, PX_ICE_DEP, pxOptMilk, PX_EXTRAS, PX_SWEET],
-      'Ramen tonkotsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
-      'Yakisoba': [PX_SIZE, PX_ICE, pxOptMilk, PX_EXTRAS, PX_SWEET],
+/* ---------- Modifiers ---------- */
+var PX_SIZE = {
+  id: 'size',
+  name: 'Tamaño',
+  min: 1,
+  max: 1,
+  options: [['Chico', 0], ['Mediano', 20], ['Grande', 40]]
+};
+var PX_TEMP = {
+  id: 'temp',
+  name: 'Base',
+  min: 1,
+  max: 1,
+  options: [['Arroz', 0], ['Fideos', 0]]
+};
+var PX_ICE = {
+  id: 'ice',
+  name: 'Tipo de fideo',
+  min: 1,
+  max: 1,
+  options: [['Udon', 0], ['Ramen', 0], ['Soba', 0]]
+};
+var PX_MILK = {
+  id: 'milk',
+  name: 'Proteína',
+  min: 1,
+  max: 1,
+  options: [['Pollo', 0], ['Res', 15], ['Salmón', 35], ['Camarón', 35], ['Tofu', 0]]
+};
+var PX_EXTRAS = {
+  id: 'extras',
+  name: 'Extras',
+  min: 0,
+  max: 3,
+  options: [['Extra proteína', 45], ['Sin cebollín', 0], ['Aguacate', 25], ['Huevo marinado', 20], ['Alga nori', 15], ['Ajonjolí', 10]]
+};
+var PX_SWEET = {
+  id: 'sweet',
+  name: 'Picante',
+  min: 0,
+  max: 1,
+  options: [['Sin picante', 0], ['Suave', 0], ['Medio', 0], ['Muy picante', 0]]
+};
+var pxOptMilk = {
+  ...PX_MILK,
+  min: 0,
+  name: 'Proteína extra'
+};
+var PX_ICE_DEP = {
+  ...PX_ICE,
+  dependsOn: {
+    group: 'temp',
+    value: 'Fideos'
+  }
+};
+var PX_MODS = {
+  'Bowl teriyaki': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS, PX_SWEET],
+  'Bowl spicy tuna': [PX_SIZE, PX_MILK, PX_EXTRAS, PX_SWEET],
+  'Bowl katsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
+  'Ramen miso': [PX_SIZE, PX_TEMP, PX_ICE_DEP, pxOptMilk, PX_EXTRAS, PX_SWEET],
+  'Ramen tonkotsu': [PX_SIZE, PX_TEMP, PX_ICE_DEP, PX_MILK, PX_EXTRAS],
+  'Yakisoba': [PX_SIZE, PX_ICE, pxOptMilk, PX_EXTRAS, PX_SWEET]
+};
+var pxMoney = n => '$' + n.toFixed(2);
+var pxRule = g => g.min > 0 ? g.max === 1 ? 'Required · Pick 1' : 'Required · ' + g.min + '–' + g.max : g.max === 1 ? 'Optional · Pick 1' : 'Optional · Up to ' + g.max;
+function ModifierPanel({
+  item,
+  basePrice,
+  onCancel,
+  onAdd,
+  compact
+}) {
+  var all = PX_MODS[item] || [];
+  var [sel, setSel] = React.useState(() => ({
+    size: ['Chico']
+  }));
+  var [qty, setQty] = React.useState(1);
+  var [note, setNote] = React.useState('');
+  var [noteOpen, setNoteOpen] = React.useState(false);
+  var groups = all.filter(g => !g.dependsOn || (sel[g.dependsOn.group] || []).includes(g.dependsOn.value));
+  var toggle = (g, opt) => setSel(s => {
+    var cur = s[g.id] || [];
+    var next;
+    if (cur.includes(opt)) next = g.min === 1 && g.max === 1 ? cur : cur.filter(x => x !== opt);else next = g.max === 1 ? [opt] : cur.length >= g.max ? cur : [...cur, opt];
+    return {
+      ...s,
+      [g.id]: next
     };
-    const pxMoney = (n) => '$' + n.toFixed(2);
-    const pxRule = (g) => g.min > 0 ? (g.max === 1 ? 'Required · Pick 1' : 'Required · ' + g.min + '–' + g.max) : (g.max === 1 ? 'Optional · Pick 1' : 'Optional · Up to ' + g.max);
-
-    function ModifierPanel({ item, basePrice, onCancel, onAdd, compact }) {
-      const all = PX_MODS[item] || [];
-      const [sel, setSel] = React.useState(() => ({ size:['Chico'] }));
-      const [qty, setQty] = React.useState(1);
-      const [note, setNote] = React.useState('');
-      const [noteOpen, setNoteOpen] = React.useState(false);
-      const groups = all.filter((g) => !g.dependsOn || (sel[g.dependsOn.group] || []).includes(g.dependsOn.value));
-      const toggle = (g, opt) => setSel((s) => {
-        const cur = s[g.id] || [];
-        let next;
-        if (cur.includes(opt)) next = g.min === 1 && g.max === 1 ? cur : cur.filter((x) => x !== opt);
-        else next = g.max === 1 ? [opt] : (cur.length >= g.max ? cur : [...cur, opt]);
-        return { ...s, [g.id]:next };
-      });
-      const missing = groups.filter((g) => (sel[g.id] || []).length < g.min);
-      const chosen = groups.flatMap((g) => (sel[g.id] || []).map((o) => [o, g.options.find((x) => x[0] === o)[1]]));
-      const unit = basePrice + chosen.reduce((s, [, d]) => s + d, 0);
-      const add = () => onAdd({ name:item, unit, qty, mods:chosen.map(([o]) => o), note:note.trim() });
-      const groupCard = (g) => {
-        const cur = sel[g.id] || [];
-        const ok = cur.length >= g.min;
-        return (
-          <section key={g.id} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding: compact ? 12 : 14, display:'flex', flexDirection:'column', gap:10, minWidth:0 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)' }}>{g.name}</span>
-              {g.dependsOn && <PXBadge tone="neutral">If {g.dependsOn.value}</PXBadge>}
-              <span style={{ marginLeft:'auto', fontSize:'var(--text-xs)', color: g.min > 0 && !ok ? 'var(--status-checkedin)' : 'var(--text-muted)', display:'flex', alignItems:'center', gap:4 }}>
-                {g.min > 0 && ok && <PXIcon name="check" size={12} />}{pxRule(g)}
-              </span>
-            </div>
-            <div style={{ display: compact ? 'flex' : 'grid', flexWrap:'wrap', gridTemplateColumns:'minmax(0,1fr)', gap:8 }}>
-              {g.options.map(([o, d]) => {
-                const on = cur.includes(o);
-                const full = !on && g.max > 1 && cur.length >= g.max;
-                return (
-                  <button key={o} onClick={() => toggle(g, o)} disabled={full} style={{ minHeight: compact ? 44 : 52, padding:'0 14px', borderRadius:'var(--radius-sm)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--mint-200)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', display:'flex', alignItems:'center', gap:10, fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor: full ? 'not-allowed' : 'pointer', textAlign:'left', flex: compact ? '0 0 auto' : undefined }}>
-                    {!compact && <span style={{ width:18, height:18, flex:'0 0 auto', borderRadius: g.max === 1 ? 9 : 5, border: on ? 'none' : '1.5px solid var(--border-strong)', background: on ? 'var(--black-900)' : 'transparent', color:'var(--mint-200)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{on && <PXIcon name="check" size={12} />}</span>}
-                    <span style={{ flex:1 }}>{o}</span>
-                    {d > 0 && <span style={{ fontSize:'var(--text-xs)', opacity:.75 }}>+{d.toFixed(2)}</span>}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        );
-      };
-      return (
-        <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
-          <div style={{ display:'flex', alignItems:'center', gap:12, padding: compact ? '12px 12px 8px' : '16px 20px' }}>
-            <PXIconButton icon="arrow-left" label="Back to menu" variant="secondary" onClick={onCancel} />
-            <span style={{ display:'flex', flexDirection:'column', minWidth:0 }}>
-              <span style={{ fontSize: compact ? 'var(--text-h3)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>{item}</span>
-              <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>From {pxMoney(basePrice)} · {all.filter((g) => g.min > 0).length} required choices</span>
-            </span>
-            <button onClick={() => setNoteOpen((v) => !v)} style={{ marginLeft:'auto', height:40, padding:'0 14px', borderRadius:'var(--radius-pill)', border:'1px solid var(--border-strong)', background: noteOpen || note ? 'var(--surface-raised)' : 'transparent', color:'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', display:'flex', alignItems:'center', gap:6, cursor:'pointer' }}>
-              <PXIcon name="sticky-note" size={16} />{note ? 'Note added' : 'Note'}
-            </button>
-          </div>
-          {noteOpen && (
-            <div style={{ padding: compact ? '0 12px 8px' : '0 20px 12px' }}>
-              <textarea value={note} onChange={(e) => setNote(e.target.value)} placeholder="Instructions for the barista, e.g. extra hot, half foam" rows={2} style={{ width:'100%', boxSizing:'border-box', resize:'none', background:'var(--surface-card)', border:'1px solid var(--border-strong)', borderRadius:'var(--radius-sm)', color:'var(--text-primary)', fontFamily:'inherit', fontSize:'var(--text-sm)', padding:10, outline:'none' }}></textarea>
-            </div>
-          )}
-          <div style={{ flex:1, minHeight:0, overflowY:'auto', padding: compact ? '0 12px 12px' : '0 20px 20px', display: compact ? 'flex' : 'grid', flexDirection:'column', gridTemplateColumns:'repeat(auto-fill,minmax(190px,1fr))', gridAutoRows:'min-content', gap: compact ? 8 : 12 }}>
-            {groups.map(groupCard)}
-          </div>
-          <div style={{ flex:'0 0 auto', borderTop:'1px solid var(--border-hairline)', padding: compact ? 12 : '14px 20px', display:'flex', flexDirection: compact ? 'column' : 'row', alignItems: compact ? 'stretch' : 'center', gap:12 }}>
-            <div style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:2 }}>
-              <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{chosen.map(([o]) => o).join(' · ') || 'No modifiers yet'}</span>
-              <span style={{ fontSize:'var(--text-xs)', color: missing.length ? 'var(--status-checkedin)' : 'var(--text-positive)' }}>{missing.length ? 'Choose ' + missing.map((g) => g.name.toLowerCase()).join(', ') : 'Ready to add'}</span>
-            </div>
-            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-              <PXStepper value={qty} onChange={(q) => setQty(Math.max(1, q))} />
-              <PXButton variant="outline" size="lg" onClick={onCancel} style={{ flex:'0 0 auto', paddingLeft:18, paddingRight:18 }}>Cancel</PXButton>
-              <PXButton size="lg" disabled={missing.length > 0} onClick={add} style={{ flex: compact ? 1 : '0 0 auto', minWidth:0, paddingLeft:18, paddingRight:18 }}>Add {pxMoney(unit * qty)}</PXButton>
-            </div>
-          </div>
-        </div>
-      );
-    }
-
-    /* ---------- Customer ---------- */
-    const PX_PLATFORMS = ['Own driver', 'Uber Eats', 'Rappi', 'DiDi Food'];
-    const pxField = { width:'100%', boxSizing:'border-box', height:44, background:'var(--surface-card)', border:'1px solid var(--border-strong)', borderRadius:'var(--radius-sm)', color:'var(--text-primary)', fontFamily:'inherit', fontSize:'var(--text-sm)', padding:'0 12px', outline:'none' };
-
-    function CustomerPanel({ mode, value, onSave, onClose }) {
-      const [c, setC] = React.useState(() => ({ name:'', phone:'', address:'', notes:'', platform:'Own driver', ...value }));
-      const set = (k) => (e) => setC((x) => ({ ...x, [k]:e.target.value }));
-      const del = mode === 'Delivery';
-      const ok = c.name.trim() && c.phone.trim() && (!del || c.address.trim());
-      const label = (t, req) => <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{t}{req && <span style={{ color:'var(--danger-ink)' }}> *</span>}</span>;
-      return (
-        <div style={{ position:'absolute', inset:0, zIndex:5, background:'var(--surface-panel)', display:'flex', flexDirection:'column' }}>
-          <div style={{ padding:'16px 16px 12px', display:'flex', alignItems:'center', gap:10, borderBottom:'1px solid var(--border-hairline)' }}>
-            <PXIcon name={del ? 'bike' : 'shopping-bag'} size={20} />
-            <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>{mode} customer</span>
-            <PXIconButton icon="x" size="sm" label="Close" variant="outline" onClick={onClose} style={{ marginLeft:'auto' }} />
-          </div>
-          <div style={{ flex:1, overflowY:'auto', padding:16, display:'flex', flexDirection:'column', gap:12 }}>
-            {del && (
-              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-                {label('Platform')}
-                <div style={{ display:'grid', gridTemplateColumns:'repeat(2,minmax(0,1fr))', gap:6 }}>
-                  {PX_PLATFORMS.map((p) => (
-                    <button key={p} onClick={() => setC((x) => ({ ...x, platform:p }))} style={{ height:40, borderRadius:'var(--radius-sm)', border: c.platform === p ? 'none' : '1px solid var(--border-strong)', background: c.platform === p ? 'var(--surface-accent)' : 'transparent', color: c.platform === p ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer' }}>{p}</button>
-                  ))}
-                </div>
-              </div>
-            )}
-            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Name', true)}<input value={c.name} onChange={set('name')} placeholder="Customer name" style={pxField} /></label>
-            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Phone', true)}<input value={c.phone} onChange={set('phone')} placeholder="55 1234 5678" inputMode="tel" style={pxField} /></label>
-            {del && <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label('Address', true)}<input value={c.address} onChange={set('address')} placeholder="Street, number, apt" style={pxField} /></label>}
-            <label style={{ display:'flex', flexDirection:'column', gap:6 }}>{label(del ? 'Delivery notes' : 'Notes')}<textarea value={c.notes} onChange={set('notes')} rows={2} placeholder={del ? 'Gate code, leave at door…' : 'Optional'} style={{ ...pxField, height:'auto', padding:10, resize:'none' }}></textarea></label>
-          </div>
-          <div style={{ padding:16, borderTop:'1px solid var(--border-hairline)' }}>
-            <PXButton block size="lg" disabled={!ok} onClick={() => onSave(c)}>Save customer</PXButton>
-          </div>
-        </div>
-      );
-    }
-
-    function CustomerRow({ mode, customer, onEdit }) {
-      if (mode === 'Dine here') return null;
-      const has = customer && customer.name;
-      return (
-        <button onClick={onEdit} style={{ margin:'0 16px', width:'calc(100% - 32px)', boxSizing:'border-box', padding:'10px 12px', borderRadius:'var(--radius-md)', border: has ? 'none' : '1.5px dashed var(--status-checkedin)', background: has ? 'var(--surface-card)' : 'transparent', color:'var(--text-primary)', display:'flex', alignItems:'center', gap:10, textAlign:'left', cursor:'pointer' }}>
-          <PXIcon name={has ? 'user-round' : 'user-round-plus'} size={18} />
-          <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:1 }}>
-            {has ? (
-              <React.Fragment>
-                <span style={{ fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)' }}>{customer.name} · {customer.phone}</span>
-                <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{mode === 'Delivery' ? customer.platform + ' · ' + customer.address : (customer.notes || 'Pickup at counter')}</span>
-              </React.Fragment>
-            ) : <span style={{ fontSize:'var(--text-sm)', color:'var(--status-checkedin)' }}>Add customer details · required</span>}
-          </span>
-          <PXIcon name="pencil" size={14} />
-        </button>
-      );
-    }
-
-    /* ---------- Check timers ---------- */
-    const PX_T0 = Date.now();
-    const PX_META = {
-      412:{ type:'Delivery', openedMin:23, customer:{ name:'Mia Torres', phone:'55 5555 0142', address:'Av. Álvaro Obregón 18, depto 3', platform:'Uber Eats', notes:'' }, prepaid:'Uber Eats' },
-      410:{ type:'Pickup', openedMin:4, customer:{ name:'Daniel Ruiz', phone:'55 5555 0177', notes:'' } },
-      407:{ type:'Delivery', openedMin:14, customer:{ name:'Grace Kim', phone:'55 5555 0108', address:'Calle Durango 402', platform:'Own driver', notes:'Tocar dos veces' } },
-      401:{ type:'Pickup', openedMin:52, closedAfter:18, customer:{ name:'Omar Haddad', phone:'55 5555 0190', notes:'' } },
-      400:{ type:'Pickup', openedMin:9, customer:{ name:'Lena Park', phone:'55 5555 0123', notes:'' } },
-      396:{ type:'Pickup', openedMin:31, customer:{ name:'Sam Ortiz', phone:'55 5555 0166', notes:'' } },
-      391:{ type:'Delivery', openedMin:75, closedAfter:12, customer:{ name:'Ivy Chen', phone:'55 5555 0111', address:'Calle Orizaba 9', platform:'Rappi', notes:'' }, prepaid:'Rappi' },
-      390:{ type:'Delivery', openedMin:2, customer:{ name:'Noah Brooks', phone:'55 5555 0155', address:'Av. Insurgentes 77', platform:'DiDi Food', notes:'' }, prepaid:'DiDi Food' },
-    };
-    const pxOpenedAt = (order) => PX_T0 - ((PX_META[order] || {}).openedMin || 0) * 60000;
-    function useNow(ms = 1000) {
-      const [now, setNow] = React.useState(Date.now());
-      React.useEffect(() => { const t = setInterval(() => setNow(Date.now()), ms); return () => clearInterval(t); }, [ms]);
-      return now;
-    }
-    const pxFmt = (ms) => { const s = Math.max(0, Math.floor(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor((s % 3600) / 60), x = s % 60; const p = (n) => String(n).padStart(2, '0'); return h ? h + ':' + p(m) + ':' + p(x) : p(m) + ':' + p(x); };
-    const PX_WARN_MIN = 10, PX_LATE_MIN = 20;
-
-    function ElapsedPill({ order, status, size = 'md' }) {
-      const now = useNow();
-      const meta = PX_META[order] || {};
-      if (status === 'closed') {
-        return <span style={{ display:'inline-flex', alignItems:'center', gap:4, fontSize:'var(--text-xs)', color:'var(--text-muted)' }}><PXIcon name="timer-off" size={12} />Closed in {meta.closedAfter || 0}m</span>;
+  });
+  var missing = groups.filter(g => (sel[g.id] || []).length < g.min);
+  var chosen = groups.flatMap(g => (sel[g.id] || []).map(o => [o, g.options.find(x => x[0] === o)[1]]));
+  var unit = basePrice + chosen.reduce((s, [, d]) => s + d, 0);
+  var add = () => onAdd({
+    name: item,
+    unit,
+    qty,
+    mods: chosen.map(([o]) => o),
+    note: note.trim()
+  });
+  var groupCard = g => {
+    var cur = sel[g.id] || [];
+    var ok = cur.length >= g.min;
+    return /*#__PURE__*/React.createElement("section", {
+      key: g.id,
+      style: {
+        background: 'var(--surface-card)',
+        borderRadius: 'var(--radius-md)',
+        padding: compact ? 12 : 14,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 10,
+        minWidth: 0
       }
-      const ms = now - pxOpenedAt(order);
-      const min = ms / 60000;
-      const tone = min >= PX_LATE_MIN ? 'late' : min >= PX_WARN_MIN ? 'warn' : 'ok';
-      const bg = { ok:'var(--surface-raised)', warn:'var(--order-warn)', late:'var(--order-late)' }[tone];
-      const fg = tone === 'ok' ? 'var(--text-primary)' : 'var(--text-on-light)';
-      return (
-        <span title={(status === 'pending' ? 'Pending close' : 'Open') + ' for ' + pxFmt(ms)} style={{ display:'inline-flex', alignItems:'center', gap:5, height: size === 'sm' ? 22 : 26, padding:'0 8px', borderRadius:'var(--radius-pill)', background:bg, color:fg, fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)', fontVariantNumeric:'tabular-nums', whiteSpace:'nowrap' }}>
-          <PXIcon name={tone === 'late' ? 'triangle-alert' : 'timer'} size={12} />{pxFmt(ms)}
-        </span>
-      );
+    }, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        alignItems: 'center',
+        gap: 8
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 'var(--text-body)',
+        fontWeight: 'var(--weight-semibold)'
+      }
+    }, g.name), g.dependsOn && /*#__PURE__*/React.createElement(PXBadge, {
+      tone: "neutral"
+    }, "If ", g.dependsOn.value), /*#__PURE__*/React.createElement("span", {
+      style: {
+        marginLeft: 'auto',
+        fontSize: 'var(--text-xs)',
+        color: g.min > 0 && !ok ? 'var(--status-checkedin)' : 'var(--text-muted)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 4
+      }
+    }, g.min > 0 && ok && /*#__PURE__*/React.createElement(PXIcon, {
+      name: "check",
+      size: 12
+    }), pxRule(g))), /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: compact ? 'flex' : 'grid',
+        flexWrap: 'wrap',
+        gridTemplateColumns: 'minmax(0,1fr)',
+        gap: 8
+      }
+    }, g.options.map(([o, d]) => {
+      var on = cur.includes(o);
+      var full = !on && g.max > 1 && cur.length >= g.max;
+      return /*#__PURE__*/React.createElement("button", {
+        key: o,
+        onClick: () => toggle(g, o),
+        disabled: full,
+        style: {
+          minHeight: compact ? 44 : 52,
+          padding: '0 14px',
+          borderRadius: 'var(--radius-sm)',
+          border: on ? 'none' : '1px solid var(--border-strong)',
+          background: on ? 'var(--mint-200)' : 'transparent',
+          color: on ? 'var(--text-on-light)' : 'var(--text-primary)',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 10,
+          fontSize: 'var(--text-sm)',
+          fontWeight: 'var(--weight-medium)',
+          cursor: full ? 'not-allowed' : 'pointer',
+          textAlign: 'left',
+          flex: compact ? '0 0 auto' : undefined
+        }
+      }, !compact && /*#__PURE__*/React.createElement("span", {
+        style: {
+          width: 18,
+          height: 18,
+          flex: '0 0 auto',
+          borderRadius: g.max === 1 ? 9 : 5,
+          border: on ? 'none' : '1.5px solid var(--border-strong)',
+          background: on ? 'var(--black-900)' : 'transparent',
+          color: 'var(--mint-200)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }
+      }, on && /*#__PURE__*/React.createElement(PXIcon, {
+        name: "check",
+        size: 12
+      })), /*#__PURE__*/React.createElement("span", {
+        style: {
+          flex: 1
+        }
+      }, o), d > 0 && /*#__PURE__*/React.createElement("span", {
+        style: {
+          fontSize: 'var(--text-xs)',
+          opacity: .75
+        }
+      }, "+", d.toFixed(2)));
+    })));
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      flexDirection: 'column'
     }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      padding: compact ? '12px 12px 8px' : '16px 20px'
+    }
+  }, /*#__PURE__*/React.createElement(PXIconButton, {
+    icon: "arrow-left",
+    label: "Back to menu",
+    variant: "secondary",
+    onClick: onCancel
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: compact ? 'var(--text-h3)' : 'var(--text-h1)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, item), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)'
+    }
+  }, "From ", pxMoney(basePrice), " \xB7 ", all.filter(g => g.min > 0).length, " required choices")), /*#__PURE__*/React.createElement("button", {
+    onClick: () => setNoteOpen(v => !v),
+    style: {
+      marginLeft: 'auto',
+      height: 40,
+      padding: '0 14px',
+      borderRadius: 'var(--radius-pill)',
+      border: '1px solid var(--border-strong)',
+      background: noteOpen || note ? 'var(--surface-raised)' : 'transparent',
+      color: 'var(--text-primary)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-medium)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: "sticky-note",
+    size: 16
+  }), note ? 'Note added' : 'Note')), noteOpen && /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: compact ? '0 12px 8px' : '0 20px 12px'
+    }
+  }, /*#__PURE__*/React.createElement("textarea", {
+    value: note,
+    onChange: e => setNote(e.target.value),
+    placeholder: "Instructions for the barista, e.g. extra hot, half foam",
+    rows: 2,
+    style: {
+      width: '100%',
+      boxSizing: 'border-box',
+      resize: 'none',
+      background: 'var(--surface-card)',
+      border: '1px solid var(--border-strong)',
+      borderRadius: 'var(--radius-sm)',
+      color: 'var(--text-primary)',
+      fontFamily: 'inherit',
+      fontSize: 'var(--text-sm)',
+      padding: 10,
+      outline: 'none'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      overflowY: 'auto',
+      padding: compact ? '0 12px 12px' : '0 20px 20px',
+      display: compact ? 'flex' : 'grid',
+      flexDirection: 'column',
+      gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))',
+      gridAutoRows: 'min-content',
+      gap: compact ? 8 : 12
+    }
+  }, groups.map(groupCard)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: '0 0 auto',
+      borderTop: '1px solid var(--border-hairline)',
+      padding: compact ? 12 : '14px 20px',
+      display: 'flex',
+      flexDirection: compact ? 'column' : 'row',
+      alignItems: compact ? 'stretch' : 'center',
+      gap: 12
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      color: 'var(--text-secondary)',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    }
+  }, chosen.map(([o]) => o).join(' · ') || 'No modifiers yet'), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: missing.length ? 'var(--status-checkedin)' : 'var(--text-positive)'
+    }
+  }, missing.length ? 'Choose ' + missing.map(g => g.name.toLowerCase()).join(', ') : 'Ready to add')), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement(PXStepper, {
+    value: qty,
+    onChange: q => setQty(Math.max(1, q))
+  }), /*#__PURE__*/React.createElement(PXButton, {
+    variant: "outline",
+    size: "lg",
+    onClick: onCancel,
+    style: {
+      flex: '0 0 auto',
+      paddingLeft: 18,
+      paddingRight: 18
+    }
+  }, "Cancel"), /*#__PURE__*/React.createElement(PXButton, {
+    size: "lg",
+    disabled: missing.length > 0,
+    onClick: add,
+    style: {
+      flex: compact ? 1 : '0 0 auto',
+      minWidth: 0,
+      paddingLeft: 18,
+      paddingRight: 18
+    }
+  }, "Add ", pxMoney(unit * qty)))));
+}
 
-    const PX_TYPE_ICON = { 'Dine here':'utensils', Pickup:'shopping-bag', Delivery:'bike' };
-    function OrderTypeTag({ order }) {
-      const m = PX_META[order];
-      if (!m) return null;
-      return (
-        <span style={{ display:'flex', alignItems:'center', gap:6, fontSize:'var(--text-xs)', color:'var(--text-secondary)', minWidth:0 }}>
-          <PXIcon name={PX_TYPE_ICON[m.type]} size={14} />
-          <span style={{ overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{m.type === 'Delivery' ? m.customer.platform : m.type} · {m.customer.name}</span>
-          {m.prepaid && <PrepaidTag />}
-        </span>
-      );
+/* ---------- Customer ---------- */
+var PX_PLATFORMS = ['Own driver', 'Uber Eats', 'Rappi', 'DiDi Food'];
+var pxField = {
+  width: '100%',
+  boxSizing: 'border-box',
+  height: 44,
+  background: 'var(--surface-card)',
+  border: '1px solid var(--border-strong)',
+  borderRadius: 'var(--radius-sm)',
+  color: 'var(--text-primary)',
+  fontFamily: 'inherit',
+  fontSize: 'var(--text-sm)',
+  padding: '0 12px',
+  outline: 'none'
+};
+function CustomerPanel({
+  mode,
+  value,
+  onSave,
+  onClose
+}) {
+  var [c, setC] = React.useState(() => ({
+    name: '',
+    phone: '',
+    address: '',
+    notes: '',
+    platform: 'Own driver',
+    ...value
+  }));
+  var set = k => e => setC(x => ({
+    ...x,
+    [k]: e.target.value
+  }));
+  var del = mode === 'Delivery';
+  var ok = c.name.trim() && c.phone.trim() && (!del || c.address.trim());
+  var label = (t, req) => /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)'
     }
+  }, t, req && /*#__PURE__*/React.createElement("span", {
+    style: {
+      color: 'var(--danger-ink)'
+    }
+  }, " *"));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      zIndex: 5,
+      background: 'var(--surface-panel)',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '16px 16px 12px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      borderBottom: '1px solid var(--border-hairline)'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: del ? 'bike' : 'shopping-bag',
+    size: 20
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h3)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, mode, " customer"), /*#__PURE__*/React.createElement(PXIconButton, {
+    icon: "x",
+    size: "sm",
+    label: "Close",
+    variant: "outline",
+    onClick: onClose,
+    style: {
+      marginLeft: 'auto'
+    }
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: 16,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12
+    }
+  }, del && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, label('Platform'), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: 'repeat(2,minmax(0,1fr))',
+      gap: 6
+    }
+  }, PX_PLATFORMS.map(p => /*#__PURE__*/React.createElement("button", {
+    key: p,
+    onClick: () => setC(x => ({
+      ...x,
+      platform: p
+    })),
+    style: {
+      height: 40,
+      borderRadius: 'var(--radius-sm)',
+      border: c.platform === p ? 'none' : '1px solid var(--border-strong)',
+      background: c.platform === p ? 'var(--surface-accent)' : 'transparent',
+      color: c.platform === p ? 'var(--text-on-light)' : 'var(--text-primary)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-medium)',
+      cursor: 'pointer'
+    }
+  }, p)))), /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, label('Name', true), /*#__PURE__*/React.createElement("input", {
+    value: c.name,
+    onChange: set('name'),
+    placeholder: "Customer name",
+    style: pxField
+  })), /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, label('Phone', true), /*#__PURE__*/React.createElement("input", {
+    value: c.phone,
+    onChange: set('phone'),
+    placeholder: "55 1234 5678",
+    inputMode: "tel",
+    style: pxField
+  })), del && /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, label('Address', true), /*#__PURE__*/React.createElement("input", {
+    value: c.address,
+    onChange: set('address'),
+    placeholder: "Street, number, apt",
+    style: pxField
+  })), /*#__PURE__*/React.createElement("label", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, label(del ? 'Delivery notes' : 'Notes'), /*#__PURE__*/React.createElement("textarea", {
+    value: c.notes,
+    onChange: set('notes'),
+    rows: 2,
+    placeholder: del ? 'Gate code, leave at door…' : 'Optional',
+    style: {
+      ...pxField,
+      height: 'auto',
+      padding: 10,
+      resize: 'none'
+    }
+  }))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 16,
+      borderTop: '1px solid var(--border-hairline)'
+    }
+  }, /*#__PURE__*/React.createElement(PXButton, {
+    block: true,
+    size: "lg",
+    disabled: !ok,
+    onClick: () => onSave(c)
+  }, "Save customer")));
+}
+function CustomerRow({
+  mode,
+  customer,
+  onEdit
+}) {
+  if (mode === 'Dine here') return null;
+  var has = customer && customer.name;
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onEdit,
+    style: {
+      margin: '0 16px',
+      width: 'calc(100% - 32px)',
+      boxSizing: 'border-box',
+      padding: '10px 12px',
+      borderRadius: 'var(--radius-md)',
+      border: has ? 'none' : '1.5px dashed var(--status-checkedin)',
+      background: has ? 'var(--surface-card)' : 'transparent',
+      color: 'var(--text-primary)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      textAlign: 'left',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: has ? 'user-round' : 'user-round-plus',
+    size: 18
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1,
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 1
+    }
+  }, has ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, customer.name, " \xB7 ", customer.phone), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    }
+  }, mode === 'Delivery' ? customer.platform + ' · ' + customer.address : customer.notes || 'Pickup at counter')) : /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      color: 'var(--status-checkedin)'
+    }
+  }, "Add customer details \xB7 required")), /*#__PURE__*/React.createElement(PXIcon, {
+    name: "pencil",
+    size: 14
+  }));
+}
 
-    function PrepaidTag({ via }) {
-      return <span style={{ flex:'0 0 auto', marginLeft:'auto', display:'inline-flex', alignItems:'center', gap:4, height:20, padding:'0 7px', borderRadius:'var(--radius-pill)', background:'var(--mint-200)', color:'var(--text-on-light)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)' }}><PXIcon name="badge-check" size={12} />{via ? 'Paid via ' + via : 'Prepaid'}</span>;
+/* ---------- Check timers ---------- */
+var PX_T0 = Date.now();
+var PX_META = {
+  412: {
+    type: 'Delivery',
+    openedMin: 23,
+    customer: {
+      name: 'Mia Torres',
+      phone: '55 5555 0142',
+      address: 'Av. Álvaro Obregón 18, depto 3',
+      platform: 'Uber Eats',
+      notes: ''
+    },
+    prepaid: 'Uber Eats'
+  },
+  410: {
+    type: 'Pickup',
+    openedMin: 4,
+    customer: {
+      name: 'Daniel Ruiz',
+      phone: '55 5555 0177',
+      notes: ''
     }
+  },
+  407: {
+    type: 'Delivery',
+    openedMin: 14,
+    customer: {
+      name: 'Grace Kim',
+      phone: '55 5555 0108',
+      address: 'Calle Durango 402',
+      platform: 'Own driver',
+      notes: 'Tocar dos veces'
+    }
+  },
+  401: {
+    type: 'Pickup',
+    openedMin: 52,
+    closedAfter: 18,
+    customer: {
+      name: 'Omar Haddad',
+      phone: '55 5555 0190',
+      notes: ''
+    }
+  },
+  400: {
+    type: 'Pickup',
+    openedMin: 9,
+    customer: {
+      name: 'Lena Park',
+      phone: '55 5555 0123',
+      notes: ''
+    }
+  },
+  396: {
+    type: 'Pickup',
+    openedMin: 31,
+    customer: {
+      name: 'Sam Ortiz',
+      phone: '55 5555 0166',
+      notes: ''
+    }
+  },
+  391: {
+    type: 'Delivery',
+    openedMin: 75,
+    closedAfter: 12,
+    customer: {
+      name: 'Ivy Chen',
+      phone: '55 5555 0111',
+      address: 'Calle Orizaba 9',
+      platform: 'Rappi',
+      notes: ''
+    },
+    prepaid: 'Rappi'
+  },
+  390: {
+    type: 'Delivery',
+    openedMin: 2,
+    customer: {
+      name: 'Noah Brooks',
+      phone: '55 5555 0155',
+      address: 'Av. Insurgentes 77',
+      platform: 'DiDi Food',
+      notes: ''
+    },
+    prepaid: 'DiDi Food'
+  }
+};
+var pxOpenedAt = order => PX_T0 - ((PX_META[order] || {}).openedMin || 0) * 60000;
+function useNow(ms = 1000) {
+  var [now, setNow] = React.useState(Date.now());
+  React.useEffect(() => {
+    var t = setInterval(() => setNow(Date.now()), ms);
+    return () => clearInterval(t);
+  }, [ms]);
+  return now;
+}
+var pxFmt = ms => {
+  var s = Math.max(0, Math.floor(ms / 1000));
+  var h = Math.floor(s / 3600),
+    m = Math.floor(s % 3600 / 60),
+    x = s % 60;
+  var p = n => String(n).padStart(2, '0');
+  return h ? h + ':' + p(m) + ':' + p(x) : p(m) + ':' + p(x);
+};
+var PX_WARN_MIN = 10,
+  PX_LATE_MIN = 20;
+function ElapsedPill({
+  order,
+  status,
+  size = 'md'
+}) {
+  var now = useNow();
+  var meta = PX_META[order] || {};
+  if (status === 'closed') {
+    return /*#__PURE__*/React.createElement("span", {
+      style: {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 4,
+        fontSize: 'var(--text-xs)',
+        color: 'var(--text-muted)'
+      }
+    }, /*#__PURE__*/React.createElement(PXIcon, {
+      name: "timer-off",
+      size: 12
+    }), "Closed in ", meta.closedAfter || 0, "m");
+  }
+  var ms = now - pxOpenedAt(order);
+  var min = ms / 60000;
+  var tone = min >= PX_LATE_MIN ? 'late' : min >= PX_WARN_MIN ? 'warn' : 'ok';
+  var bg = {
+    ok: 'var(--surface-raised)',
+    warn: 'var(--order-warn)',
+    late: 'var(--order-late)'
+  }[tone];
+  var fg = tone === 'ok' ? 'var(--text-primary)' : 'var(--text-on-light)';
+  return /*#__PURE__*/React.createElement("span", {
+    title: (status === 'pending' ? 'Pending close' : 'Open') + ' for ' + pxFmt(ms),
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 5,
+      height: size === 'sm' ? 22 : 26,
+      padding: '0 8px',
+      borderRadius: 'var(--radius-pill)',
+      background: bg,
+      color: fg,
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-semibold)',
+      fontVariantNumeric: 'tabular-nums',
+      whiteSpace: 'nowrap'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: tone === 'late' ? 'triangle-alert' : 'timer',
+    size: 12
+  }), pxFmt(ms));
+}
+var PX_TYPE_ICON = {
+  'Dine here': 'utensils',
+  Pickup: 'shopping-bag',
+  Delivery: 'bike'
+};
+function OrderTypeTag({
+  order
+}) {
+  var m = PX_META[order];
+  if (!m) return null;
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)',
+      minWidth: 0
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: PX_TYPE_ICON[m.type],
+    size: 14
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      whiteSpace: 'nowrap'
+    }
+  }, m.type === 'Delivery' ? m.customer.platform : m.type, " \xB7 ", m.customer.name), m.prepaid && /*#__PURE__*/React.createElement(PrepaidTag, null));
+}
+function PrepaidTag({
+  via
+}) {
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: '0 0 auto',
+      marginLeft: 'auto',
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 4,
+      height: 20,
+      padding: '0 7px',
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--mint-200)',
+      color: 'var(--text-on-light)',
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: "badge-check",
+    size: 12
+  }), via ? 'Paid via ' + via : 'Prepaid');
+}
 
-    /* ---------- 86 / sold out ---------- */
-    const PX_86_KEY = 'compos-86';
-    function useSoldOut() {
-      const [list, setList] = React.useState(() => { try { return JSON.parse(localStorage.getItem(PX_86_KEY)) || ['Ramen tonkotsu', 'Salmón glaseado']; } catch (e) { return ['Ramen tonkotsu', 'Salmón glaseado']; } });
-      const toggle = (name) => setList((l) => { const n = l.includes(name) ? l.filter((x) => x !== name) : [...l, name]; try { localStorage.setItem(PX_86_KEY, JSON.stringify(n)); } catch (e) {} return n; });
-      return { list, isOut:(n) => list.includes(n), toggle };
+/* ---------- 86 / sold out ---------- */
+var PX_86_KEY = 'compos-86';
+function useSoldOut() {
+  var [list, setList] = React.useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem(PX_86_KEY)) || ['Ramen tonkotsu', 'Salmón glaseado'];
+    } catch (e) {
+      return ['Ramen tonkotsu', 'Salmón glaseado'];
     }
-    function StockCard({ out, manage, onToggle, children }) {
-      return (
-        <div style={{ position:'relative', minWidth:0, display:'flex', flexDirection:'column' }}>
-          <div style={{ opacity: out ? .35 : 1, pointerEvents: out || manage ? 'none' : 'auto', display:'flex', flexDirection:'column', flex:1 }}>{children}</div>
-          {out && !manage && <span style={{ position:'absolute', top:8, right:8, display:'inline-flex', alignItems:'center', gap:4, height:22, padding:'0 8px', borderRadius:'var(--radius-pill)', background:'var(--status-danger)', color:'var(--text-on-light)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-bold)' }}><PXIcon name="ban" size={12} />86 · Sold out</span>}
-          {manage && (
-            <button onClick={onToggle} style={{ position:'absolute', inset:0, borderRadius:'var(--radius-md)', border: out ? '2px solid var(--status-danger)' : '2px dashed var(--border-strong)', background: out ? 'rgba(229,105,95,.12)' : 'rgba(17,19,21,.35)', color: out ? 'var(--danger-ink)' : 'var(--text-primary)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:6, fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer' }}>
-              <PXIcon name={out ? 'rotate-ccw' : 'ban'} size={20} />{out ? 'Back in stock' : 'Mark sold out'}
-            </button>
-          )}
-        </div>
-      );
+  });
+  var toggle = name => setList(l => {
+    var n = l.includes(name) ? l.filter(x => x !== name) : [...l, name];
+    try {
+      localStorage.setItem(PX_86_KEY, JSON.stringify(n));
+    } catch (e) {}
+    return n;
+  });
+  return {
+    list,
+    isOut: n => list.includes(n),
+    toggle
+  };
+}
+function StockCard({
+  out,
+  manage,
+  onToggle,
+  children
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative',
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column'
     }
-    function StockToggle({ manage, count, onClick, compact }) {
-      return (
-        <button onClick={onClick} style={{ flex:'0 0 auto', height: compact ? 44 : 52, padding:'0 14px', borderRadius:'var(--radius-sm)', border: manage ? 'none' : '1.5px solid var(--status-danger)', background: manage ? 'var(--status-danger)' : 'transparent', color: manage ? 'var(--text-on-light)' : 'var(--danger-ink)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', display:'flex', alignItems:'center', gap:8, cursor:'pointer' }}>
-          <PXIcon name={manage ? 'check' : 'ban'} size={18} />{manage ? 'Done' : '86 · ' + count}
-        </button>
-      );
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      opacity: out ? .35 : 1,
+      pointerEvents: out || manage ? 'none' : 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      flex: 1
     }
+  }, children), out && !manage && /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      top: 8,
+      right: 8,
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 4,
+      height: 22,
+      padding: '0 8px',
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--status-danger)',
+      color: 'var(--text-on-light)',
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-bold)'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: "ban",
+    size: 12
+  }), "86 \xB7 Sold out"), manage && /*#__PURE__*/React.createElement("button", {
+    onClick: onToggle,
+    style: {
+      position: 'absolute',
+      inset: 0,
+      borderRadius: 'var(--radius-md)',
+      border: out ? '2px solid var(--status-danger)' : '2px dashed var(--border-strong)',
+      background: out ? 'rgba(229,105,95,.12)' : 'rgba(17,19,21,.35)',
+      color: out ? 'var(--danger-ink)' : 'var(--text-primary)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 6,
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-semibold)',
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: out ? 'rotate-ccw' : 'ban',
+    size: 20
+  }), out ? 'Back in stock' : 'Mark sold out'));
+}
+function StockToggle({
+  manage,
+  count,
+  onClick,
+  compact
+}) {
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: onClick,
+    style: {
+      flex: '0 0 auto',
+      height: compact ? 44 : 52,
+      padding: '0 14px',
+      borderRadius: 'var(--radius-sm)',
+      border: manage ? 'none' : '1.5px solid var(--status-danger)',
+      background: manage ? 'var(--status-danger)' : 'transparent',
+      color: manage ? 'var(--text-on-light)' : 'var(--danger-ink)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-semibold)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      cursor: 'pointer'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: manage ? 'check' : 'ban',
+    size: 18
+  }), manage ? 'Done' : '86 · ' + count);
+}
 
-    /* ---------- Void / refund reasons ---------- */
-    const PX_VOID_REASONS = ['Customer cancelled', 'Duplicate order', 'Entered by mistake', 'Item unavailable', 'Payment failed', 'Other'];
-    const PX_REFUND_REASONS = ['Wrong item', 'Quality issue', 'Late delivery', 'Missing item', 'Customer cancelled', 'Other'];
-    function ReasonChips({ reasons, value, onChange }) {
-      return (
-        <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-          {reasons.map((r) => {
-            const on = r === value;
-            return <button key={r} onClick={() => onChange(r)} style={{ height:40, padding:'0 14px', borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-inverse)' : 'transparent', color: on ? 'var(--text-on-inverse)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer' }}>{r}</button>;
-          })}
-        </div>
-      );
+/* ---------- Void / refund reasons ---------- */
+var PX_VOID_REASONS = ['Customer cancelled', 'Duplicate order', 'Entered by mistake', 'Item unavailable', 'Payment failed', 'Other'];
+var PX_REFUND_REASONS = ['Wrong item', 'Quality issue', 'Late delivery', 'Missing item', 'Customer cancelled', 'Other'];
+function ReasonChips({
+  reasons,
+  value,
+  onChange
+}) {
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      gap: 8
     }
-    function VoidDialog({ order, onClose, onConfirm }) {
-      const [reason, setReason] = React.useState(null);
-      const [note, setNote] = React.useState('');
-      const ok = reason && (reason !== 'Other' || note.trim());
-      return (
-        <div style={{ position:'absolute', inset:0, zIndex:20, display:'flex', alignItems:'center', justifyContent:'center', padding:16 }}>
-          <div onClick={onClose} style={{ position:'absolute', inset:0, background:'rgba(0,0,0,.6)' }}></div>
-          <div style={{ position:'relative', width:'100%', maxWidth:440, background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', padding:20, display:'flex', flexDirection:'column', gap:16 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-              <span style={{ width:36, height:36, borderRadius:18, background:'rgba(229,105,95,.15)', color:'var(--danger-ink)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}><PXIcon name="ban" size={18} /></span>
-              <span style={{ display:'flex', flexDirection:'column' }}>
-                <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)' }}>Void order #{order}</span>
-                <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>Items not yet paid will be removed. A reason is required.</span>
-              </span>
-            </div>
-            <ReasonChips reasons={PX_VOID_REASONS} value={reason} onChange={setReason} />
-            <textarea value={note} onChange={(e) => setNote(e.target.value)} rows={2} placeholder={reason === 'Other' ? 'Describe the reason (required)' : 'Add a note (optional)'} style={{ ...pxField, height:'auto', padding:10, resize:'none' }}></textarea>
-            <div style={{ display:'flex', gap:8 }}>
-              <PXButton variant="outline" size="lg" onClick={onClose} style={{ flex:1 }}>Keep order</PXButton>
-              <PXButton size="lg" disabled={!ok} onClick={() => onConfirm({ reason, note })} style={{ flex:1, background: ok ? 'var(--status-danger)' : undefined, color: ok ? 'var(--text-on-light)' : undefined }}>Void order</PXButton>
-            </div>
-          </div>
-        </div>
-      );
+  }, reasons.map(r => {
+    var on = r === value;
+    return /*#__PURE__*/React.createElement("button", {
+      key: r,
+      onClick: () => onChange(r),
+      style: {
+        height: 40,
+        padding: '0 14px',
+        borderRadius: 'var(--radius-pill)',
+        border: on ? 'none' : '1px solid var(--border-strong)',
+        background: on ? 'var(--surface-inverse)' : 'transparent',
+        color: on ? 'var(--text-on-inverse)' : 'var(--text-primary)',
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--weight-medium)',
+        cursor: 'pointer'
+      }
+    }, r);
+  }));
+}
+function VoidDialog({
+  order,
+  onClose,
+  onConfirm
+}) {
+  var [reason, setReason] = React.useState(null);
+  var [note, setNote] = React.useState('');
+  var ok = reason && (reason !== 'Other' || note.trim());
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      inset: 0,
+      zIndex: 20,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 16
     }
+  }, /*#__PURE__*/React.createElement("div", {
+    onClick: onClose,
+    style: {
+      position: 'absolute',
+      inset: 0,
+      background: 'rgba(0,0,0,.6)'
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'relative',
+      width: '100%',
+      maxWidth: 440,
+      background: 'var(--surface-panel)',
+      borderRadius: 'var(--radius-lg)',
+      padding: 20,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      background: 'rgba(229,105,95,.15)',
+      color: 'var(--danger-ink)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: "ban",
+    size: 18
+  })), /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h3)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, "Void order #", order), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)'
+    }
+  }, "Items not yet paid will be removed. A reason is required."))), /*#__PURE__*/React.createElement(ReasonChips, {
+    reasons: PX_VOID_REASONS,
+    value: reason,
+    onChange: setReason
+  }), /*#__PURE__*/React.createElement("textarea", {
+    value: note,
+    onChange: e => setNote(e.target.value),
+    rows: 2,
+    placeholder: reason === 'Other' ? 'Describe the reason (required)' : 'Add a note (optional)',
+    style: {
+      ...pxField,
+      height: 'auto',
+      padding: 10,
+      resize: 'none'
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(PXButton, {
+    variant: "outline",
+    size: "lg",
+    onClick: onClose,
+    style: {
+      flex: 1
+    }
+  }, "Keep order"), /*#__PURE__*/React.createElement(PXButton, {
+    size: "lg",
+    disabled: !ok,
+    onClick: () => onConfirm({
+      reason,
+      note
+    }),
+    style: {
+      flex: 1,
+      background: ok ? 'var(--status-danger)' : undefined,
+      color: ok ? 'var(--text-on-light)' : undefined
+    }
+  }, "Void order"))));
+}
+var PX_STATUS = {
+  open: {
+    label: 'Open',
+    color: 'var(--order-open)',
+    icon: 'circle-dot'
+  },
+  pending: {
+    label: 'Pending Close',
+    color: 'var(--order-preparing)',
+    icon: 'flame'
+  },
+  preparing: {
+    label: 'Preparing',
+    color: 'var(--order-preparing)',
+    icon: 'flame'
+  },
+  ready: {
+    label: 'Ready',
+    color: 'var(--order-ready)',
+    icon: 'package-check'
+  },
+  closed: {
+    label: 'Closed',
+    color: 'var(--order-closed)',
+    icon: 'circle-check'
+  },
+  void: {
+    label: 'Void',
+    color: 'var(--order-void)',
+    icon: 'ban'
+  }
+};
+function StatusChip({
+  status,
+  solid
+}) {
+  var s = PX_STATUS[status];
+  if (!s) return null;
+  return /*#__PURE__*/React.createElement("span", {
+    style: {
+      display: 'inline-flex',
+      alignItems: 'center',
+      gap: 5,
+      height: 24,
+      padding: '0 9px',
+      borderRadius: 'var(--radius-pill)',
+      border: solid ? 'none' : '1.5px solid ' + window.inkOf(s.color),
+      background: solid ? s.color : 'transparent',
+      color: solid ? 'var(--text-on-light)' : window.inkOf(s.color),
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-semibold)',
+      whiteSpace: 'nowrap'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: s.icon,
+    size: 12
+  }), s.label);
+}
+function TypeIcon({
+  type,
+  size = 32
+}) {
+  return /*#__PURE__*/React.createElement("span", {
+    title: type,
+    style: {
+      width: size,
+      height: size,
+      flex: '0 0 auto',
+      borderRadius: 'var(--radius-sm)',
+      background: 'var(--surface-raised)',
+      color: 'var(--text-primary)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(PXIcon, {
+    name: PX_TYPE_ICON[type] || 'receipt',
+    size: Math.round(size * .55)
+  }));
+}
+Object.assign(window, {
+  PX_STATUS,
+  StatusChip,
+  TypeIcon,
+  PrepaidTag,
+  useSoldOut,
+  StockCard,
+  StockToggle,
+  PX_VOID_REASONS,
+  PX_REFUND_REASONS,
+  ReasonChips,
+  VoidDialog,
+  pxField,
+  PX_MODS,
+  ModifierPanel,
+  CustomerPanel,
+  CustomerRow,
+  PX_META,
+  ElapsedPill,
+  OrderTypeTag,
+  useNow,
+  pxFmt,
+  pxOpenedAt,
+  PX_TYPE_ICON,
+  PX_WARN_MIN,
+  PX_LATE_MIN
+});
+</script>
+<script data-src="Feedback.jsx">
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } return n; }, _extends.apply(null, arguments); }
+var FBds = () => window.ComposDesignSystem_9739cd;
+var FB_PIN = '1234';
 
-    const PX_STATUS = {
-      open:{ label:'Open', color:'var(--order-open)', icon:'circle-dot' },
-      pending:{ label:'Pending Close', color:'var(--order-preparing)', icon:'flame' },
-      preparing:{ label:'Preparing', color:'var(--order-preparing)', icon:'flame' },
-      ready:{ label:'Ready', color:'var(--order-ready)', icon:'package-check' },
-      closed:{ label:'Closed', color:'var(--order-closed)', icon:'circle-check' },
-      void:{ label:'Void', color:'var(--order-void)', icon:'ban' },
+/* ---------- Toasts ---------- */
+var fbPush = null;
+window.toast = t => {
+  if (fbPush) fbPush(t);
+};
+function ToastHost({
+  bottom = 20
+}) {
+  var {
+    Toast
+  } = FBds();
+  var [list, setList] = React.useState([]);
+  React.useEffect(() => {
+    fbPush = t => {
+      var id = Date.now() + Math.random();
+      setList(l => [{
+        id,
+        ...t
+      }, ...l].slice(0, 3));
+      if (t.tone !== 'danger') setTimeout(() => setList(l => l.filter(x => x.id !== id)), t.actionLabel ? 8000 : 4000);
     };
-    function StatusChip({ status, solid }) {
-      const s = PX_STATUS[status];
-      if (!s) return null;
-      return <span style={{ display:'inline-flex', alignItems:'center', gap:5, height:24, padding:'0 9px', borderRadius:'var(--radius-pill)', border: solid ? 'none' : '1.5px solid ' + window.inkOf(s.color), background: solid ? s.color : 'transparent', color: solid ? 'var(--text-on-light)' : window.inkOf(s.color), fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)', whiteSpace:'nowrap' }}><PXIcon name={s.icon} size={12} />{s.label}</span>;
+    return () => {
+      fbPush = null;
+    };
+  }, []);
+  var close = id => setList(l => l.filter(x => x.id !== id));
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom,
+      zIndex: 60,
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 8,
+      pointerEvents: 'none',
+      padding: '0 12px'
     }
-    function TypeIcon({ type, size = 32 }) {
-      return <span title={type} style={{ width:size, height:size, flex:'0 0 auto', borderRadius:'var(--radius-sm)', background:'var(--surface-raised)', color:'var(--text-primary)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}><PXIcon name={PX_TYPE_ICON[type] || 'receipt'} size={Math.round(size * .55)} /></span>;
+  }, list.map(t => /*#__PURE__*/React.createElement("div", {
+    key: t.id,
+    style: {
+      pointerEvents: 'auto',
+      width: '100%',
+      maxWidth: 440,
+      display: 'flex',
+      justifyContent: 'center'
     }
-
-    Object.assign(window, { PX_STATUS, StatusChip, TypeIcon, PrepaidTag, useSoldOut, StockCard, StockToggle, PX_VOID_REASONS, PX_REFUND_REASONS, ReasonChips, VoidDialog, pxField, PX_MODS, ModifierPanel, CustomerPanel, CustomerRow, PX_META, ElapsedPill, OrderTypeTag, useNow, pxFmt, pxOpenedAt, PX_TYPE_ICON, PX_WARN_MIN, PX_LATE_MIN });
-
-</script>
-<script type="text/babel" data-src="Feedback.jsx">
-    const FBds = () => window.ComposDesignSystem_9739cd;
-    const FB_PIN = '1234';
-
-    /* ---------- Toasts ---------- */
-    let fbPush = null;
-    window.toast = (t) => { if (fbPush) fbPush(t); };
-    function ToastHost({ bottom = 20 }) {
-      const { Toast } = FBds();
-      const [list, setList] = React.useState([]);
-      React.useEffect(() => {
-        fbPush = (t) => {
-          const id = Date.now() + Math.random();
-          setList((l) => [{ id, ...t }, ...l].slice(0, 3));
-          if (t.tone !== 'danger') setTimeout(() => setList((l) => l.filter((x) => x.id !== id)), t.actionLabel ? 8000 : 4000);
-        };
-        return () => { fbPush = null; };
-      }, []);
-      const close = (id) => setList((l) => l.filter((x) => x.id !== id));
-      return (
-        <div style={{ position:'absolute', left:0, right:0, bottom, zIndex:60, display:'flex', flexDirection:'column', alignItems:'center', gap:8, pointerEvents:'none', padding:'0 12px' }}>
-          {list.map((t) => (
-            <div key={t.id} style={{ pointerEvents:'auto', width:'100%', maxWidth:440, display:'flex', justifyContent:'center' }}>
-              <Toast tone={t.tone} title={t.title} message={t.message} actionLabel={t.actionLabel} onAction={() => { t.onAction && t.onAction(); close(t.id); }} onClose={() => close(t.id)} style={{ width:'100%' }} />
-            </div>
-          ))}
-        </div>
-      );
+  }, /*#__PURE__*/React.createElement(Toast, {
+    tone: t.tone,
+    title: t.title,
+    message: t.message,
+    actionLabel: t.actionLabel,
+    onAction: () => {
+      t.onAction && t.onAction();
+      close(t.id);
+    },
+    onClose: () => close(t.id),
+    style: {
+      width: '100%'
     }
+  }))));
+}
 
-    /* ---------- Manager override ---------- */
-    function useOverride() {
-      const { ManagerOverride } = FBds();
-      const [req, setReq] = React.useState(null);
-      const [err, setErr] = React.useState('');
-      const request = (action, detail, onApprove) => { setErr(''); setReq({ action, detail, onApprove }); };
-      const el = req ? (
-        <ManagerOverride action={req.action} detail={req.detail} managers={['Lena P.', 'Sofía G.']} error={err}
-          onCancel={() => setReq(null)}
-          onSubmit={({ manager, pin }) => { if (pin === FB_PIN) { const r = req; setReq(null); r.onApprove(manager); } else setErr('Wrong PIN — try again'); }} />
-      ) : null;
-      return [el, request];
-    }
-
-    /* ---------- Discount ---------- */
-    const FB_DISC_REASONS = ['Loyal customer', 'Staff meal', 'Service recovery', 'Promotion', 'Other'];
-    function DiscountDialog({ subtotal, onClose, onApply }) {
-      const { ConfirmDialog, ReasonChips } = FBds();
-      const [kind, setKind] = React.useState('%');
-      const [val, setVal] = React.useState(10);
-      const [reason, setReason] = React.useState(null);
-      const amount = Math.min(subtotal, kind === '%' ? subtotal * val / 100 : val);
-      const chips = kind === '%' ? [5, 10, 15, 20, 50] : [20, 50, 100, 200, 500];
-      const chip = (on) => ({ height:44, minWidth:56, padding:'0 12px', borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-accent)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer' });
-      return (
-        <ConfirmDialog icon="badge-percent" title="Add discount" message={'Applies to the subtotal of ' + '$' + subtotal.toFixed(2) + '. Needs manager approval.'}
-          confirmLabel={'Apply −$' + amount.toFixed(2)} onCancel={onClose} onConfirm={() => reason && amount > 0 && onApply({ amount, reason, label: kind === '%' ? val + '%' : '$' + val })}>
-          <div style={{ display:'flex', gap:6 }}>
-            {['%', '$'].map((k) => <button key={k} onClick={() => { setKind(k); setVal(k === '%' ? 10 : 50); }} style={{ ...chip(k === kind), flex:1, borderRadius:'var(--radius-sm)', background: k === kind ? 'var(--surface-inverse)' : 'transparent', color: k === kind ? 'var(--text-on-inverse)' : 'var(--text-primary)' }}>{k === '%' ? 'Percent' : 'Amount'}</button>)}
-          </div>
-          <div style={{ display:'flex', gap:6, flexWrap:'wrap' }}>
-            {chips.map((c) => <button key={c} onClick={() => setVal(c)} style={chip(c === val)}>{kind === '%' ? c + '%' : '$' + c}</button>)}
-          </div>
-          <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-            <span style={{ fontSize:'var(--text-xs)', color:'var(--text-muted)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase' }}>Reason · required</span>
-            <ReasonChips reasons={FB_DISC_REASONS} value={reason} onChange={setReason} />
-          </div>
-        </ConfirmDialog>
-      );
-    }
-
-    /* ---------- Showcase ---------- */
-    function FeedbackShowcase({ compact }) {
-      const { ConfirmDialog, Button } = FBds();
-      const [ov, request] = useOverride();
-      const [dlg, setDlg] = React.useState(null);
-      const label = { fontSize:'var(--text-xs)', color:'var(--text-muted)', letterSpacing:'var(--tracking-wide)', textTransform:'uppercase' };
-      const T = [
-        ['positive', 'Sent to kitchen', 'Order #412 · 3 items', 'Undo'],
-        ['incoming', 'New Uber Eats order', '#UE-2231 · $387.00', 'View'],
-        ['warning', 'Check #396 open 25 min', 'Pending close'],
-        ['danger', 'Payment declined', 'Card ending 4421', 'Retry'],
-        ['neutral', 'Printer reconnected', 'Kitchen printer'],
-      ];
-      const D = {
-        delete: { tone:'danger', title:'Delete check #412?', message:"3 items will be removed and the kitchen notified. This can't be undone.", confirmLabel:'Delete check', then:() => request('Delete check #412', '3 items · $934.00', () => window.toast({ tone:'danger', title:'Check #412 deleted', message:'Approved by manager' })) },
-        send: { tone:'neutral', icon:'chef-hat', title:'Send 3 items to kitchen?', message:'Order #412 moves to Pending Close. You can still add items.', confirmLabel:'Send to kitchen', then:() => window.toast({ tone:'positive', title:'Sent to kitchen', message:'Order #412 · 3 items', actionLabel:'Undo' }) },
-        close: { tone:'positive', title:'Close shift?', message:'Counted $6447.00 · variance +$10.00. An end-of-day report will print.', confirmLabel:'Close shift', then:() => window.toast({ tone:'positive', title:'Shift closed' }) },
-        leave: { tone:'neutral', icon:'log-out', title:'Leave with unsaved changes?', message:'Settings you changed on this page will be lost.', confirmLabel:'Discard changes', then:() => window.toast({ tone:'neutral', title:'Changes discarded' }) },
-      };
-      const strip = (o) => { if (!o) return o; const { then, ...rest } = o; return rest; };
-      const d = dlg && D[dlg];
-      return (
-        <div style={{ flex:1, minHeight:0, position:'relative', display:'flex', flexDirection:'column', overflow:'hidden' }}>
-          <div style={{ flex:1, overflowY:'auto', padding: compact ? 12 : 20, display:'flex', flexDirection:'column', gap:20 }}>
-            <span style={{ fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>Toasts & dialogs</span>
-            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-              <span style={label}>Toasts · tap to trigger</span>
-              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                {T.map(([tone, title, message, actionLabel]) => <Button key={tone} variant="outline" size="sm" onClick={() => window.toast({ tone, title, message, actionLabel })}>{tone}</Button>)}
-              </div>
-            </div>
-            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-              <span style={label}>Confirmation dialogs</span>
-              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                <Button variant="outline" size="sm" onClick={() => setDlg('send')}>Send to kitchen</Button>
-                <Button variant="outline" size="sm" onClick={() => setDlg('close')}>Close shift</Button>
-                <Button variant="outline" size="sm" onClick={() => setDlg('leave')}>Unsaved changes</Button>
-                <Button variant="outline" size="sm" onClick={() => setDlg('delete')} style={{ color:'var(--danger-ink)', borderColor:'var(--danger-ink)' }}>Delete check</Button>
-              </div>
-            </div>
-            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
-              <span style={label}>Manager override · demo PIN 1234</span>
-              <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
-                <Button variant="outline" size="sm" onClick={() => request('Refund $179.00', 'Order #401 · Wrong item', (m) => window.toast({ tone:'positive', title:'Refund approved', message:'by ' + m }))}>Refund</Button>
-                <Button variant="outline" size="sm" onClick={() => request('Discount 15%', 'Order #410 · Loyal customer', (m) => window.toast({ tone:'positive', title:'Discount applied', message:'by ' + m }))}>Discount</Button>
-                <Button variant="outline" size="sm" onClick={() => request('Open cash drawer', 'No sale', (m) => window.toast({ tone:'neutral', title:'Drawer opened', message:'by ' + m }))}>No-sale drawer</Button>
-              </div>
-            </div>
-            <div style={{ display:'grid', gridTemplateColumns: compact ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))', gap:16, alignItems:'start' }}>
-              <ConfirmDialog inline {...strip(D.delete)} />
-              <ConfirmDialog inline {...strip(D.send)} />
-            </div>
-            <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)', textWrap:'pretty' }}>Rules: toasts report what happened (never ask); dialogs ask before anything that can't be undone silently; powerful actions — refund, discount, void/delete, no-sale drawer — always take a reason first, then a manager PIN.</span>
-          </div>
-          {d && <ConfirmDialog {...strip(d)} onCancel={() => setDlg(null)} onConfirm={() => { setDlg(null); d.then(); }} />}
-          {ov}
-          <ToastHost />
-        </div>
-      );
-    }
-
-    Object.assign(window, { ToastHost, useOverride, DiscountDialog, FeedbackShowcase, FB_PIN });
-
-</script>
-<script type="text/babel" data-src="MenuLayout.jsx">
-    const { DishCard, Button, IconButton, Icon, Badge, QuantityStepper, StatusDot } = window.ComposDesignSystem_9739cd;
-
-    const ML_CATS = [
-      { name:'Bowls y ramen', icon:'soup', color:'var(--periwinkle-200)', items:[['Bowl teriyaki', '$159'],['Bowl spicy tuna', '$179'],['Bowl katsu', '$169'],['Ramen miso', '$175'],['Ramen tonkotsu', '$189'],['Yakisoba', '$149']] },
-      { name:'Entradas', icon:'egg-fried', color:'var(--sage-200)', items:[['Gyozas (6)', '$95'],['Edamame', '$65'],['Rollitos primavera', '$85'],['Takoyaki', '$99'],['Ensalada wakame', '$79'],['Bao de cerdo', '$89'],['Bao de pollo', '$85'],['Onigiri', '$55']] },
-      { name:'Sopas', icon:'soup', color:'var(--lilac-200)', items:[['Udon de res', '$185'],['Sopa kimchi', '$129'],['Tom yum', '$149'],['Sopa miso', '$59'],['Sopa de calabaza', '$99'],['Caldo de pollo', '$89']] },
-      { name:'Arroces y fideos', icon:'wheat', color:'var(--sky-200)', items:[['Pad thai', '$169'],['Arroz frito', '$139'],['Fideos de arroz', '$145'],['Curry japonés', '$165'],['Yakimeshi', '$135'],['Chow mein', '$149'],['Udon de mariscos', '$215']] },
-      { name:'Platos fuertes', icon:'drumstick', color:'var(--rose-200)', items:window.DISHES.map((d) => [d.name, d.price]) },
-      { name:'Postres', icon:'cake', color:'var(--lilac-200)', items:[['Mochi de matcha', '$69'],['Cheesecake japonés', '$89'],['Dorayaki', '$59'],['Brownie de matcha', '$65'],['Helado de té verde', '$55'],['Flan de coco', '$65']] },
-      { name:'Bebidas', icon:'cup-soda', color:'var(--rose-200)', items:[['Limonada', '$45'],['Jugo de naranja', '$49'],['Té de jazmín', '$39'],['Té de frutos rojos', '$42'],['Jugo de manzana', '$45'],['Agua mineral', '$25']] },
-      { name:'Alcohol', icon:'martini', color:'var(--positive-ink)', items:[['Vino tinto', '$120'],['Vino blanco', '$120'],['Cerveza de barril', '$69'],['Gin tonic', '$145'],['Mojito', '$125'],['Sake', '$135']] },
-    ];
-    const mlPrice = (p) => parseFloat(p.slice(1));
-    const mlAddVariant = (setCart, v) => setCart((c) => {
-      const key = v.name + (v.mods.length ? ' · ' + v.mods.join(', ') : '') + (v.note ? ' · ' + v.note : '');
-      const prev = c[key];
-      return { ...c, [key]:{ name:v.name, mods:v.mods, note:v.note, price:'$' + v.unit.toFixed(2), qty:(prev ? prev.qty : 0) + v.qty } };
+/* ---------- Manager override ---------- */
+function useOverride() {
+  var {
+    ManagerOverride
+  } = FBds();
+  var [req, setReq] = React.useState(null);
+  var [err, setErr] = React.useState('');
+  var request = (action, detail, onApprove) => {
+    setErr('');
+    setReq({
+      action,
+      detail,
+      onApprove
     });
-    const mlCheckout = (order, cart) => { try { localStorage.setItem('compos-checkout', JSON.stringify({ order, cart })); } catch (e) {} location.href = 'Payment Layout.html'; };
-
-    const ML_NAV = [['Incoming','bell-ring'],['Orders','clipboard-list'],['Kitchen','chef-hat'],['Shift','clock'],['Reports','chart-column'],['Settings','settings']];
-    const ML_LINKS = { Incoming:'Incoming Layout.html', Orders:'Orders Layout.html', Kitchen:'Kitchen Layout.html', Shift:'Shift Layout.html', Reports:'Reports Layout.html', Settings:'Settings Layout.html' };
-    const ML_BADGE = { Incoming:4 };
-    function MLThemeButton({ open }) {
-      const [, force] = React.useReducer((x) => x + 1, 0);
-      React.useEffect(() => { window.addEventListener('compos-theme', force); return () => window.removeEventListener('compos-theme', force); }, []);
-      const L = window.COMPOS_THEMES || [];
-      if (!L.length) return null;
-      const cur = L.find((t) => t.id === window.composTheme()) || L[0];
-      const next = () => window.composSetTheme(L[(L.indexOf(cur) + 1) % L.length].id);
-      return (
-        <button onClick={next} title={'Theme: ' + cur.label} style={{ height:48, width:'100%', display:'flex', alignItems:'center', justifyContent: open ? 'flex-start' : 'center', gap:12, padding: open ? '0 14px' : 0, borderRadius:'var(--radius-sm)', border:'1px solid var(--border-strong)', background:'transparent', color:'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer', whiteSpace:'nowrap', overflow:'hidden' }}>
-          <Icon name="palette" size={20} />{open && cur.label}
-        </button>
-      );
+  };
+  var el = req ? /*#__PURE__*/React.createElement(ManagerOverride, {
+    action: req.action,
+    detail: req.detail,
+    managers: ['Lena P.', 'Sofía G.'],
+    error: err,
+    onCancel: () => setReq(null),
+    onSubmit: ({
+      manager,
+      pin
+    }) => {
+      if (pin === FB_PIN) {
+        var r = req;
+        setReq(null);
+        r.onApprove(manager);
+      } else setErr('Wrong PIN — try again');
     }
-    function MLRail({ open, active, onNav }) {
-      const go = (label) => { if (onNav) onNav(label); else if (ML_LINKS[label]) location.href = ML_LINKS[label]; };
-      const item = ([label, ic], danger) => (
-        <button key={label} onClick={() => go(label)} title={open ? undefined : label} style={{ height:48, width:'100%', display:'flex', alignItems:'center', justifyContent: open ? 'flex-start' : 'center', gap:12, padding: open ? '0 14px' : 0, borderRadius:'var(--radius-sm)', border:'none', background: active === label ? 'var(--surface-inverse)' : 'transparent', color: active === label ? 'var(--text-on-inverse)' : danger ? 'var(--danger-ink)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)', cursor:'pointer', whiteSpace:'nowrap', overflow:'hidden' }}
-          onMouseEnter={(e) => { if (active !== label) e.currentTarget.style.background = 'var(--surface-card)'; }} onMouseLeave={(e) => { if (active !== label) e.currentTarget.style.background = 'transparent'; }}>
-          <span style={{ position:'relative', display:'inline-flex' }}><Icon name={ic} size={20} />{ML_BADGE[label] && <span style={{ position:'absolute', top:-6, right:-8, minWidth:16, height:16, padding:'0 4px', boxSizing:'border-box', borderRadius:8, background:'var(--order-late)', color:'var(--text-on-light)', fontSize:10, fontWeight:700, display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{ML_BADGE[label]}</span>}</span>{open && label}
-        </button>
-      );
-      return (
-        <nav style={{ width: open ? 200 : 72, flex:'0 0 auto', display:'flex', flexDirection:'column', gap:4, padding:12, boxSizing:'border-box', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', transition:'width 200ms ease' }}>
-          {ML_NAV.map((n) => item(n))}
-          <div style={{ marginTop:'auto', display:'flex', flexDirection:'column', gap:4 }}><MLThemeButton open={open} />{item(['Exit','log-out'], true)}</div>
-        </nav>
-      );
-    }
+  }) : null;
+  return [el, request];
+}
 
-    const ML_TAB_LINKS = { CHECKS:'Orders Layout.html', MENU:'Menu Layout.html', REFUND:'Refund Layout.html' };
-    function MLTopBar({ onMenu, active = 'MENU', onTab }) {
-      const tab = (label, active, disabled) => (
-        <button disabled={disabled} onClick={() => { if (active) return; if (onTab) onTab(label); else location.href = ML_TAB_LINKS[label]; }} style={{ height:44, padding:'0 18px', borderRadius:'var(--radius-pill)', border: active ? 'none' : '1px solid var(--border-strong)', background: active ? 'var(--surface-inverse)' : 'transparent', color: active ? 'var(--text-on-inverse)' : disabled ? 'var(--text-muted)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', letterSpacing:'var(--tracking-wide)', cursor: disabled ? 'not-allowed' : 'pointer', display:'flex', alignItems:'center', gap:8 }}>
-          {label}{disabled && <Badge tone="neutral">Soon</Badge>}
-        </button>
-      );
-      return (
-        <header style={{ height:72, flex:'0 0 auto', display:'flex', alignItems:'center', gap:16, padding:'0 20px', boxShadow:'inset 0 4px 0 var(--brand-stripe)' }}>
-          <IconButton icon="menu" label="Toggle navigation" variant="secondary" onClick={onMenu} />
-          <span style={{ fontSize:'var(--text-h3)', fontWeight:'var(--weight-semibold)', lineHeight:'var(--lh-h3)' }}>Lena P.</span>
-          <IconButton icon="search" label="Search" variant="outline" onClick={() => { location.href = 'Search Layout.html'; }} style={{ marginRight:'auto' }} />
-          <nav style={{ display:'flex', alignItems:'center', gap:8 }}>
-            {tab('CHECKS', active === 'CHECKS')}
-            {tab('MENU', active === 'MENU')}
-            {tab('REFUND', active === 'REFUND')}
-          </nav>
-        </header>
-      );
+/* ---------- Discount ---------- */
+var FB_DISC_REASONS = ['Loyal customer', 'Staff meal', 'Service recovery', 'Promotion', 'Other'];
+function DiscountDialog({
+  subtotal,
+  onClose,
+  onApply
+}) {
+  var {
+    ConfirmDialog,
+    ReasonChips
+  } = FBds();
+  var [kind, setKind] = React.useState('%');
+  var [val, setVal] = React.useState(10);
+  var [reason, setReason] = React.useState(null);
+  var amount = Math.min(subtotal, kind === '%' ? subtotal * val / 100 : val);
+  var chips = kind === '%' ? [5, 10, 15, 20, 50] : [20, 50, 100, 200, 500];
+  var chip = on => ({
+    height: 44,
+    minWidth: 56,
+    padding: '0 12px',
+    borderRadius: 'var(--radius-pill)',
+    border: on ? 'none' : '1px solid var(--border-strong)',
+    background: on ? 'var(--surface-accent)' : 'transparent',
+    color: on ? 'var(--text-on-light)' : 'var(--text-primary)',
+    fontSize: 'var(--text-sm)',
+    fontWeight: 'var(--weight-semibold)',
+    cursor: 'pointer'
+  });
+  return /*#__PURE__*/React.createElement(ConfirmDialog, {
+    icon: "badge-percent",
+    title: "Add discount",
+    message: 'Applies to the subtotal of ' + '$' + subtotal.toFixed(2) + '. Needs manager approval.',
+    confirmLabel: 'Apply −$' + amount.toFixed(2),
+    onCancel: onClose,
+    onConfirm: () => reason && amount > 0 && onApply({
+      amount,
+      reason,
+      label: kind === '%' ? val + '%' : '$' + val
+    })
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6
     }
-
-    function MLCart({ cart, setQty, clear, title = 'New Check', meta, style, onCheckout, initialMode = 'Dine here', initialCustomer = null, prepaid: prepaidProp = null, onPrepaidClose }) {
-      const [mode, setMode] = React.useState(initialMode);
-      const [customer, setCustomer] = React.useState(initialCustomer);
-      const [editing, setEditing] = React.useState(false);
-      const prepaid = prepaidProp || (mode === 'Delivery' && customer && customer.platform && customer.platform !== 'Own driver' ? customer.platform : null);
-      const needsCustomer = mode !== 'Dine here' && !(customer && customer.name && (mode !== 'Delivery' || customer.address));
-      const lines = Object.entries(cart);
-      const total = lines.reduce((s, [, v]) => s + v.qty * mlPrice(v.price), 0);
-      const count = lines.reduce((s, [, v]) => s + v.qty, 0);
-      return (
-        <aside style={{ width:340, flex:'0 0 auto', display:'flex', flexDirection:'column', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden', position:'relative', ...style }}>
-          <div style={{ padding:'20px 20px 16px', display:'flex', alignItems:'center', justifyContent:'space-between', borderBottom:'1px solid var(--border-hairline)' }}>
-            <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>{title}</span>
-            {meta || (count > 0 && <Badge tone="accent">{count} items</Badge>)}
-          </div>
-          <div style={{ display:'flex', gap:8, padding:'12px 16px', borderBottom:'1px solid var(--border-hairline)' }}>
-            {[['Dine here','utensils'],['Pickup','shopping-bag'],['Delivery','bike']].map(([m, ic]) => {
-              const on = m === mode;
-              return (
-                <button key={m} onClick={() => setMode(m)} style={{ flex:1, height:40, borderRadius:'var(--radius-pill)', border: on ? 'none' : '1px solid var(--border-strong)', background: on ? 'var(--surface-accent)' : 'transparent', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
-                  <Icon name={ic} size={16} />{m}
-                </button>
-              );
-            })}
-          </div>
-          {mode !== 'Dine here' && <div style={{ paddingTop:12 }}><window.CustomerRow mode={mode} customer={customer} onEdit={() => setEditing(true)} /></div>}
-          <div style={{ flex:1, overflowY:'auto', padding:16, display:'flex', flexDirection:'column', gap:8 }}>
-            {lines.length === 0 && (
-              <div style={{ margin:'auto', display:'flex', flexDirection:'column', alignItems:'center', gap:10, color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>
-                <Icon name="shopping-cart" size={24} />Tap an item to add it to the check.
-              </div>
-            )}
-            {lines.map(([name, v]) => (
-              <div key={name} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', padding:'10px 12px', display:'flex', alignItems:'center', gap:10 }}>
-                <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column' }}>
-                  <span style={{ fontSize:'var(--text-sm)', fontWeight:'var(--weight-medium)' }}>{v.name || name}</span>
-                  {v.mods && v.mods.length > 0 && <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{v.mods.join(' · ')}</span>}
-                  {v.note && <span style={{ fontSize:'var(--text-xs)', color:'var(--status-checkedin)' }}>“{v.note}”</span>}
-                  <span style={{ fontSize:'var(--text-xs)', color:'var(--text-secondary)' }}>{'$' + (v.qty * mlPrice(v.price)).toFixed(2)}</span>
-                </span>
-                <QuantityStepper value={v.qty} onChange={(q) => setQty(name, v.price, q)} />
-              </div>
-            ))}
-          </div>
-          <div style={{ padding:20, borderTop:'1px solid var(--border-hairline)', display:'flex', flexDirection:'column', gap:16 }}>
-            <div style={{ display:'flex', alignItems:'baseline', justifyContent:'space-between' }}>
-              <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-semibold)' }}>Total</span>
-              <span style={{ fontSize:'var(--text-metric)', fontWeight:'var(--weight-semibold)', letterSpacing:'var(--tracking-tight)' }}>{'$' + total.toFixed(2)}</span>
-            </div>
-            {prepaid && <div style={{ display:'flex', alignItems:'center', gap:8, fontSize:'var(--text-sm)', color:'var(--text-positive)' }}><Icon name="badge-check" size={16} />Paid in advance via {prepaid} · no payment needed</div>}
-            <div style={{ display:'flex', gap:8 }}>
-              <Button variant="outline" size="lg" style={{ flex:1, minWidth:0, paddingLeft:12, paddingRight:12 }} disabled={!lines.length} onClick={clear}>New Check</Button>
-              <Button size="lg" style={{ flex:1, minWidth:0, paddingLeft:12, paddingRight:12 }} disabled={!lines.length || needsCustomer} onClick={prepaid ? (onPrepaidClose || clear) : onCheckout}>{prepaid ? 'Send & close' : 'Checkout'}</Button>
-              {!prepaid && <IconButton icon="credit-card" label="Card payment" size="lg" variant="secondary" disabled={!lines.length || needsCustomer} style={{ flex:'0 0 auto' }} />}
-            </div>
-          </div>
-          {editing && <window.CustomerPanel mode={mode} value={customer} onClose={() => setEditing(false)} onSave={(c) => { setCustomer(c); setEditing(false); }} />}
-        </aside>
-      );
+  }, ['%', '$'].map(k => /*#__PURE__*/React.createElement("button", {
+    key: k,
+    onClick: () => {
+      setKind(k);
+      setVal(k === '%' ? 10 : 50);
+    },
+    style: {
+      ...chip(k === kind),
+      flex: 1,
+      borderRadius: 'var(--radius-sm)',
+      background: k === kind ? 'var(--surface-inverse)' : 'transparent',
+      color: k === kind ? 'var(--text-on-inverse)' : 'var(--text-primary)'
     }
-
-    function MenuLayout() {
-      const [cat, setCat] = React.useState(() => { const h = decodeURIComponent(location.hash.slice(1)); return ML_CATS.some((c) => c.name === h) ? h : ML_CATS[0].name; });
-      const [cart, setCart] = React.useState({});
-      const [railOpen, setRailOpen] = React.useState(false);
-      const [modItem, setModItem] = React.useState(null);
-      const [manage, setManage] = React.useState(false);
-      const stock = window.useSoldOut();
-      const active = ML_CATS.find((c) => c.name === cat);
-      const qtyOf = (name) => window.PX_MODS[name] ? Object.values(cart).filter((v) => v.name === name).reduce((s, v) => s + v.qty, 0) : (cart[name] ? cart[name].qty : 0);
-      const onDish = (name, price, q) => {
-        if (!window.PX_MODS[name]) return setQty(name, price, q);
-        if (q > qtyOf(name)) return setModItem({ name, price });
-        const k = Object.keys(cart).reverse().find((key) => cart[key].name === name);
-        if (k) setQty(k, cart[k].price, cart[k].qty - 1);
-      };
-      const setQty = (name, price, q) => setCart((c) => { const n = { ...c }; if (q <= 0) delete n[name]; else n[name] = { ...n[name], qty:q, price }; return n; });
-      return (
-        <div style={{ height:'100%', display:'flex', flexDirection:'column' }}>
-          <MLTopBar onMenu={() => setRailOpen((o) => !o)} />
-          <div style={{ flex:1, minHeight:0, display:'flex', gap:12, padding:'0 12px 12px' }}>
-            <MLRail open={railOpen} active="Menu" />
-            <main style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden' }}>
-              {modItem ? <window.ModifierPanel key={modItem.name} item={modItem.name} basePrice={mlPrice(modItem.price)} onCancel={() => setModItem(null)} onAdd={(v) => { mlAddVariant(setCart, v); setModItem(null); }} /> : <React.Fragment>
-              <div style={{ flex:1, overflowY:'auto', padding:20, display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gridAutoRows:'min-content', gap:12 }}>
-                {active.items.map(([name, price]) => (
-                  <window.StockCard key={name} out={stock.isOut(name)} manage={manage} onToggle={() => stock.toggle(name)}>
-                    <DishCard name={name} price={price} accent={active.color}
-                      qty={qtyOf(name)} onQty={(q) => onDish(name, price, q)} route={window.PX_MODS[name] ? 'Bar · has modifiers' : cat} style={{ minWidth:0, flex:1 }} />
-                  </window.StockCard>
-                ))}
-              </div>
-              <div style={{ flex:'0 0 auto', display:'flex', gap:8, overflowX:'auto', padding:'12px 20px 16px', borderTop:'1px solid var(--border-hairline)' }}>
-                <window.StockToggle manage={manage} count={stock.list.length} onClick={() => setManage((v) => !v)} />
-                {ML_CATS.map((c) => {
-                  const on = c.name === cat;
-                  return (
-                    <button key={c.name} onClick={() => setCat(c.name)} style={{ flex:'0 0 auto', height:52, padding:'0 18px', borderRadius:'var(--radius-sm)', border:`1.5px solid ${window.inkOf(c.color)}`, cursor:'pointer', display:'flex', alignItems:'center', gap:10, background: on ? c.color : 'transparent', color: on ? 'var(--text-on-light)' : window.inkOf(c.color), fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', transition:'background 150ms, color 150ms' }}>
-                      <Icon name={c.icon} size={20} />{c.name}
-                    </button>
-                  );
-                })}
-              </div>
-              </React.Fragment>}
-            </main>
-            <MLCart cart={cart} setQty={setQty} clear={() => setCart({})} onCheckout={() => mlCheckout('New', cart)} />
-          </div>
-        </div>
-      );
+  }, k === '%' ? 'Percent' : 'Amount'))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 6,
+      flexWrap: 'wrap'
     }
-    Object.assign(window, { mlAddVariant, mlCheckout, MLTopBar, MLRail, MLCart, mlPrice, MenuLayout, ML_CATS });
+  }, chips.map(c => /*#__PURE__*/React.createElement("button", {
+    key: c,
+    onClick: () => setVal(c),
+    style: chip(c === val)
+  }, kind === '%' ? c + '%' : '$' + c))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 6
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-muted)',
+      letterSpacing: 'var(--tracking-wide)',
+      textTransform: 'uppercase'
+    }
+  }, "Reason \xB7 required"), /*#__PURE__*/React.createElement(ReasonChips, {
+    reasons: FB_DISC_REASONS,
+    value: reason,
+    onChange: setReason
+  })));
+}
 
+/* ---------- Showcase ---------- */
+function FeedbackShowcase({
+  compact
+}) {
+  var {
+    ConfirmDialog,
+    Button
+  } = FBds();
+  var [ov, request] = useOverride();
+  var [dlg, setDlg] = React.useState(null);
+  var label = {
+    fontSize: 'var(--text-xs)',
+    color: 'var(--text-muted)',
+    letterSpacing: 'var(--tracking-wide)',
+    textTransform: 'uppercase'
+  };
+  var T = [['positive', 'Sent to kitchen', 'Order #412 · 3 items', 'Undo'], ['incoming', 'New Uber Eats order', '#UE-2231 · $387.00', 'View'], ['warning', 'Check #396 open 25 min', 'Pending close'], ['danger', 'Payment declined', 'Card ending 4421', 'Retry'], ['neutral', 'Printer reconnected', 'Kitchen printer']];
+  var D = {
+    delete: {
+      tone: 'danger',
+      title: 'Delete check #412?',
+      message: "3 items will be removed and the kitchen notified. This can't be undone.",
+      confirmLabel: 'Delete check',
+      then: () => request('Delete check #412', '3 items · $934.00', () => window.toast({
+        tone: 'danger',
+        title: 'Check #412 deleted',
+        message: 'Approved by manager'
+      }))
+    },
+    send: {
+      tone: 'neutral',
+      icon: 'chef-hat',
+      title: 'Send 3 items to kitchen?',
+      message: 'Order #412 moves to Pending Close. You can still add items.',
+      confirmLabel: 'Send to kitchen',
+      then: () => window.toast({
+        tone: 'positive',
+        title: 'Sent to kitchen',
+        message: 'Order #412 · 3 items',
+        actionLabel: 'Undo'
+      })
+    },
+    close: {
+      tone: 'positive',
+      title: 'Close shift?',
+      message: 'Counted $6447.00 · variance +$10.00. An end-of-day report will print.',
+      confirmLabel: 'Close shift',
+      then: () => window.toast({
+        tone: 'positive',
+        title: 'Shift closed'
+      })
+    },
+    leave: {
+      tone: 'neutral',
+      icon: 'log-out',
+      title: 'Leave with unsaved changes?',
+      message: 'Settings you changed on this page will be lost.',
+      confirmLabel: 'Discard changes',
+      then: () => window.toast({
+        tone: 'neutral',
+        title: 'Changes discarded'
+      })
+    }
+  };
+  var strip = o => {
+    if (!o) return o;
+    var {
+      then,
+      ...rest
+    } = o;
+    return rest;
+  };
+  var d = dlg && D[dlg];
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      position: 'relative',
+      display: 'flex',
+      flexDirection: 'column',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: compact ? 12 : 20,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 20
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, "Toasts & dialogs"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: label
+  }, "Toasts \xB7 tap to trigger"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, T.map(([tone, title, message, actionLabel]) => /*#__PURE__*/React.createElement(Button, {
+    key: tone,
+    variant: "outline",
+    size: "sm",
+    onClick: () => window.toast({
+      tone,
+      title,
+      message,
+      actionLabel
+    })
+  }, tone)))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: label
+  }, "Confirmation dialogs"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => setDlg('send')
+  }, "Send to kitchen"), /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => setDlg('close')
+  }, "Close shift"), /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => setDlg('leave')
+  }, "Unsaved changes"), /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => setDlg('delete'),
+    style: {
+      color: 'var(--danger-ink)',
+      borderColor: 'var(--danger-ink)'
+    }
+  }, "Delete check"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: label
+  }, "Manager override \xB7 demo PIN 1234"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => request('Refund $179.00', 'Order #401 · Wrong item', m => window.toast({
+      tone: 'positive',
+      title: 'Refund approved',
+      message: 'by ' + m
+    }))
+  }, "Refund"), /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => request('Discount 15%', 'Order #410 · Loyal customer', m => window.toast({
+      tone: 'positive',
+      title: 'Discount applied',
+      message: 'by ' + m
+    }))
+  }, "Discount"), /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "sm",
+    onClick: () => request('Open cash drawer', 'No sale', m => window.toast({
+      tone: 'neutral',
+      title: 'Drawer opened',
+      message: 'by ' + m
+    }))
+  }, "No-sale drawer"))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'grid',
+      gridTemplateColumns: compact ? 'minmax(0,1fr)' : 'repeat(2,minmax(0,1fr))',
+      gap: 16,
+      alignItems: 'start'
+    }
+  }, /*#__PURE__*/React.createElement(ConfirmDialog, _extends({
+    inline: true
+  }, strip(D.delete))), /*#__PURE__*/React.createElement(ConfirmDialog, _extends({
+    inline: true
+  }, strip(D.send)))), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      color: 'var(--text-secondary)',
+      textWrap: 'pretty'
+    }
+  }, "Rules: toasts report what happened (never ask); dialogs ask before anything that can't be undone silently; powerful actions \u2014 refund, discount, void/delete, no-sale drawer \u2014 always take a reason first, then a manager PIN.")), d && /*#__PURE__*/React.createElement(ConfirmDialog, _extends({}, strip(d), {
+    onCancel: () => setDlg(null),
+    onConfirm: () => {
+      setDlg(null);
+      d.then();
+    }
+  })), ov, /*#__PURE__*/React.createElement(ToastHost, null));
+}
+Object.assign(window, {
+  ToastHost,
+  useOverride,
+  DiscountDialog,
+  FeedbackShowcase,
+  FB_PIN
+});
 </script>
-<script type="text/babel" data-src="KitchenLayout.jsx">
-    const { Icon: KTIcon, Button: KTButton, Badge: KTBadge } = window.ComposDesignSystem_9739cd;
-
-    const KT_STAGES = [
-      { key:'new', label:'New', icon:'inbox', action:'Start preparing', next:'preparing', color:'var(--order-open)' },
-      { key:'preparing', label:'Preparing', icon:'flame', action:'Mark ready', next:'ready', color:'var(--order-preparing)' },
-      { key:'ready', label:'Ready', icon:'package-check', action:'Handed off', next:'done', color:'var(--order-ready)' },
-    ];
-    const KT_INITIAL = { 410:'new', 400:'new', 390:'new', 412:'preparing', 407:'preparing', 396:'ready' };
-
-    function useKitchen() {
-      const [stage, setStage] = React.useState(KT_INITIAL);
-      const [checked, setChecked] = React.useState({});
-      const [last, setLast] = React.useState(null);
-      const tickets = window.ORDERS.filter((o) => stage[o.order] && stage[o.order] !== 'done')
-        .sort((a, b) => window.pxOpenedAt(a.order) - window.pxOpenedAt(b.order));
-      const advance = (order) => { const s = KT_STAGES.find((x) => x.key === stage[order]); setStage((st) => ({ ...st, [order]:s.next })); if (s.next === 'done') setLast(order); };
-      const recall = () => { if (last) { setStage((st) => ({ ...st, [last]:'ready' })); setLast(null); } };
-      const toggleItem = (order, i) => setChecked((c) => ({ ...c, [order + ':' + i]:!c[order + ':' + i] }));
-      return { stage, tickets, advance, recall, last, checked, toggleItem };
+<script data-src="MenuLayout.jsx">
+var {
+  DishCard,
+  Button,
+  IconButton,
+  Icon,
+  Badge,
+  QuantityStepper,
+  StatusDot
+} = window.ComposDesignSystem_9739cd;
+var ML_CATS = [{
+  name: 'Bowls y ramen',
+  icon: 'soup',
+  color: 'var(--periwinkle-200)',
+  items: [['Bowl teriyaki', '$159'], ['Bowl spicy tuna', '$179'], ['Bowl katsu', '$169'], ['Ramen miso', '$175'], ['Ramen tonkotsu', '$189'], ['Yakisoba', '$149']]
+}, {
+  name: 'Entradas',
+  icon: 'egg-fried',
+  color: 'var(--sage-200)',
+  items: [['Gyozas (6)', '$95'], ['Edamame', '$65'], ['Rollitos primavera', '$85'], ['Takoyaki', '$99'], ['Ensalada wakame', '$79'], ['Bao de cerdo', '$89'], ['Bao de pollo', '$85'], ['Onigiri', '$55']]
+}, {
+  name: 'Sopas',
+  icon: 'soup',
+  color: 'var(--lilac-200)',
+  items: [['Udon de res', '$185'], ['Sopa kimchi', '$129'], ['Tom yum', '$149'], ['Sopa miso', '$59'], ['Sopa de calabaza', '$99'], ['Caldo de pollo', '$89']]
+}, {
+  name: 'Arroces y fideos',
+  icon: 'wheat',
+  color: 'var(--sky-200)',
+  items: [['Pad thai', '$169'], ['Arroz frito', '$139'], ['Fideos de arroz', '$145'], ['Curry japonés', '$165'], ['Yakimeshi', '$135'], ['Chow mein', '$149'], ['Udon de mariscos', '$215']]
+}, {
+  name: 'Platos fuertes',
+  icon: 'drumstick',
+  color: 'var(--rose-200)',
+  items: window.DISHES.map(d => [d.name, d.price])
+}, {
+  name: 'Postres',
+  icon: 'cake',
+  color: 'var(--lilac-200)',
+  items: [['Mochi de matcha', '$69'], ['Cheesecake japonés', '$89'], ['Dorayaki', '$59'], ['Brownie de matcha', '$65'], ['Helado de té verde', '$55'], ['Flan de coco', '$65']]
+}, {
+  name: 'Bebidas',
+  icon: 'cup-soda',
+  color: 'var(--rose-200)',
+  items: [['Limonada', '$45'], ['Jugo de naranja', '$49'], ['Té de jazmín', '$39'], ['Té de frutos rojos', '$42'], ['Jugo de manzana', '$45'], ['Agua mineral', '$25']]
+}, {
+  name: 'Alcohol',
+  icon: 'martini',
+  color: 'var(--positive-ink)',
+  items: [['Vino tinto', '$120'], ['Vino blanco', '$120'], ['Cerveza de barril', '$69'], ['Gin tonic', '$145'], ['Mojito', '$125'], ['Sake', '$135']]
+}];
+var mlPrice = p => parseFloat(p.slice(1));
+var mlAddVariant = (setCart, v) => setCart(c => {
+  var key = v.name + (v.mods.length ? ' · ' + v.mods.join(', ') : '') + (v.note ? ' · ' + v.note : '');
+  var prev = c[key];
+  return {
+    ...c,
+    [key]: {
+      name: v.name,
+      mods: v.mods,
+      note: v.note,
+      price: '$' + v.unit.toFixed(2),
+      qty: (prev ? prev.qty : 0) + v.qty
     }
-
-    function KTicket({ o, k, stageDef }) {
-      const meta = window.PX_META[o.order] || {};
-      return (
-        <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-md)', overflow:'hidden', display:'flex', flexDirection:'column', flex:'0 0 auto' }}>
-          <div style={{ height:4, background:stageDef.color }}></div>
-          <div style={{ padding:14, display:'flex', flexDirection:'column', gap:10 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-              {meta.type && <window.TypeIcon type={meta.type} />}
-              <span style={{ fontSize:'var(--text-h2)', fontWeight:'var(--weight-bold)', letterSpacing:'var(--tracking-tight)' }}>#{o.order}</span>
-              <span style={{ marginLeft:'auto' }}><window.ElapsedPill order={o.order} status="pending" /></span>
-            </div>
-            <window.OrderTypeTag order={o.order} />
-            <div style={{ display:'flex', flexDirection:'column', gap:4, borderTop:'1px solid var(--border-hairline)', paddingTop:10 }}>
-              {o.items.map((it, i) => {
-                const done = k.checked[o.order + ':' + i];
-                return (
-                  <button key={i} onClick={() => k.toggleItem(o.order, i)} style={{ display:'flex', gap:10, alignItems:'flex-start', padding:'6px 4px', border:'none', background:'transparent', color:'var(--text-primary)', textAlign:'left', cursor:'pointer', opacity: done ? .45 : 1, borderRadius:'var(--radius-xs)' }}>
-                    <span style={{ minWidth:26, height:26, borderRadius:'var(--radius-xs)', background: done ? 'var(--mint-200)' : 'var(--surface-raised)', color: done ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-sm)', fontWeight:'var(--weight-bold)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{done ? <KTIcon name="check" size={14} /> : it.qty}</span>
-                    <span style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', gap:2 }}>
-                      <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)', textDecoration: done ? 'line-through' : 'none' }}>{it.name}</span>
-                      {it.mods && <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)' }}>{it.mods.join(' · ')}</span>}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            {meta.customer && meta.customer.notes && <span style={{ fontSize:'var(--text-xs)', color:'var(--status-checkedin)', display:'flex', gap:6, alignItems:'center' }}><KTIcon name="sticky-note" size={12} />{meta.customer.notes}</span>}
-            <KTButton block size="lg" variant={stageDef.key === 'ready' ? 'primary' : 'secondary'} shape="rounded" onClick={() => k.advance(o.order)}>{stageDef.action}</KTButton>
-          </div>
-        </div>
-      );
+  };
+});
+var mlCheckout = (order, cart) => {
+  try {
+    localStorage.setItem('compos-checkout', JSON.stringify({
+      order,
+      cart
+    }));
+  } catch (e) {}
+  location.href = 'Payment Layout.html';
+};
+var ML_NAV = [['Incoming', 'bell-ring'], ['Orders', 'clipboard-list'], ['Kitchen', 'chef-hat'], ['Shift', 'clock'], ['Reports', 'chart-column'], ['Settings', 'settings']];
+var ML_LINKS = {
+  Incoming: 'Incoming Layout.html',
+  Orders: 'Orders Layout.html',
+  Kitchen: 'Kitchen Layout.html',
+  Shift: 'Shift Layout.html',
+  Reports: 'Reports Layout.html',
+  Settings: 'Settings Layout.html'
+};
+var ML_BADGE = {
+  Incoming: 4
+};
+function MLThemeButton({
+  open
+}) {
+  var [, force] = React.useReducer(x => x + 1, 0);
+  React.useEffect(() => {
+    window.addEventListener('compos-theme', force);
+    return () => window.removeEventListener('compos-theme', force);
+  }, []);
+  var L = window.COMPOS_THEMES || [];
+  if (!L.length) return null;
+  var cur = L.find(t => t.id === window.composTheme()) || L[0];
+  var next = () => window.composSetTheme(L[(L.indexOf(cur) + 1) % L.length].id);
+  return /*#__PURE__*/React.createElement("button", {
+    onClick: next,
+    title: 'Theme: ' + cur.label,
+    style: {
+      height: 48,
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: open ? 'flex-start' : 'center',
+      gap: 12,
+      padding: open ? '0 14px' : 0,
+      borderRadius: 'var(--radius-sm)',
+      border: '1px solid var(--border-strong)',
+      background: 'transparent',
+      color: 'var(--text-primary)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-medium)',
+      cursor: 'pointer',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
     }
-
-    function KitchenBoard({ compact }) {
-      const k = useKitchen();
-      const [tab, setTab] = React.useState('new');
-      const count = (s) => k.tickets.filter((o) => k.stage[o.order] === s).length;
-      const header = (
-        <div style={{ display:'flex', alignItems:'center', gap:12, padding: compact ? '12px 12px 8px' : '20px 20px 12px', flexWrap:'wrap' }}>
-          <span style={{ fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)', fontWeight:'var(--weight-semibold)' }}>Kitchen</span>
-          {!compact && <span style={{ fontSize:'var(--text-sm)', color:'var(--text-secondary)' }}>{k.tickets.length} active tickets · oldest first · tap an item to check it off</span>}
-          <button onClick={k.recall} disabled={!k.last} style={{ marginLeft:'auto', height:36, padding:'0 14px', borderRadius:'var(--radius-pill)', border:'1px solid var(--border-strong)', background:'transparent', color:'var(--text-primary)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-medium)', display:'flex', alignItems:'center', gap:6, cursor: k.last ? 'pointer' : 'not-allowed' }}>
-            <KTIcon name="undo-2" size={14} />{k.last ? 'Recall #' + k.last : 'Recall'}
-          </button>
-        </div>
-      );
-      if (compact) {
-        const def = KT_STAGES.find((s) => s.key === tab);
-        return (
-          <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
-            {header}
-            <div style={{ display:'flex', gap:6, padding:'0 12px 10px' }}>
-              {KT_STAGES.map((s) => {
-                const on = s.key === tab;
-                return (
-                  <button key={s.key} onClick={() => setTab(s.key)} style={{ flex:1, height:44, borderRadius:'var(--radius-sm)', border:`1.5px solid ${window.inkOf(s.color)}`, background: on ? s.color : 'transparent', color: on ? 'var(--text-on-light)' : window.inkOf(s.color), fontSize:'var(--text-sm)', fontWeight:'var(--weight-semibold)', display:'flex', alignItems:'center', justifyContent:'center', gap:6, cursor:'pointer' }}>
-                    {s.label}<span style={{ minWidth:20, height:20, padding:'0 5px', boxSizing:'border-box', borderRadius:'var(--radius-pill)', background: on ? 'rgba(0,0,0,.16)' : 'var(--surface-card)', color: on ? 'var(--text-on-light)' : 'var(--text-primary)', fontSize:'var(--text-xs)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{count(s.key)}</span>
-                  </button>
-                );
-              })}
-            </div>
-            <div style={{ flex:1, overflowY:'auto', padding:'0 12px 12px', display:'flex', flexDirection:'column', gap:8 }}>
-              {k.tickets.filter((o) => k.stage[o.order] === tab).map((o) => <KTicket key={o.order} o={o} k={k} stageDef={def} />)}
-              {count(tab) === 0 && <span style={{ margin:'auto', color:'var(--text-muted)', fontSize:'var(--text-sm)' }}>Nothing here.</span>}
-            </div>
-          </div>
-        );
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "palette",
+    size: 20
+  }), open && cur.label);
+}
+function MLRail({
+  open,
+  active,
+  onNav
+}) {
+  var go = label => {
+    if (onNav) onNav(label);else if (ML_LINKS[label]) location.href = ML_LINKS[label];
+  };
+  var item = ([label, ic], danger) => /*#__PURE__*/React.createElement("button", {
+    key: label,
+    onClick: () => go(label),
+    title: open ? undefined : label,
+    style: {
+      height: 48,
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: open ? 'flex-start' : 'center',
+      gap: 12,
+      padding: open ? '0 14px' : 0,
+      borderRadius: 'var(--radius-sm)',
+      border: 'none',
+      background: active === label ? 'var(--surface-inverse)' : 'transparent',
+      color: active === label ? 'var(--text-on-inverse)' : danger ? 'var(--danger-ink)' : 'var(--text-primary)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-medium)',
+      cursor: 'pointer',
+      whiteSpace: 'nowrap',
+      overflow: 'hidden'
+    },
+    onMouseEnter: e => {
+      if (active !== label) e.currentTarget.style.background = 'var(--surface-card)';
+    },
+    onMouseLeave: e => {
+      if (active !== label) e.currentTarget.style.background = 'transparent';
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'relative',
+      display: 'inline-flex'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: ic,
+    size: 20
+  }), ML_BADGE[label] && /*#__PURE__*/React.createElement("span", {
+    style: {
+      position: 'absolute',
+      top: -6,
+      right: -8,
+      minWidth: 16,
+      height: 16,
+      padding: '0 4px',
+      boxSizing: 'border-box',
+      borderRadius: 8,
+      background: 'var(--order-late)',
+      color: 'var(--text-on-light)',
+      fontSize: 10,
+      fontWeight: 700,
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, ML_BADGE[label])), open && label);
+  return /*#__PURE__*/React.createElement("nav", {
+    style: {
+      width: open ? 200 : 72,
+      flex: '0 0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 4,
+      padding: 12,
+      boxSizing: 'border-box',
+      background: 'var(--surface-panel)',
+      borderRadius: 'var(--radius-lg)',
+      transition: 'width 200ms ease'
+    }
+  }, ML_NAV.map(n => item(n)), /*#__PURE__*/React.createElement("div", {
+    style: {
+      marginTop: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 4
+    }
+  }, /*#__PURE__*/React.createElement(MLThemeButton, {
+    open: open
+  }), item(['Exit', 'log-out'], true)));
+}
+var ML_TAB_LINKS = {
+  CHECKS: 'Orders Layout.html',
+  MENU: 'Menu Layout.html',
+  REFUND: 'Refund Layout.html'
+};
+function MLTopBar({
+  onMenu,
+  active = 'MENU',
+  onTab
+}) {
+  var tab = (label, active, disabled) => /*#__PURE__*/React.createElement("button", {
+    disabled: disabled,
+    onClick: () => {
+      if (active) return;
+      if (onTab) onTab(label);else location.href = ML_TAB_LINKS[label];
+    },
+    style: {
+      height: 44,
+      padding: '0 18px',
+      borderRadius: 'var(--radius-pill)',
+      border: active ? 'none' : '1px solid var(--border-strong)',
+      background: active ? 'var(--surface-inverse)' : 'transparent',
+      color: active ? 'var(--text-on-inverse)' : disabled ? 'var(--text-muted)' : 'var(--text-primary)',
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-semibold)',
+      letterSpacing: 'var(--tracking-wide)',
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, label, disabled && /*#__PURE__*/React.createElement(Badge, {
+    tone: "neutral"
+  }, "Soon"));
+  return /*#__PURE__*/React.createElement("header", {
+    style: {
+      height: 72,
+      flex: '0 0 auto',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 16,
+      padding: '0 20px',
+      boxShadow: 'inset 0 4px 0 var(--brand-stripe)'
+    }
+  }, /*#__PURE__*/React.createElement(IconButton, {
+    icon: "menu",
+    label: "Toggle navigation",
+    variant: "secondary",
+    onClick: onMenu
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h3)',
+      fontWeight: 'var(--weight-semibold)',
+      lineHeight: 'var(--lh-h3)'
+    }
+  }, "Lena P."), /*#__PURE__*/React.createElement(IconButton, {
+    icon: "search",
+    label: "Search",
+    variant: "outline",
+    onClick: () => {
+      location.href = 'Search Layout.html';
+    },
+    style: {
+      marginRight: 'auto'
+    }
+  }), /*#__PURE__*/React.createElement("nav", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, tab('CHECKS', active === 'CHECKS'), tab('MENU', active === 'MENU'), tab('REFUND', active === 'REFUND')));
+}
+function MLCart({
+  cart,
+  setQty,
+  clear,
+  title = 'New Check',
+  meta,
+  style,
+  onCheckout,
+  initialMode = 'Dine here',
+  initialCustomer = null,
+  prepaid: prepaidProp = null,
+  onPrepaidClose
+}) {
+  var [mode, setMode] = React.useState(initialMode);
+  var [customer, setCustomer] = React.useState(initialCustomer);
+  var [editing, setEditing] = React.useState(false);
+  var prepaid = prepaidProp || (mode === 'Delivery' && customer && customer.platform && customer.platform !== 'Own driver' ? customer.platform : null);
+  var needsCustomer = mode !== 'Dine here' && !(customer && customer.name && (mode !== 'Delivery' || customer.address));
+  var lines = Object.entries(cart);
+  var total = lines.reduce((s, [, v]) => s + v.qty * mlPrice(v.price), 0);
+  var count = lines.reduce((s, [, v]) => s + v.qty, 0);
+  return /*#__PURE__*/React.createElement("aside", {
+    style: {
+      width: 340,
+      flex: '0 0 auto',
+      display: 'flex',
+      flexDirection: 'column',
+      background: 'var(--surface-panel)',
+      borderRadius: 'var(--radius-lg)',
+      overflow: 'hidden',
+      position: 'relative',
+      ...style
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: '20px 20px 16px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderBottom: '1px solid var(--border-hairline)'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h2)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, title), meta || count > 0 && /*#__PURE__*/React.createElement(Badge, {
+    tone: "accent"
+  }, count, " items")), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8,
+      padding: '12px 16px',
+      borderBottom: '1px solid var(--border-hairline)'
+    }
+  }, [['Dine here', 'utensils'], ['Pickup', 'shopping-bag'], ['Delivery', 'bike']].map(([m, ic]) => {
+    var on = m === mode;
+    return /*#__PURE__*/React.createElement("button", {
+      key: m,
+      onClick: () => setMode(m),
+      style: {
+        flex: 1,
+        height: 40,
+        borderRadius: 'var(--radius-pill)',
+        border: on ? 'none' : '1px solid var(--border-strong)',
+        background: on ? 'var(--surface-accent)' : 'transparent',
+        color: on ? 'var(--text-on-light)' : 'var(--text-primary)',
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--weight-semibold)',
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 6
       }
-      return (
-        <div style={{ flex:1, minHeight:0, display:'flex', flexDirection:'column' }}>
-          {header}
-          <div style={{ flex:1, minHeight:0, display:'grid', gridTemplateColumns:'repeat(3,minmax(0,1fr))', gap:12, padding:'0 20px 20px' }}>
-            {KT_STAGES.map((s) => (
-              <section key={s.key} style={{ minHeight:0, display:'flex', flexDirection:'column', gap:10, background:'var(--surface-canvas)', borderRadius:'var(--radius-md)', padding:10 }}>
-                <div style={{ display:'flex', alignItems:'center', gap:8, padding:'4px 4px 0', color:window.inkOf(s.color) }}>
-                  <KTIcon name={s.icon} size={18} />
-                  <span style={{ fontSize:'var(--text-body)', fontWeight:'var(--weight-semibold)' }}>{s.label}</span>
-                  <span style={{ marginLeft:'auto', minWidth:24, height:24, padding:'0 7px', boxSizing:'border-box', borderRadius:'var(--radius-pill)', background:'var(--surface-card)', color:'var(--text-primary)', fontSize:'var(--text-xs)', fontWeight:'var(--weight-semibold)', display:'inline-flex', alignItems:'center', justifyContent:'center' }}>{count(s.key)}</span>
-                </div>
-                <div style={{ flex:1, minHeight:0, overflowY:'auto', display:'flex', flexDirection:'column', gap:10 }}>
-                  {k.tickets.filter((o) => k.stage[o.order] === s.key).map((o) => <KTicket key={o.order} o={o} k={k} stageDef={s} />)}
-                </div>
-              </section>
-            ))}
-          </div>
-        </div>
-      );
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: ic,
+      size: 16
+    }), m);
+  })), mode !== 'Dine here' && /*#__PURE__*/React.createElement("div", {
+    style: {
+      paddingTop: 12
     }
-
-    function KitchenLayout() {
-      const [railOpen, setRailOpen] = React.useState(false);
-      return (
-        <div style={{ height:'100%', display:'flex', flexDirection:'column' }}>
-          <window.MLTopBar active="" onMenu={() => setRailOpen((o) => !o)} />
-          <div style={{ flex:1, minHeight:0, display:'flex', gap:12, padding:'0 12px 12px' }}>
-            <window.MLRail open={railOpen} active="Kitchen" />
-            <main style={{ flex:1, minWidth:0, display:'flex', flexDirection:'column', background:'var(--surface-panel)', borderRadius:'var(--radius-lg)', overflow:'hidden' }}>
-              <KitchenBoard />
-            </main>
-          </div>
-        </div>
-      );
+  }, /*#__PURE__*/React.createElement(window.CustomerRow, {
+    mode: mode,
+    customer: customer,
+    onEdit: () => setEditing(true)
+  })), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: 16,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 8
     }
-    Object.assign(window, { KitchenLayout, KitchenBoard });
-
+  }, lines.length === 0 && /*#__PURE__*/React.createElement("div", {
+    style: {
+      margin: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: 10,
+      color: 'var(--text-muted)',
+      fontSize: 'var(--text-sm)'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "shopping-cart",
+    size: 24
+  }), "Tap an item to add it to the check."), lines.map(([name, v]) => /*#__PURE__*/React.createElement("div", {
+    key: name,
+    style: {
+      background: 'var(--surface-card)',
+      borderRadius: 'var(--radius-md)',
+      padding: '10px 12px',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      flex: 1,
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      fontWeight: 'var(--weight-medium)'
+    }
+  }, v.name || name), v.mods && v.mods.length > 0 && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)'
+    }
+  }, v.mods.join(' · ')), v.note && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--status-checkedin)'
+    }
+  }, "\u201C", v.note, "\u201D"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--text-secondary)'
+    }
+  }, '$' + (v.qty * mlPrice(v.price)).toFixed(2))), /*#__PURE__*/React.createElement(QuantityStepper, {
+    value: v.qty,
+    onChange: q => setQty(name, v.price, q)
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 20,
+      borderTop: '1px solid var(--border-hairline)',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 16
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'baseline',
+      justifyContent: 'space-between'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h2)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, "Total"), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-metric)',
+      fontWeight: 'var(--weight-semibold)',
+      letterSpacing: 'var(--tracking-tight)'
+    }
+  }, '$' + total.toFixed(2))), prepaid && /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      fontSize: 'var(--text-sm)',
+      color: 'var(--text-positive)'
+    }
+  }, /*#__PURE__*/React.createElement(Icon, {
+    name: "badge-check",
+    size: 16
+  }), "Paid in advance via ", prepaid, " \xB7 no payment needed"), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      gap: 8
+    }
+  }, /*#__PURE__*/React.createElement(Button, {
+    variant: "outline",
+    size: "lg",
+    style: {
+      flex: 1,
+      minWidth: 0,
+      paddingLeft: 12,
+      paddingRight: 12
+    },
+    disabled: !lines.length,
+    onClick: clear
+  }, "New Check"), /*#__PURE__*/React.createElement(Button, {
+    size: "lg",
+    style: {
+      flex: 1,
+      minWidth: 0,
+      paddingLeft: 12,
+      paddingRight: 12
+    },
+    disabled: !lines.length || needsCustomer,
+    onClick: prepaid ? onPrepaidClose || clear : onCheckout
+  }, prepaid ? 'Send & close' : 'Checkout'), !prepaid && /*#__PURE__*/React.createElement(IconButton, {
+    icon: "credit-card",
+    label: "Card payment",
+    size: "lg",
+    variant: "secondary",
+    disabled: !lines.length || needsCustomer,
+    style: {
+      flex: '0 0 auto'
+    }
+  }))), editing && /*#__PURE__*/React.createElement(window.CustomerPanel, {
+    mode: mode,
+    value: customer,
+    onClose: () => setEditing(false),
+    onSave: c => {
+      setCustomer(c);
+      setEditing(false);
+    }
+  }));
+}
+function MenuLayout() {
+  var [cat, setCat] = React.useState(() => {
+    var h = decodeURIComponent(location.hash.slice(1));
+    return ML_CATS.some(c => c.name === h) ? h : ML_CATS[0].name;
+  });
+  var [cart, setCart] = React.useState({});
+  var [railOpen, setRailOpen] = React.useState(false);
+  var [modItem, setModItem] = React.useState(null);
+  var [manage, setManage] = React.useState(false);
+  var stock = window.useSoldOut();
+  var active = ML_CATS.find(c => c.name === cat);
+  var qtyOf = name => window.PX_MODS[name] ? Object.values(cart).filter(v => v.name === name).reduce((s, v) => s + v.qty, 0) : cart[name] ? cart[name].qty : 0;
+  var onDish = (name, price, q) => {
+    if (!window.PX_MODS[name]) return setQty(name, price, q);
+    if (q > qtyOf(name)) return setModItem({
+      name,
+      price
+    });
+    var k = Object.keys(cart).reverse().find(key => cart[key].name === name);
+    if (k) setQty(k, cart[k].price, cart[k].qty - 1);
+  };
+  var setQty = (name, price, q) => setCart(c => {
+    var n = {
+      ...c
+    };
+    if (q <= 0) delete n[name];else n[name] = {
+      ...n[name],
+      qty: q,
+      price
+    };
+    return n;
+  });
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement(MLTopBar, {
+    onMenu: () => setRailOpen(o => !o)
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      gap: 12,
+      padding: '0 12px 12px'
+    }
+  }, /*#__PURE__*/React.createElement(MLRail, {
+    open: railOpen,
+    active: "Menu"
+  }), /*#__PURE__*/React.createElement("main", {
+    style: {
+      flex: 1,
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      background: 'var(--surface-panel)',
+      borderRadius: 'var(--radius-lg)',
+      overflow: 'hidden'
+    }
+  }, modItem ? /*#__PURE__*/React.createElement(window.ModifierPanel, {
+    key: modItem.name,
+    item: modItem.name,
+    basePrice: mlPrice(modItem.price),
+    onCancel: () => setModItem(null),
+    onAdd: v => {
+      mlAddVariant(setCart, v);
+      setModItem(null);
+    }
+  }) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      overflowY: 'auto',
+      padding: 20,
+      display: 'grid',
+      gridTemplateColumns: 'repeat(auto-fill,minmax(160px,1fr))',
+      gridAutoRows: 'min-content',
+      gap: 12
+    }
+  }, active.items.map(([name, price]) => /*#__PURE__*/React.createElement(window.StockCard, {
+    key: name,
+    out: stock.isOut(name),
+    manage: manage,
+    onToggle: () => stock.toggle(name)
+  }, /*#__PURE__*/React.createElement(DishCard, {
+    name: name,
+    price: price,
+    accent: active.color,
+    qty: qtyOf(name),
+    onQty: q => onDish(name, price, q),
+    route: window.PX_MODS[name] ? 'Bar · has modifiers' : cat,
+    style: {
+      minWidth: 0,
+      flex: 1
+    }
+  })))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: '0 0 auto',
+      display: 'flex',
+      gap: 8,
+      overflowX: 'auto',
+      padding: '12px 20px 16px',
+      borderTop: '1px solid var(--border-hairline)'
+    }
+  }, /*#__PURE__*/React.createElement(window.StockToggle, {
+    manage: manage,
+    count: stock.list.length,
+    onClick: () => setManage(v => !v)
+  }), ML_CATS.map(c => {
+    var on = c.name === cat;
+    return /*#__PURE__*/React.createElement("button", {
+      key: c.name,
+      onClick: () => setCat(c.name),
+      style: {
+        flex: '0 0 auto',
+        height: 52,
+        padding: '0 18px',
+        borderRadius: 'var(--radius-sm)',
+        border: `1.5px solid ${window.inkOf(c.color)}`,
+        cursor: 'pointer',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        background: on ? c.color : 'transparent',
+        color: on ? 'var(--text-on-light)' : window.inkOf(c.color),
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--weight-semibold)',
+        transition: 'background 150ms, color 150ms'
+      }
+    }, /*#__PURE__*/React.createElement(Icon, {
+      name: c.icon,
+      size: 20
+    }), c.name);
+  })))), /*#__PURE__*/React.createElement(MLCart, {
+    cart: cart,
+    setQty: setQty,
+    clear: () => setCart({}),
+    onCheckout: () => mlCheckout('New', cart)
+  })));
+}
+Object.assign(window, {
+  mlAddVariant,
+  mlCheckout,
+  MLTopBar,
+  MLRail,
+  MLCart,
+  mlPrice,
+  MenuLayout,
+  ML_CATS
+});
 </script>
-<script type="text/babel">
-    ReactDOM.createRoot(document.getElementById('root')).render(<KitchenLayout />);
+<script data-src="KitchenLayout.jsx">
+var {
+  Icon: KTIcon,
+  Button: KTButton,
+  Badge: KTBadge
+} = window.ComposDesignSystem_9739cd;
+var KT_STAGES = [{
+  key: 'new',
+  label: 'New',
+  icon: 'inbox',
+  action: 'Start preparing',
+  next: 'preparing',
+  color: 'var(--order-open)'
+}, {
+  key: 'preparing',
+  label: 'Preparing',
+  icon: 'flame',
+  action: 'Mark ready',
+  next: 'ready',
+  color: 'var(--order-preparing)'
+}, {
+  key: 'ready',
+  label: 'Ready',
+  icon: 'package-check',
+  action: 'Handed off',
+  next: 'done',
+  color: 'var(--order-ready)'
+}];
+var KT_INITIAL = {
+  410: 'new',
+  400: 'new',
+  390: 'new',
+  412: 'preparing',
+  407: 'preparing',
+  396: 'ready'
+};
+function useKitchen() {
+  var [stage, setStage] = React.useState(KT_INITIAL);
+  var [checked, setChecked] = React.useState({});
+  var [last, setLast] = React.useState(null);
+  var tickets = window.ORDERS.filter(o => stage[o.order] && stage[o.order] !== 'done').sort((a, b) => window.pxOpenedAt(a.order) - window.pxOpenedAt(b.order));
+  var advance = order => {
+    var s = KT_STAGES.find(x => x.key === stage[order]);
+    setStage(st => ({
+      ...st,
+      [order]: s.next
+    }));
+    if (s.next === 'done') setLast(order);
+  };
+  var recall = () => {
+    if (last) {
+      setStage(st => ({
+        ...st,
+        [last]: 'ready'
+      }));
+      setLast(null);
+    }
+  };
+  var toggleItem = (order, i) => setChecked(c => ({
+    ...c,
+    [order + ':' + i]: !c[order + ':' + i]
+  }));
+  return {
+    stage,
+    tickets,
+    advance,
+    recall,
+    last,
+    checked,
+    toggleItem
+  };
+}
+function KTicket({
+  o,
+  k,
+  stageDef
+}) {
+  var meta = window.PX_META[o.order] || {};
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      background: 'var(--surface-card)',
+      borderRadius: 'var(--radius-md)',
+      overflow: 'hidden',
+      display: 'flex',
+      flexDirection: 'column',
+      flex: '0 0 auto'
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: 4,
+      background: stageDef.color
+    }
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      padding: 14,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8
+    }
+  }, meta.type && /*#__PURE__*/React.createElement(window.TypeIcon, {
+    type: meta.type
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-h2)',
+      fontWeight: 'var(--weight-bold)',
+      letterSpacing: 'var(--tracking-tight)'
+    }
+  }, "#", o.order), /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 'auto'
+    }
+  }, /*#__PURE__*/React.createElement(window.ElapsedPill, {
+    order: o.order,
+    status: "pending"
+  }))), /*#__PURE__*/React.createElement(window.OrderTypeTag, {
+    order: o.order
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 4,
+      borderTop: '1px solid var(--border-hairline)',
+      paddingTop: 10
+    }
+  }, o.items.map((it, i) => {
+    var done = k.checked[o.order + ':' + i];
+    return /*#__PURE__*/React.createElement("button", {
+      key: i,
+      onClick: () => k.toggleItem(o.order, i),
+      style: {
+        display: 'flex',
+        gap: 10,
+        alignItems: 'flex-start',
+        padding: '6px 4px',
+        border: 'none',
+        background: 'transparent',
+        color: 'var(--text-primary)',
+        textAlign: 'left',
+        cursor: 'pointer',
+        opacity: done ? .45 : 1,
+        borderRadius: 'var(--radius-xs)'
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        minWidth: 26,
+        height: 26,
+        borderRadius: 'var(--radius-xs)',
+        background: done ? 'var(--mint-200)' : 'var(--surface-raised)',
+        color: done ? 'var(--text-on-light)' : 'var(--text-primary)',
+        fontSize: 'var(--text-sm)',
+        fontWeight: 'var(--weight-bold)',
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
+    }, done ? /*#__PURE__*/React.createElement(KTIcon, {
+      name: "check",
+      size: 14
+    }) : it.qty), /*#__PURE__*/React.createElement("span", {
+      style: {
+        flex: 1,
+        minWidth: 0,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 2
+      }
+    }, /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 'var(--text-body)',
+        fontWeight: 'var(--weight-semibold)',
+        textDecoration: done ? 'line-through' : 'none'
+      }
+    }, it.name), it.mods && /*#__PURE__*/React.createElement("span", {
+      style: {
+        fontSize: 'var(--text-sm)',
+        color: 'var(--text-secondary)'
+      }
+    }, it.mods.join(' · '))));
+  })), meta.customer && meta.customer.notes && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-xs)',
+      color: 'var(--status-checkedin)',
+      display: 'flex',
+      gap: 6,
+      alignItems: 'center'
+    }
+  }, /*#__PURE__*/React.createElement(KTIcon, {
+    name: "sticky-note",
+    size: 12
+  }), meta.customer.notes), /*#__PURE__*/React.createElement(KTButton, {
+    block: true,
+    size: "lg",
+    variant: stageDef.key === 'ready' ? 'primary' : 'secondary',
+    shape: "rounded",
+    onClick: () => k.advance(o.order)
+  }, stageDef.action)));
+}
+function KitchenBoard({
+  compact
+}) {
+  var k = useKitchen();
+  var [tab, setTab] = React.useState('new');
+  var count = s => k.tickets.filter(o => k.stage[o.order] === s).length;
+  var header = /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 12,
+      padding: compact ? '12px 12px 8px' : '20px 20px 12px',
+      flexWrap: 'wrap'
+    }
+  }, /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: compact ? 'var(--text-h2)' : 'var(--text-h1)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, "Kitchen"), !compact && /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-sm)',
+      color: 'var(--text-secondary)'
+    }
+  }, k.tickets.length, " active tickets \xB7 oldest first \xB7 tap an item to check it off"), /*#__PURE__*/React.createElement("button", {
+    onClick: k.recall,
+    disabled: !k.last,
+    style: {
+      marginLeft: 'auto',
+      height: 36,
+      padding: '0 14px',
+      borderRadius: 'var(--radius-pill)',
+      border: '1px solid var(--border-strong)',
+      background: 'transparent',
+      color: 'var(--text-primary)',
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-medium)',
+      display: 'flex',
+      alignItems: 'center',
+      gap: 6,
+      cursor: k.last ? 'pointer' : 'not-allowed'
+    }
+  }, /*#__PURE__*/React.createElement(KTIcon, {
+    name: "undo-2",
+    size: 14
+  }), k.last ? 'Recall #' + k.last : 'Recall'));
+  if (compact) {
+    var def = KT_STAGES.find(s => s.key === tab);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        minHeight: 0,
+        display: 'flex',
+        flexDirection: 'column'
+      }
+    }, header, /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'flex',
+        gap: 6,
+        padding: '0 12px 10px'
+      }
+    }, KT_STAGES.map(s => {
+      var on = s.key === tab;
+      return /*#__PURE__*/React.createElement("button", {
+        key: s.key,
+        onClick: () => setTab(s.key),
+        style: {
+          flex: 1,
+          height: 44,
+          borderRadius: 'var(--radius-sm)',
+          border: `1.5px solid ${window.inkOf(s.color)}`,
+          background: on ? s.color : 'transparent',
+          color: on ? 'var(--text-on-light)' : window.inkOf(s.color),
+          fontSize: 'var(--text-sm)',
+          fontWeight: 'var(--weight-semibold)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: 6,
+          cursor: 'pointer'
+        }
+      }, s.label, /*#__PURE__*/React.createElement("span", {
+        style: {
+          minWidth: 20,
+          height: 20,
+          padding: '0 5px',
+          boxSizing: 'border-box',
+          borderRadius: 'var(--radius-pill)',
+          background: on ? 'rgba(0,0,0,.16)' : 'var(--surface-card)',
+          color: on ? 'var(--text-on-light)' : 'var(--text-primary)',
+          fontSize: 'var(--text-xs)',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }
+      }, count(s.key)));
+    })), /*#__PURE__*/React.createElement("div", {
+      style: {
+        flex: 1,
+        overflowY: 'auto',
+        padding: '0 12px 12px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 8
+      }
+    }, k.tickets.filter(o => k.stage[o.order] === tab).map(o => /*#__PURE__*/React.createElement(KTicket, {
+      key: o.order,
+      o: o,
+      k: k,
+      stageDef: def
+    })), count(tab) === 0 && /*#__PURE__*/React.createElement("span", {
+      style: {
+        margin: 'auto',
+        color: 'var(--text-muted)',
+        fontSize: 'var(--text-sm)'
+      }
+    }, "Nothing here.")));
+  }
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, header, /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      display: 'grid',
+      gridTemplateColumns: 'repeat(3,minmax(0,1fr))',
+      gap: 12,
+      padding: '0 20px 20px'
+    }
+  }, KT_STAGES.map(s => /*#__PURE__*/React.createElement("section", {
+    key: s.key,
+    style: {
+      minHeight: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10,
+      background: 'var(--surface-canvas)',
+      borderRadius: 'var(--radius-md)',
+      padding: 10
+    }
+  }, /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: 8,
+      padding: '4px 4px 0',
+      color: window.inkOf(s.color)
+    }
+  }, /*#__PURE__*/React.createElement(KTIcon, {
+    name: s.icon,
+    size: 18
+  }), /*#__PURE__*/React.createElement("span", {
+    style: {
+      fontSize: 'var(--text-body)',
+      fontWeight: 'var(--weight-semibold)'
+    }
+  }, s.label), /*#__PURE__*/React.createElement("span", {
+    style: {
+      marginLeft: 'auto',
+      minWidth: 24,
+      height: 24,
+      padding: '0 7px',
+      boxSizing: 'border-box',
+      borderRadius: 'var(--radius-pill)',
+      background: 'var(--surface-card)',
+      color: 'var(--text-primary)',
+      fontSize: 'var(--text-xs)',
+      fontWeight: 'var(--weight-semibold)',
+      display: 'inline-flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, count(s.key))), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      overflowY: 'auto',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 10
+    }
+  }, k.tickets.filter(o => k.stage[o.order] === s.key).map(o => /*#__PURE__*/React.createElement(KTicket, {
+    key: o.order,
+    o: o,
+    k: k,
+    stageDef: s
+  })))))));
+}
+function KitchenLayout() {
+  var [railOpen, setRailOpen] = React.useState(false);
+  return /*#__PURE__*/React.createElement("div", {
+    style: {
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column'
+    }
+  }, /*#__PURE__*/React.createElement(window.MLTopBar, {
+    active: "",
+    onMenu: () => setRailOpen(o => !o)
+  }), /*#__PURE__*/React.createElement("div", {
+    style: {
+      flex: 1,
+      minHeight: 0,
+      display: 'flex',
+      gap: 12,
+      padding: '0 12px 12px'
+    }
+  }, /*#__PURE__*/React.createElement(window.MLRail, {
+    open: railOpen,
+    active: "Kitchen"
+  }), /*#__PURE__*/React.createElement("main", {
+    style: {
+      flex: 1,
+      minWidth: 0,
+      display: 'flex',
+      flexDirection: 'column',
+      background: 'var(--surface-panel)',
+      borderRadius: 'var(--radius-lg)',
+      overflow: 'hidden'
+    }
+  }, /*#__PURE__*/React.createElement(KitchenBoard, null))));
+}
+Object.assign(window, {
+  KitchenLayout,
+  KitchenBoard
+});
+</script>
+<script>
+ReactDOM.createRoot(document.getElementById('root')).render(/*#__PURE__*/React.createElement(KitchenLayout, null));
 </script>
 <script>
     (function(){var n=decodeURIComponent(location.pathname.split('/').pop());try{parent!==window&&parent.postMessage({posScreen:n},'*')}catch(e){}window.addEventListener('message',function(e){if(e.data&&e.data.posTheme&&window.composSetTheme)window.composSetTheme(e.data.posTheme)});})();

@@ -17,7 +17,23 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Compos — Demo guiada</title>
+    <title>Demo guiada de Compos — Prueba el punto de venta en tu navegador</title>
+    <meta name="description" content="Prueba Compos sin instalar nada: toma una orden, mándala a cocina, cobra, reembolsa con PIN de gerente y cierra el turno. Versión de tablet y de teléfono, con datos de ejemplo.">
+    <link rel="canonical" href="https://puntocompos.com/demo">
+    <meta name="theme-color" content="#111315">
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Compos">
+    <meta property="og:locale" content="es_MX">
+    <meta property="og:url" content="https://puntocompos.com/demo">
+    <meta property="og:title" content="Demo guiada de Compos">
+    <meta property="og:description" content="Prueba el punto de venta en tu navegador: orden, cocina, cobro y corte de caja, en tablet y teléfono.">
+    <meta property="og:image" content="https://puntocompos.com/brand/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="stylesheet" href="styles.css">
     <script>
         // Fuente única del recorrido: cada pantalla, en el orden en que corre un servicio.
@@ -25,38 +41,39 @@
           var T = 'ui_kits/pos-tablet/';
           window.POS_FLOW = [
             { id:'signin', phase:'Abrir', title:'Entra con tu PIN', file:T+'index.html', sub:'Elige tu nombre y escribe 4 dígitos',
-              body:'Cada turno empieza en la tablet compartida. Eliges tu nombre y escribes tu PIN: sin contraseñas ni usuarios.',
-              tryIt:['Elige a alguien del equipo a la izquierda','Escribe 4 dígitos cualquiera para entrar','Usa el menú lateral para ir a Menú, Órdenes y Cobro'] },
+              body:'Cada turno empieza en la tablet compartida. Eliges tu nombre y escribes tu PIN: sin contraseñas ni usuarios. Arriba ves si la impresora, el cajón y la sincronización están conectados.',
+              tryIt:['Escribe 4 dígitos cualquiera para entrar','Entras directo a una nueva orden','Usa la barra lateral para ir a Checks, Cocina y Turno'] },
             { id:'shift', phase:'Abrir', title:'Abre el turno', file:T+'Shift Layout.html', sub:'Fondo, retiros, conteo y cierre',
               body:'Declara el efectivo inicial, registra los retiros durante el servicio y cuenta la caja al cerrar. La diferencia se calcula mientras escribes.',
               tryIt:['Captura el efectivo inicial','Registra un retiro de efectivo','Cuenta billetes y monedas y cierra el turno'] },
             { id:'incoming', phase:'Tomar', title:'Acepta pedidos a domicilio', file:T+'Incoming Layout.html', sub:'Cola con cuenta regresiva',
               body:'Los pedidos de Uber Eats, Rappi, DiDi Food y el sitio web llegan a una sola cola. Cada uno tiene una cuenta regresiva: acéptalo antes de que termine o recházalo con un motivo.',
               tryIt:['Filtra por plataforma','Abre un pedido para ver productos y notas','Acepta uno y rechaza otro con un motivo'] },
-            { id:'menu', phase:'Tomar', title:'Arma una cuenta', file:T+'Menu Layout.html', sub:'Categorías, opciones y agotados',
-              body:'Toca una categoría y luego un platillo. Los bowls y ramen abren sus opciones por grupo; lo agotado se ve gris y no se puede agregar. La cuenta se arma a la derecha.',
-              tryIt:['Cambia entre Aquí, Pickup y Domicilio','Agrega un bowl con sus opciones','Toca Cobrar para ir al pago'] },
-            { id:'orders', phase:'Operar', title:'Maneja las cuentas abiertas', file:T+'Orders Layout.html', sub:'Cuentas por estado, tiempos y acciones',
-              body:'Todas las cuentas en un tablero, con el color de su estado. El tiempo se pone ámbar y luego rojo conforme la cuenta envejece.',
-              tryIt:['Filtra por estado','Abre una cuenta y edítala','Anula una cuenta: pide el PIN de gerente 1234'] },
+            { id:'menu', phase:'Tomar', title:'Arma una orden', file:T+'Menu Layout.html', sub:'Categorías y opciones del producto',
+              body:'Filtra por categoría y toca un producto. Los que tienen opciones abren sus extras con el precio a la vista; el total se actualiza antes de agregarlo. La orden se arma a la derecha.',
+              tryIt:['Cambia entre Aquí, Domicilio y Pickup','Agrega un americano con un shot extra','Toca Cobrar para ir al pago'] },
+            { id:'orders', phase:'Operar', title:'Maneja los checks', file:T+'Orders Layout.html', sub:'Abiertas, por cerrar y cerradas',
+              body:'Cada orden con su tiempo corriendo, sus productos y su estado. Desde aquí la editas, la mandas a preparar, la divides o la cobras.',
+              tryIt:['Cambia entre Abierta, Por cerrar y Cerrada','Ajusta cantidades en la orden de la derecha','Toca Preparar y luego Cobrar'] },
             { id:'kitchen', phase:'Operar', title:'Manda a cocina', file:T+'Kitchen Layout.html', sub:'Nueva → preparando → lista',
               body:'Cocina ve comandas, no cuentas. Avanza la comanda cuando empieza y otra vez cuando está lista para entregar.',
               tryIt:['Empieza una comanda nueva','Márcala como lista','Mira cómo cambia el color del tiempo'] },
             { id:'split', phase:'Cobrar', title:'Divide la cuenta', file:T+'Split Layout.html', sub:'Mueve productos entre cuentas',
               body:'Divide una cuenta por producto. Sin arrastrar: toca un producto y luego la cuenta a la que va. Las nuevas cuentas se numeran .1, .2, como en la app.',
               tryIt:['Agrega una segunda cuenta','Mueve productos entre ellas','Confirma la división'] },
-            { id:'payment', phase:'Cobrar', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta y teclado',
-              body:'Elige el método, escribe el monto y el cambio se calcula solo. Los precios ya incluyen IVA 16%. Los pedidos prepagados de plataforma se cierran directo.',
-              tryIt:['Elige Efectivo y escribe un monto','Divide el pago entre dos métodos','Termina el cobro'] },
+            { id:'payment', phase:'Cobrar', title:'Cobra', file:T+'Payment Layout.html', sub:'Efectivo, tarjeta, transferencia y vale',
+              body:'Elige el método y el monto recibido; el cambio se calcula solo. Los precios ya incluyen IVA 16% y el desglose se ve en la orden.',
+              tryIt:['Elige Efectivo y toca un monto rápido','Prueba Débito o Transferencia','Toca Pagar para cerrar la orden'] },
             { id:'refund', phase:'Cobrar', title:'Reembolsa con autorización', file:T+'Refund Layout.html', sub:'Productos, motivo y método',
               body:'Busca una cuenta pagada, elige los productos y el motivo. Un gerente aprueba con su PIN antes de que se mueva el dinero.',
               tryIt:['Elige una cuenta pagada','Elige productos y un motivo','Aprueba con el PIN de gerente 1234'] },
             { id:'search', phase:'Operar', title:'Encuentra lo que sea', file:T+'Search Layout.html', sub:'Menú, cuentas y clientes',
               body:'Una sola búsqueda para platillos, cuentas abiertas y cerradas, y clientes. Cada resultado te lleva a la pantalla correcta.',
               tryIt:['Busca un platillo o un nombre','Abre el resultado de una cuenta'] },
-            { id:'feedback', phase:'Operar', title:'Avisos y autorizaciones', file:T+'Feedback Layout.html', sub:'Avisos, confirmaciones y PIN de gerente',
+            // Oculto por ahora: Avisos y autorizaciones. Para mostrarlo, quita el comentario de este bloque.
+            /* { id:'feedback', phase:'Operar', title:'Avisos y autorizaciones', file:T+'Feedback Layout.html', sub:'Avisos, confirmaciones y PIN de gerente',
               body:'Los avisos informan lo que pasó. Los diálogos preguntan antes de algo que no se puede deshacer. El PIN de gerente protege reembolsos, descuentos y anulaciones.',
-              tryIt:['Muestra cada tipo de aviso','Abre un diálogo de confirmación','Pide una autorización: PIN 1234'] },
+              tryIt:['Muestra cada tipo de aviso','Abre un diálogo de confirmación','Pide una autorización: PIN 1234'] }, */
             { id:'reports', phase:'Cerrar', title:'Cierra con reportes', file:T+'Reports Layout.html', sub:'Indicadores, canales y plataformas',
               body:'Ventas por canal y por plataforma, lo más vendido y el volumen por hora: lo necesario para cerrar el día sin hoja de cálculo.',
               tryIt:['Cambia el periodo','Compara las plataformas de domicilio'] },
@@ -65,13 +82,13 @@
               tryIt:['Cambia un permiso','Cambia el tema','Guarda: los cambios de permisos piden autorización'] }
           ];
           window.POS_PHASES = ['Abrir','Tomar','Operar','Cobrar','Cerrar'];
-          window.POS_PHONE = { file:'ui_kits/pos-mobile/index.html', w:960, h:1000 };
+          window.POS_PHONE = { dir:'ui_kits/pos-mobile/', w:390, h:844, files:{ signin:'index.html', shift:'Shift.html', incoming:'Incoming.html', menu:'Menu.html',
+            orders:'Orders.html', kitchen:'Kitchen.html', split:'Split.html', payment:'Payment.html', refund:'Refund.html', search:'Search.html', reports:'Reports.html', settings:'Settings.html' } };
           window.POS_THEMES = [
             { id:'default', label:'Oscuro', sw:['#111315','#292C2D','#C9CAEF'] },
             { id:'light', label:'Claro', sw:['#FAFAFA','#FFFFFF','#111315'] },
             { id:'hc', label:'Alto contraste', sw:['#000000','#1E2021','#9CF2C6'] },
-            { id:'qsr', label:'Tu marca: rojo y amarillo', sw:['#17130F','#C8102E','#FFC72C'] },
-            { id:'blue', label:'Tu marca: azul', sw:['#E6ECF5','#FFFFFF','#1F5BD8'] }
+            { id:'blue', label:'Azul de marca', sw:['#E6ECF5','#FFFFFF','#1F5BD8'] }
           ];
           // Scale fixed-size app frames into whatever box they sit in.
           window.fitFrames = function (root) {
@@ -89,7 +106,11 @@
               new ResizeObserver(go).observe(box); go();
             });
           };
-          window.posTheme = function () { try { return localStorage.getItem('compos-theme') || 'default'; } catch (e) { return 'default'; } };
+          window.POS_COLORS = [
+            { id:'verde', label:'Verde', hex:'#1E9E5A' }, { id:'rosa', label:'Rosa', hex:'#E0457B' }, { id:'amarillo', label:'Amarillo', hex:'#F2B90C' },
+            { id:'naranja', label:'Naranja', hex:'#F0712C' }, { id:'morado', label:'Morado', hex:'#7B4FE0' }, { id:'turquesa', label:'Turquesa', hex:'#0FA3A3' }
+          ];
+          window.posTheme = function () { var t = 'default'; try { t = localStorage.getItem('compos-theme') || 'default'; } catch (e) {} return t === 'qsr' ? 'default' : t; };
           window.posSetTheme = function (id) { try { localStorage.setItem('compos-theme', id); } catch (e) {} };
         })();
     </script>
@@ -119,11 +140,11 @@
         .stage{position:relative;min-width:0;min-height:0;padding:24px;display:flex}
         .box{position:relative;flex:1;min-width:0;min-height:0}
         .dev{position:absolute;background:#000;border-radius:24px;padding:12px;box-shadow:0 0 0 1px rgba(255,255,255,.08)}
-        .dev.phone{background:transparent;padding:0;box-shadow:none}
+        .dev.phone{background:#000;padding:8px;border-radius:54px;box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 0 3px #2B2E30}
         .dev .scr{position:relative;overflow:hidden;border-radius:14px;width:100%;height:100%}
-        .dev.phone .scr{border-radius:0}
+        .dev.phone .scr{border-radius:46px}
         .dev iframe{position:absolute;left:0;top:0;border:0;transform-origin:0 0;background:#111315}
-        .dev.phone iframe{background:transparent}
+        .dev.phone iframe{background:#111315}
         .info{border-left:1px solid rgba(255,255,255,.1);padding:24px 20px;display:flex;flex-direction:column;gap:16px;overflow:auto}
         .info .k{font-size:12px;letter-spacing:.04em;color:#969696}
         .info h1{font-family:var(--font-display);font-size:30px;line-height:1.1;letter-spacing:-.02em;font-weight:600;margin:0;text-wrap:balance}
@@ -206,10 +227,11 @@
       $('steps').innerHTML = window.POS_PHASES.map(function (ph) {
         return '<div class="ph">' + ph + '</div>' + F.map(function (s, i) { return s.phase === ph ? '<button class="st" data-i="' + i + '"><span class="n">' + (i + 1) + '</span>' + s.title + '</button>' : ''; }).join('');
       }).join('');
-      $('theme').innerHTML = window.POS_THEMES.map(function (t) { return '<option value="' + t.id + '">' + t.label + '</option>'; }).join('');
+      $('theme').innerHTML = window.POS_THEMES.map(function (t) { return '<option value="' + t.id + '">' + t.label + '</option>'; }).join('') +
+        '<optgroup label="Tu color">' + window.POS_COLORS.map(function (c) { return '<option value="custom:' + c.hex + '">Tu color: ' + c.label.toLowerCase() + '</option>'; }).join('') + '</optgroup>';
       $('theme').value = window.posTheme();
       var fit = function () {
-        var pad = device === 'phone' ? 0 : 24, bw = box.clientWidth, bh = box.clientHeight;
+        var pad = device === 'phone' ? 16 : 24, bw = box.clientWidth, bh = box.clientHeight;
         var s = Math.min((bw - pad) / W, (bh - pad) / H, device === 'phone' ? 1 : 1.2);
         var dw = W * s + pad, dh = H * s + pad;
         dev.style.width = dw + 'px'; dev.style.height = dh + 'px';
@@ -223,18 +245,10 @@
         document.querySelectorAll('.st').forEach(function (b) {
           var i = +b.getAttribute('data-i');
           b.classList.toggle('seen', !!seen[i]);
-          if (device === 'tablet' && i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+          if (i === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
         });
-        if (device === 'phone') {
-          $('kicker').textContent = 'App de teléfono'; $('title').textContent = 'El mismo flujo, con una mano';
-          $('body').textContent = 'La versión de teléfono cubre entrar, el menú y revisar la cuenta. Cada pantalla de tablet también tiene su versión de teléfono; las ves todas desde el sitio.';
-          $('try').innerHTML = '<li>Escribe 4 dígitos cualquiera para entrar</li><li>Agrega platillos desde la cuadrícula de dos columnas</li><li>Revisa la cuenta y envía la orden</li>';
-          $('prog').style.width = '100%'; $('mtitle').textContent = 'App de teléfono';
-          $('prev').disabled = $('mprev').disabled = true; $('next').textContent = 'Volver a tablet';
-          return;
-        }
         var s = F[cur];
-        $('kicker').textContent = 'Paso ' + (cur + 1) + ' de ' + F.length + ' · ' + s.phase;
+        $('kicker').textContent = 'Paso ' + (cur + 1) + ' de ' + F.length + ' · ' + s.phase + (device === 'phone' ? ' · Teléfono' : '');
         $('title').textContent = s.title; $('body').textContent = s.body;
         $('try').innerHTML = s.tryIt.map(function (t) { return '<li>' + t + '</li>'; }).join('');
         $('prog').style.width = ((cur + 1) / F.length * 100) + '%';
@@ -242,37 +256,38 @@
         $('prev').disabled = $('mprev').disabled = cur === 0;
         $('next').textContent = cur === F.length - 1 ? 'Terminar' : 'Siguiente paso';
       };
+      var fileOf = function (i) { return device === 'phone' && P.files[F[i].id] ? P.dir + P.files[F[i].id] : F[i].file; };
+      var hash = function () { history.replaceState(null, '', '#' + F[cur].id + (device === 'phone' ? '-telefono' : '')); };
       var load = function () {
-        var src = device === 'phone' ? P.file : F[cur].file;
+        var src = fileOf(cur);
         W = device === 'phone' ? P.w : 1194; H = device === 'phone' ? P.h : 834;
         $('full').href = src;
-        if (base(app.getAttribute('src') || '') !== base(src) || device === 'phone') app.setAttribute('src', src);
-        fit(); paint();
-        history.replaceState(null, '', '#' + (device === 'phone' ? 'phone' : F[cur].id));
+        if (base(app.getAttribute('src') || '') !== base(src) || (app.getAttribute('src') || '').indexOf('pos-mobile') !== src.indexOf('pos-mobile')) app.setAttribute('src', src);
+        fit(); paint(); hash();
       };
-      var go = function (i) { cur = Math.max(0, Math.min(F.length - 1, i)); seen[cur] = true; device = 'tablet'; load(); };
+      var go = function (i) { cur = Math.max(0, Math.min(F.length - 1, i)); seen[cur] = true; load(); };
       window.addEventListener('message', function (e) {
-        if (device !== 'tablet' || !e.data || !e.data.posScreen) return;
+        if (!e.data || !e.data.posScreen) return;
         {
           var b = e.data.posScreen;
-          for (var i = 0; i < F.length; i++) if (base(F[i].file) === b && i !== cur) { cur = i; seen[i] = true; paint(); $('full').href = F[i].file; history.replaceState(null, '', '#' + F[i].id); break; }
+          for (var i = 0; i < F.length; i++) if (base(fileOf(i)) === b && i !== cur) { cur = i; seen[i] = true; paint(); $('full').href = fileOf(i); hash(); break; }
         }
       });
       $('steps').addEventListener('click', function (e) { var b = e.target.closest('[data-i]'); if (b) go(+b.getAttribute('data-i')); });
       $('prev').onclick = $('mprev').onclick = function () { go(cur - 1); };
       $('next').onclick = $('mnext').onclick = function () {
-        if (device === 'phone') return go(cur);
         if (cur === F.length - 1) location.href = 'index.html'; else go(cur + 1);
       };
       document.querySelectorAll('[data-dev]').forEach(function (b) { b.onclick = function () { device = b.getAttribute('data-dev'); load(); }; });
       $('theme').onchange = function () { var t = this.value; window.posSetTheme(t); app.contentWindow.postMessage({ posTheme:t }, '*'); };
       document.addEventListener('keydown', function (e) {
         if (e.target.tagName === 'SELECT') return;
-        if (e.key === 'ArrowRight' && device === 'tablet') go(cur + 1);
-        if (e.key === 'ArrowLeft' && device === 'tablet') go(cur - 1);
+        if (e.key === 'ArrowRight') go(cur + 1);
+        if (e.key === 'ArrowLeft') go(cur - 1);
       });
       var h = location.hash.slice(1);
-      if (h === 'phone') { device = 'phone'; load(); } else go(Math.max(0, idx(h)));
+      if (/-telefono$|^phone$/.test(h)) { device = 'phone'; h = h.replace(/-telefono$|^phone$/, ''); }
+      go(Math.max(0, idx(h)));
     })();
 </script>
 </body>

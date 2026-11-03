@@ -4,3 +4,5 @@
 .wrangler
 wrangler.jsonc
 README.md
+worker.js
+node_modules

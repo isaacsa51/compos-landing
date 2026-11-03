@@ -13792,6 +13792,7 @@ Object.assign(window, {
 // ui_kits/theme.js
 try { (() => {
 (function () {
+  if (window.composSetTheme) return; // ui_kits/theme.js ya se cargó: esa versión manda (temas actuales y «Tu color»).
   var K = 'compos-theme';
   window.COMPOS_THEMES = [{
     id: 'default',
